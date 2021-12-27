@@ -154,6 +154,9 @@
     <Image Include="small.ico" />
     <Image Include="WinAPIStudy.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="winAPI_main_해설.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

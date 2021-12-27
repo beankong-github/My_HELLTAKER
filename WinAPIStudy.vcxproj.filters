@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="필기">
+      <UniqueIdentifier>{a24d8213-c133-43c6-b780-a12e0cf31ccb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="결과화면">
+      <UniqueIdentifier>{ad2dab57-eb19-4139-8dd3-c4655c59361a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -45,5 +51,10 @@
     <Image Include="WinAPIStudy.ico">
       <Filter>리소스 파일</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="winAPI_main_해설.txt">
+      <Filter>필기</Filter>
+    </Text>
   </ItemGroup>
 </Project>
