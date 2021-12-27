@@ -1,31 +1,36 @@
 ﻿// WinAPIStudy.cpp : 애플리케이션에 대한 진입점을 정의합니다.
-//
 
+#include "pch.h"
 #include "framework.h"
 #include "WinAPIStudy.h"
+#include "CPlayer.h"
 
 #define MAX_LOADSTRING 100
 
 // 전역 변수:
-HINSTANCE g_hInst;            // 현재 인스턴스입니다. (프로그램 시작 주소)
-HWND g_hWnd;                  // Main Window Handle
+HINSTANCE g_hInst;            
+HWND g_hWnd;
+CPlayer g_player;
 
-                                                                // 이 코드 모듈에 포함된 함수의 전방 선언:
-ATOM                MyRegisterClass(HINSTANCE hInstance);       // 창의 속성 설정하고(윈도우 설정하는 구조체 설정) 해당 창의 클래스를  메모리에 등록한다 (ATOM - Access to Memory)
-BOOL                InitInstance(HINSTANCE, int);               // 창 초기화 및 창 보이기
-LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);        // 창의 메세지 처리 (CALLBACK - _stdcall // 함수a   호출 규약)
-INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);          // 
+UINT uiSwitch = 0;
 
-int APIENTRY wWinMain( HINSTANCE hInstance,                     // 프로그램 시작 주소
-                       HINSTANCE hPrevInstance,                 // 이전 시작 주소 (현재는 가상 메모리 시스템으로 한 프로그램이 메모리에 단독으로 들어간 것처럼 사용되기 때문에 필요 x)
-                       LPWSTR    lpCmdLine,                     // 프로그램 실행 cmd 명령어, 이것을 이용해 한 프로그램에 여러 실행 버전을 만들 수 있음 (예를 들어 개발자 모드)
-                       int       nCmdShow)                      // 윈도우가 처음 실행될 때 어떤 화면의 형태를 가질지 (ex 최대화 상태, 최소화 상태) 
+                                                                
+ATOM                MyRegisterClass(HINSTANCE hInstance);       
+BOOL                InitInstance(HINSTANCE, int);               
+LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);        
+INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);          
+
+int APIENTRY wWinMain( HINSTANCE hInstance,                     
+                       HINSTANCE hPrevInstance,                 
+                       LPWSTR    lpCmdLine,                     
+                       int       nCmdShow)                   
 {
-
-    // TODO: 여기에 코드를 입력합니다.
-
     // 생성시킬 윈도우 설정
     MyRegisterClass(hInstance);
+
+    // 플레이어 초기화
+    g_player.SetPos(POINT{ 250, 200 });
+    g_player.SetScale(POINT{ 50, 50 });
 
     // 애플리케이션 초기화를 수행합니다:
     if (!InitInstance (hInstance, nCmdShow))
@@ -34,12 +39,16 @@ int APIENTRY wWinMain( HINSTANCE hInstance,                     // 프로그램 
         return FALSE;
     }
 
-
     // 단축키 정보들
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_WINAPISTUDY));     // Accle Table 정보에 저장된 단축키 정보를 가져옴
 
     // 메세지 구조체
     MSG msg = {};
+
+    // 메세지 기반 타이머 생성
+    // 아이디가 0인 Timer 생성 (이벤트 간격은 1초(1000))
+    // => 1초 간격으로 WM_TIMER 이벤트 발생
+    SetTimer(g_hWnd, 0, 1000, nullptr); 
 
     // 기본 메시지 루프입니다:
     while (GetMessage(&msg, nullptr, 0, 0))                      // 메세지 큐에 쌓여 있는 메세지를 msg에 하나씩 가져온다, nullptr을 전달할 경우 스레드에 속하는 모든 창에 대한 메세지를 가져온다, 나머지 두 정수는 메세지 필터링 용이다.
@@ -53,16 +62,12 @@ int APIENTRY wWinMain( HINSTANCE hInstance,                     // 프로그램 
         }
     }
 
+    // 타이머 삭제
+    KillTimer(g_hWnd, 0);
+
     return (int) msg.wParam;                                     // 메세지에 대한 부가 정보
 }
 
-
-
-//
-//  함수: MyRegisterClass()
-//
-//  용도: 창 클래스를 등록합니다.
-//
 ATOM MyRegisterClass(HINSTANCE hInstance)
 {
     WNDCLASSEXW wcex;       // 윈도우 설정값들을 모아놓은 구조체
@@ -84,25 +89,12 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
     return RegisterClassExW(&wcex);
 }
 
-//
-//   함수: InitInstance(HINSTANCE, int)
-//
-//   용도: 인스턴스 핸들을 저장하고 주 창을 만듭니다.
-//
-//   주석:
-//
-//        이 함수를 통해 인스턴스 핸들을 전역 변수에 저장하고
-//        주 프로그램 창을 만든 다음 표시합니다.
-//
 BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
-   g_hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
+   g_hInst = hInstance;
 
-   // 윈도우 생성
-   // 윈도우 ==> 커널 오브젝트
-   // 생성 후 주소대신 윈도우의 핸들(ID) 를 반환 (생성 실패 시 nullptr 반환)
    g_hWnd = CreateWindowW(L"MyWin", L"MyWindow", WS_OVERLAPPEDWINDOW,
-      CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
+      CW_USEDEFAULT, 0, 500, 500, nullptr, nullptr, hInstance, nullptr);
 
    if (!g_hWnd)
    {
@@ -116,20 +108,12 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    return TRUE;
 }
 
-//
-//  함수: WndProc(HWND, UINT,         WPARAM, LPARAM)
-//
-//  용도: 주 창의 메시지를 처리합니다.
-//
-//  WM_COMMAND  - 애플리케이션            메뉴를 처리합니다  .
-//  WM_PAINT    - 주 창을 그립니다         .
-//  WM_DESTROY  - 종료 메시지를           게시하고 반환합니다.
-//
-//
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+
     switch (message)
     {
+
     case WM_COMMAND:
         {
             int wmId = LOWORD(wParam);
@@ -149,33 +133,70 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         }
         break;
 
-    case WM_PAINT:  // 윈도우에 무언가를 그리는 메세지. 최초로 창을 띄울때, 최대화 또는 최소화 할 때 등은 자동으로 WM_PAINT 메세지가 발생한다.
+    case WM_PAINT:
         {
             PAINTSTRUCT ps;
             HDC hdc = BeginPaint(hWnd, &ps);    // dc(device context) : rendering 관련된 데이터 집합 (ex: pen - 그리기, brush - 채우기, bitmap - window에서 상단바를 제외한 배경)
 
-            // 빨간색 브러쉬 생성
-            HBRUSH redBrush = CreateSolidBrush(RGB(255, 0, 0));
-            HBRUSH blueBrush = CreateSolidBrush(RGB(0, 0, 255));
+            // 펜 생성 
+            HPEN newPen = CreatePen(PS_ALTERNATE, 3, RGB(255, 0, 255));
 
-            // hdc의 브러쉬를 redBrush로 교체하고 기존의 브러쉬를 prevBrush에 저장
-            HBRUSH prevBrush = (HBRUSH)SelectObject(hdc, redBrush);
-            Rectangle(hdc, 100, 100, 200, 200);
-          
-            // hdc의 브러쉬를 blueBrush로 교체
-            SelectObject(hdc, blueBrush);
-            Ellipse(hdc, 100, 100, 200, 200);
+            // 브러쉬 생성
+            HBRUSH newBrush = CreateSolidBrush(RGB(0, 0, 255));
 
-            // 기존 브러쉬로 되돌려놓기
-            SelectObject(hdc, prevBrush);
+            // 새 도구를 장착하고 기존의 도구를 저장해둠
+            HBRUSH prevBrush = (HBRUSH)SelectObject(hdc, newBrush);
+            HPEN prevPen = (HPEN)SelectObject(hdc, newPen);
             
-            // 사용이 끝난 브러쉬 삭제하기
-            DeleteObject(redBrush);
-            DeleteObject(blueBrush);
+            // Player 그리기
+            POINT ptPos = g_player.GetPos();
+            POINT ptScale = g_player.GetScale();
+
+            Rectangle(hdc, (ptPos.x - (ptScale.x / 2)),     // left 
+                           (ptPos.y - (ptScale.y / 2)),     // top
+                           (ptPos.x + (ptScale.x / 2)),     // right
+                           (ptPos.y + (ptScale.y / 2)));    // bottom
+
+            // 기존 도구로 되돌려놓기
+            SelectObject(hdc, prevBrush);
+            SelectObject(hdc, prevPen);
+
+            // 사용이 끝난 도구 삭제하기
+            DeleteObject(newBrush);
+            DeleteObject(newPen);
 
             EndPaint(hWnd, &ps);
         }
         break;
+
+    case WM_KEYDOWN:
+        // 왼쪽 방향키 누르면 프레임마다 왼쪽으로 1씩 이동
+        if (VK_LEFT == wParam)
+        {
+            uiSwitch = 0;
+        }
+
+        // 오른쪽 방향키 누르면 프레임마다 오른쪽으로 1씩 이동
+        if (VK_RIGHT == wParam)
+        {
+            uiSwitch = 1;
+        }
+        break;
+
+    case WM_TIMER:
+        POINT ptPos = g_player.GetPos();
+
+        if (uiSwitch)
+            ptPos.x += 10;
+        else
+            ptPos.x -= 10;
+
+        g_player.SetPos(ptPos);
+
+        // 화면을 무효화 영역으로 설정 -> 후에 WM_PAINT 호출됨
+        InvalidateRect(g_hWnd, nullptr, true);
+        break;
+
     case WM_DESTROY:
         PostQuitMessage(0);
         break;
