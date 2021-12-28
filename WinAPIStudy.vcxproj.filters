@@ -14,6 +14,15 @@
     <Filter Include="Main">
       <UniqueIdentifier>{bf9baab2-b322-41e2-b090-3811549c7c81}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GAME">
+      <UniqueIdentifier>{c253d0a4-d162-47d5-9bd4-e9aa38eab129}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GAME\Core">
+      <UniqueIdentifier>{bd0e5263-d01c-4cf0-90b5-b9bc3ea9c74f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GAME\Player">
+      <UniqueIdentifier>{25dd3292-a88b-4ebb-8e37-0ec8d310e09a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -28,9 +37,14 @@
     <ClInclude Include="WinAPIStudy.h">
       <Filter>Main</Filter>
     </ClInclude>
-    <ClInclude Include="CPlayer.h" />
     <ClInclude Include="pch.h">
       <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlayer.h">
+      <Filter>GAME\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="CCore.h">
+      <Filter>GAME\Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -55,6 +69,11 @@
     <ClCompile Include="WinAPIStudy.cpp">
       <Filter>Main</Filter>
     </ClCompile>
-    <ClCompile Include="CPlayer.cpp" />
+    <ClCompile Include="CPlayer.cpp">
+      <Filter>GAME\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CCore.cpp">
+      <Filter>GAME\Core</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

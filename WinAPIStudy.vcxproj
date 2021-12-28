@@ -141,6 +141,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CCore.h" />
     <ClInclude Include="CPlayer.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Resource.h" />
@@ -149,6 +150,7 @@
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CCore.cpp" />
     <ClCompile Include="CPlayer.cpp" />
     <ClCompile Include="WinAPIStudy.cpp" />
   </ItemGroup>
