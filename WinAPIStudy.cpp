@@ -27,8 +27,6 @@ int APIENTRY wWinMain(HINSTANCE hInstance,
 	// 생성시킬 윈도우 설정
 	MyRegisterClass(hInstance);
 
-	// Core 초기화
-	g_core = CCore::GetInstance();
 
 	// 플레이어 초기화
 	g_player.SetPos(POINT{ 250, 200 });
@@ -39,6 +37,12 @@ int APIENTRY wWinMain(HINSTANCE hInstance,
 	{
 		// 초기화가 안되면 메인에서 탈출
 		return FALSE;
+	}
+
+	// Core 초기화
+	if (FAILED(CCore::GetInstance()->Init(g_hWnd, POINT{ 500, 500})))
+	{
+		return false;
 	}
 
 	// 단축키 정보들
@@ -106,7 +110,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 	g_hInst = hInstance;
 
 	g_hWnd = CreateWindowW(L"MyWin", L"MyWindow", WS_OVERLAPPEDWINDOW,
-		CW_USEDEFAULT, 0, 500, 500, nullptr, nullptr, hInstance, nullptr);
+		CW_USEDEFAULT, 0, 10, 10, nullptr, nullptr, hInstance, nullptr);
 
 	if (!g_hWnd)
 	{
@@ -164,10 +168,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		POINT ptPos = g_player.GetPos();
 		POINT ptScale = g_player.GetScale();
 
-		Rectangle(hdc, (ptPos.x - (ptScale.x / 2)),       // left
-			     (ptPos.y - (ptScale.y / 2)),			  // top
-			     (ptPos.x + (ptScale.x / 2)),			  // right
-			     (ptPos.y + (ptScale.y / 2)));		      // bottom
+		Rectangle(hdc, 0, 0, 500, 500);
 
 		// 기존 도구로 되돌려놓기
 		SelectObject(hdc, prevBrush);
