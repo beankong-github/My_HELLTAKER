@@ -15,6 +15,10 @@ public:
 	POINT GetScale(){return m_ptScale;}
 
 public:
+	void Render(HDC _dc);
+	void Update();
+
+public:
 	CPlayer();
 	~CPlayer();
 };
