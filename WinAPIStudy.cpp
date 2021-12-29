@@ -11,6 +11,8 @@
 // 전역 변수:
 HINSTANCE g_hInst;
 HWND g_hWnd;
+CPlayer g_player;
+CCore* g_core;
 
 ATOM                MyRegisterClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, int);
@@ -25,6 +27,11 @@ int APIENTRY wWinMain(HINSTANCE hInstance,
 	// 생성시킬 윈도우 설정
 	MyRegisterClass(hInstance);
 
+
+	// 플레이어 초기화
+	g_player.SetPos(POINT{ 250, 200 });
+	g_player.SetScale(POINT{ 50, 50 });
+
 	// 애플리케이션 초기화를 수행합니다:
 	if (!InitInstance(hInstance, nCmdShow))
 	{
@@ -33,7 +40,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance,
 	}
 
 	// Core 초기화
-	if (FAILED(CCore::GetInstance()->Init(g_hWnd, POINT{ 1280, 760})))
+	if (FAILED(CCore::GetInstance()->Init(g_hWnd, POINT{ 500, 500})))
 	{
 		return false;
 	}
@@ -65,10 +72,10 @@ int APIENTRY wWinMain(HINSTANCE hInstance,
 			}
 		}
 
-		//Game Run
+		//GameRun
 		else
 		{
-			CCore::GetInstance()->Update();
+
 		}
 	}
 
@@ -145,8 +152,31 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_PAINT:
 	{
 		PAINTSTRUCT ps;
-		HDC hdc = BeginPaint(hWnd, &ps);  
-		// code
+		HDC hdc = BeginPaint(hWnd, &ps);    // dc(device context) : rendering 관련된 데이터 집합 (ex: pen - 그리기, brush - 채우기, bitmap - window에서 상단바를 제외한 배경)
+
+		// 펜 생성
+		HPEN newPen = CreatePen(PS_ALTERNATE, 3, RGB(255, 0, 255));
+
+		// 브러쉬 생성
+		HBRUSH newBrush = CreateSolidBrush(RGB(0, 0, 255));
+
+		// 새 도구를 장착하고 기존의 도구를 저장해둠
+		HBRUSH prevBrush = (HBRUSH)SelectObject(hdc, newBrush);
+		HPEN prevPen = (HPEN)SelectObject(hdc, newPen);
+
+		// Player 그리기
+		POINT ptPos = g_player.GetPos();
+		POINT ptScale = g_player.GetScale();
+
+		Rectangle(hdc, 0, 0, 500, 500);
+
+		// 기존 도구로 되돌려놓기
+		SelectObject(hdc, prevBrush);
+		SelectObject(hdc, prevPen);
+
+		// 사용이 끝난 도구 삭제하기
+		DeleteObject(newBrush);
+		DeleteObject(newPen);
 
 		EndPaint(hWnd, &ps);
 	}

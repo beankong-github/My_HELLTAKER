@@ -4,8 +4,6 @@ class CCore
 
 private:
 	HWND m_hwnd;
-	HDC m_hDC;
-	POINT m_ptResolution;
 
 public:
 	// µ•¿Ã≈Õ øµø™ ΩÃ±€≈Ê
@@ -15,9 +13,7 @@ public:
 		return &c;
 	}
 
-public:
 	int Init(HWND _hwnd, POINT _ptResolution);
-	void Update();
 
 private:
 	CCore();
