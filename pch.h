@@ -3,3 +3,4 @@
 // 모든 c/cpp 파일은 이 해더를 #include 해야한다.
 
 #include <Windows.h>
+#include "define.h"

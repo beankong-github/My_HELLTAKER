@@ -23,6 +23,9 @@
     <Filter Include="GAME\Player">
       <UniqueIdentifier>{25dd3292-a88b-4ebb-8e37-0ec8d310e09a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GAME\Header">
+      <UniqueIdentifier>{ad8484f2-d151-4108-9dfb-df6e77097634}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -45,6 +48,9 @@
     </ClInclude>
     <ClInclude Include="CCore.h">
       <Filter>GAME\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="define.h">
+      <Filter>GAME\Header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

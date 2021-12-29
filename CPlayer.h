@@ -3,16 +3,16 @@
 class CPlayer
 {
 private:
-	POINT m_ptPos;
-	POINT m_ptScale;
+	Vec m_vPos;
+	Vec m_vScale;
 
 
 public:
-	void SetPos(POINT _point){m_ptPos = _point;}
-	void SetScale(POINT _point){m_ptScale = _point;}
+	void SetPos(Vec _point){m_vPos = _point;}
+	void SetScale(Vec _point){m_vScale = _point;}
 
-	POINT GetPos() { return m_ptPos; }
-	POINT GetScale(){return m_ptScale;}
+	Vec GetPos() { return m_vPos; }
+	Vec GetScale(){return m_vScale;}
 
 public:
 	void Render(HDC _dc);

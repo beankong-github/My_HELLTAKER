@@ -31,8 +31,8 @@ int CCore::Init(HWND _hwnd, POINT _ptResolution)
 	m_hDC = GetDC(m_hwnd);
 	
 	// 플레이어 배치
-	player.SetPos(POINT{m_ptResolution.x/2, m_ptResolution.y/2});
-	player.SetScale(POINT{100, 100});
+	player.SetPos(Vec{m_ptResolution.x / 2, m_ptResolution.y / 2 });
+	player.SetScale(Vec{100, 100});
 
 
 	return S_OK;
@@ -61,7 +61,7 @@ void CCore::Update()
 
 	
 	// 화면 지우기
-	Rectangle(m_hDC, -1, -1, m_ptResolution.x + 1, m_ptResolution.y + 1);
+	//Rectangle(m_hDC, -1, -1, m_ptResolution.x + 1, m_ptResolution.y + 1);
 
 	player.Render(m_hDC);
 }

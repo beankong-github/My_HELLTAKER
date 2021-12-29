@@ -148,6 +148,7 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="WinAPIStudy.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="define.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCore.cpp" />
