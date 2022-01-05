@@ -143,8 +143,10 @@
   <ItemGroup>
     <ClInclude Include="CCore.h" />
     <ClInclude Include="CPlayer.h" />
+    <ClInclude Include="CTimeMgr.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="struct.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="WinAPIStudy.h" />
     <ClInclude Include="pch.h" />
@@ -153,6 +155,7 @@
   <ItemGroup>
     <ClCompile Include="CCore.cpp" />
     <ClCompile Include="CPlayer.cpp" />
+    <ClCompile Include="CTimeMgr.cpp" />
     <ClCompile Include="WinAPIStudy.cpp" />
   </ItemGroup>
   <ItemGroup>

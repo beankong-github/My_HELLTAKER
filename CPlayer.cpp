@@ -1,9 +1,11 @@
 #include "pch.h"
 #include "CPlayer.h"
+#include "CTimeMgr.h"
 
 CPlayer::CPlayer()
-	:m_vPos{},
-	m_vScale{}
+	:m_vPos{}
+	,m_vScale{}
+	,m_fSpeed(400.f)	
 {
 }
 
@@ -15,11 +17,11 @@ void CPlayer::Update()
 {
 	if (GetAsyncKeyState(VK_LEFT) & 0x8000) // VK_LEFT가 이전에 누른 적이 없고 호출 시점에는 눌려있는 상태라면
 	{
-		m_vPos.x -= 0.01f;
+		m_vPos.x -= m_fSpeed * CTimeMgr::GetInst()->GetDS();
 	}
 	if (GetAsyncKeyState(VK_RIGHT) & 0x8000) // VK_LEFT가 이전에 누른 적이 없고 호출 시점에는 눌려있는 상태라면
 	{
-		m_vPos.x += 0.01f;
+		m_vPos.x += m_fSpeed * CTimeMgr::GetInst()->GetDS();
 	}
 }
 

@@ -17,14 +17,23 @@
     <Filter Include="GAME">
       <UniqueIdentifier>{c253d0a4-d162-47d5-9bd4-e9aa38eab129}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GAME\Core">
+    <Filter Include="GAME\01. Header">
+      <UniqueIdentifier>{ad8484f2-d151-4108-9dfb-df6e77097634}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GAME\02. Core">
       <UniqueIdentifier>{bd0e5263-d01c-4cf0-90b5-b9bc3ea9c74f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GAME\Player">
-      <UniqueIdentifier>{25dd3292-a88b-4ebb-8e37-0ec8d310e09a}</UniqueIdentifier>
+    <Filter Include="GAME\03. Manager">
+      <UniqueIdentifier>{33df0889-81ee-4aaa-9238-9e982040ab57}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GAME\Header">
-      <UniqueIdentifier>{ad8484f2-d151-4108-9dfb-df6e77097634}</UniqueIdentifier>
+    <Filter Include="GAME\03. Manager\TimeMgr">
+      <UniqueIdentifier>{7a3d8b21-71c5-489e-99ce-d3f35ffa2f9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GAME\04. Object">
+      <UniqueIdentifier>{f64bff04-4b62-4b0a-972a-bb77dc1257b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GAME\04. Object\Player">
+      <UniqueIdentifier>{25dd3292-a88b-4ebb-8e37-0ec8d310e09a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -44,13 +53,19 @@
       <Filter>Main</Filter>
     </ClInclude>
     <ClInclude Include="CPlayer.h">
-      <Filter>GAME\Player</Filter>
+      <Filter>GAME\04. Object\Player</Filter>
     </ClInclude>
     <ClInclude Include="CCore.h">
-      <Filter>GAME\Core</Filter>
+      <Filter>GAME\02. Core</Filter>
     </ClInclude>
     <ClInclude Include="define.h">
-      <Filter>GAME\Header</Filter>
+      <Filter>GAME\01. Header</Filter>
+    </ClInclude>
+    <ClInclude Include="CTimeMgr.h">
+      <Filter>GAME\03. Manager\TimeMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="struct.h">
+      <Filter>GAME\01. Header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -76,10 +91,13 @@
       <Filter>Main</Filter>
     </ClCompile>
     <ClCompile Include="CPlayer.cpp">
-      <Filter>GAME\Player</Filter>
+      <Filter>GAME\04. Object\Player</Filter>
     </ClCompile>
     <ClCompile Include="CCore.cpp">
-      <Filter>GAME\Core</Filter>
+      <Filter>GAME\02. Core</Filter>
+    </ClCompile>
+    <ClCompile Include="CTimeMgr.cpp">
+      <Filter>GAME\03. Manager\TimeMgr</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

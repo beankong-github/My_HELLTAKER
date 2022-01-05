@@ -33,7 +33,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance,
 	}
 
 	// Core 초기화
-	if (FAILED(CCore::GetInstance()->Init(g_hWnd, POINT{ 1280, 760})))
+	if (FAILED(CCore::GetInst()->Init(g_hWnd, POINT{ 1280, 760})))
 	{
 		return false;
 	}
@@ -68,7 +68,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance,
 		//Game Run
 		else
 		{
-			CCore::GetInstance()->Update();
+			CCore::GetInst()->Update();
 		}
 	}
 
