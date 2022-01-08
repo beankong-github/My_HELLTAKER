@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CPlayer.h"
 #include "CTimeMgr.h"
+#include "CKeyMgr.h"
 
 CPlayer::CPlayer()
 	:m_vPos{}
@@ -15,21 +16,21 @@ CPlayer::~CPlayer()
 
 void CPlayer::Update()
 {
-	if (GetAsyncKeyState(VK_LEFT) & 0x8000) // VK_LEFT가 이전에 누른 적이 없고 호출 시점에는 눌려있는 상태라면
+	if (IS_KEY_PRESSED(KEY::LEFT) || IS_KEY_TAP(KEY::LEFT)) // VK_LEFT가 이전에 누른 적이 없고 호출 시점에는 눌려있는 상태라면
 	{
-		m_vPos.x -= m_fSpeed * CTimeMgr::GetInst()->GetDS();
+		m_vPos.x -= m_fSpeed * DS;
 	}
-	if (GetAsyncKeyState(VK_RIGHT) & 0x8000)
+	if (IS_KEY_PRESSED(KEY::RIGHT) || IS_KEY_TAP(KEY::RIGHT))
 	{
-		m_vPos.x += m_fSpeed * CTimeMgr::GetInst()->GetDS();
+		m_vPos.x += m_fSpeed * DS;
 	}
-	if (GetAsyncKeyState(VK_UP) & 0x8000)
+	if (IS_KEY_PRESSED(KEY::UP) || IS_KEY_TAP(KEY::UP))
 	{
-		m_vPos.y -= m_fSpeed * CTimeMgr::GetInst()->GetDS();
+		m_vPos.y -= m_fSpeed * DS;
 	}
-	if (GetAsyncKeyState(VK_DOWN) & 0x8000)
+	if (IS_KEY_PRESSED(KEY::DOWN) || IS_KEY_TAP(KEY::DOWN))
 	{
-		m_vPos.y += m_fSpeed * CTimeMgr::GetInst()->GetDS();
+		m_vPos.y += m_fSpeed * DS;
 	}
 }
 

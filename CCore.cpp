@@ -1,7 +1,14 @@
 #include "pch.h"
 #include "CCore.h"
-#include "CPlayer.h"
+
+//=== Manager's Header ====//
 #include "CTimeMgr.h"
+#include "CKeyMgr.h"
+
+
+//=== Object's Header ====//
+#include "CPlayer.h"
+
 
 CPlayer player;
 
@@ -47,6 +54,7 @@ int CCore::Init(HWND _hwnd, POINT _ptResolution)
 
 	// Manager 초기화
 	CTimeMgr::GetInst()->Init();
+	CKeyMgr::GetInst()->Init();
 
 
 	// 플레이어 배치
@@ -62,7 +70,7 @@ void CCore::Update()
 	//	 Manager Update
 	// ==================
 	CTimeMgr::GetInst()->Update();
-
+	CKeyMgr::GetInst()->Update();
 
 	// ==================
 	//	 Object Update
@@ -75,10 +83,10 @@ void CCore::Update()
 	//	  Game Render
 	// ==================
 
-	// 화면 지우기
+	// BackBuffer 화면 지우기
 	Rectangle(m_hBackDC, -1, -1, m_ptResolution.x + 1, m_ptResolution.y + 1);
 	
-	// Player 그리기
+	// BackBuffer에 Player 그리기
 	player.Render(m_hBackDC);
 
 	// BackBuffer 내용을 윈도우 비트맵으로 옮기기(복사)

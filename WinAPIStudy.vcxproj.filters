@@ -35,6 +35,9 @@
     <Filter Include="GAME\04. Object\Player">
       <UniqueIdentifier>{25dd3292-a88b-4ebb-8e37-0ec8d310e09a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GAME\03. Manager\KeyMgr">
+      <UniqueIdentifier>{4e2125a6-e585-4536-9487-e8902080d654}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -47,9 +50,6 @@
       <Filter>Main</Filter>
     </ClInclude>
     <ClInclude Include="WinAPIStudy.h">
-      <Filter>Main</Filter>
-    </ClInclude>
-    <ClInclude Include="pch.h">
       <Filter>Main</Filter>
     </ClInclude>
     <ClInclude Include="CPlayer.h">
@@ -66,6 +66,12 @@
     </ClInclude>
     <ClInclude Include="struct.h">
       <Filter>GAME\01. Header</Filter>
+    </ClInclude>
+    <ClInclude Include="CKeyMgr.h">
+      <Filter>GAME\03. Manager\KeyMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>Main</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -98,6 +104,9 @@
     </ClCompile>
     <ClCompile Include="CTimeMgr.cpp">
       <Filter>GAME\03. Manager\TimeMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="CKeyMgr.cpp">
+      <Filter>GAME\03. Manager\KeyMgr</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
