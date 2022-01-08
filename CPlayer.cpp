@@ -19,9 +19,17 @@ void CPlayer::Update()
 	{
 		m_vPos.x -= m_fSpeed * CTimeMgr::GetInst()->GetDS();
 	}
-	if (GetAsyncKeyState(VK_RIGHT) & 0x8000) // VK_LEFT가 이전에 누른 적이 없고 호출 시점에는 눌려있는 상태라면
+	if (GetAsyncKeyState(VK_RIGHT) & 0x8000)
 	{
 		m_vPos.x += m_fSpeed * CTimeMgr::GetInst()->GetDS();
+	}
+	if (GetAsyncKeyState(VK_UP) & 0x8000)
+	{
+		m_vPos.y -= m_fSpeed * CTimeMgr::GetInst()->GetDS();
+	}
+	if (GetAsyncKeyState(VK_DOWN) & 0x8000)
+	{
+		m_vPos.y += m_fSpeed * CTimeMgr::GetInst()->GetDS();
 	}
 }
 

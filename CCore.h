@@ -8,6 +8,9 @@ private:
 	HDC m_hDC;
 	POINT m_ptResolution;
 
+	HBITMAP m_hBackBitMap;
+	HDC m_hBackDC;
+
 public:
 	int Init(HWND _hwnd, POINT _ptResolution);
 	void Update();
