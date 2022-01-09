@@ -1,8 +1,11 @@
 #pragma once
+
+
 class CCore
 {
 	SINGLE(CCore);
 
+	
 private:
 	HWND m_hwnd;
 	HDC m_hDC;
@@ -17,5 +20,6 @@ public:
 
 public:
 	HWND GetMainWndHWND() {return m_hwnd;}
+	POINT GetResolution() { return m_ptResolution; }
 };
 

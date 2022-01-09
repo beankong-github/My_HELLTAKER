@@ -38,6 +38,18 @@
     <Filter Include="GAME\03. Manager\KeyMgr">
       <UniqueIdentifier>{4e2125a6-e585-4536-9487-e8902080d654}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GAME\04. Object\Bullet">
+      <UniqueIdentifier>{e6de6181-57b5-4e00-ac26-9b599d08012c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GAME\06. Resource">
+      <UniqueIdentifier>{dedba650-bc07-4ced-8ccf-cc377fbfe7df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GAME\07. Stage">
+      <UniqueIdentifier>{b9ed8d26-12a0-425d-bca5-176a24bfaa55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GAME\05. Component">
+      <UniqueIdentifier>{87892819-8f27-4994-ba11-1568368c6406}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -73,6 +85,15 @@
     <ClInclude Include="pch.h">
       <Filter>Main</Filter>
     </ClInclude>
+    <ClInclude Include="CObj.h">
+      <Filter>GAME\04. Object</Filter>
+    </ClInclude>
+    <ClInclude Include="CBullet.h">
+      <Filter>GAME\04. Object\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="CStage.h">
+      <Filter>GAME\07. Stage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WinAPIStudy.rc">
@@ -107,6 +128,15 @@
     </ClCompile>
     <ClCompile Include="CKeyMgr.cpp">
       <Filter>GAME\03. Manager\KeyMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="CObj.cpp">
+      <Filter>GAME\04. Object</Filter>
+    </ClCompile>
+    <ClCompile Include="CBullet.cpp">
+      <Filter>GAME\04. Object\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="CStage.cpp">
+      <Filter>GAME\07. Stage</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

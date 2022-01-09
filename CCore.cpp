@@ -1,16 +1,13 @@
+// Default Header
 #include "pch.h"
 #include "CCore.h"
-
-//=== Manager's Header ====//
+// Manager Header
 #include "CTimeMgr.h"
 #include "CKeyMgr.h"
+// Stage Header
+#include "Cstage.h"
 
-
-//=== Object's Header ====//
-#include "CPlayer.h"
-
-
-CPlayer player;
+CStage g_stage;
 
 CCore::CCore()
 	: m_hwnd(nullptr)
@@ -57,10 +54,8 @@ int CCore::Init(HWND _hwnd, POINT _ptResolution)
 	CKeyMgr::GetInst()->Init();
 
 
-	// 플레이어 배치
-	player.SetPos(Vec{m_ptResolution.x / 2, m_ptResolution.y / 2 });
-	player.SetScale(Vec{100, 100});
-
+	// Stage 초기화
+	g_stage.Init();
 
 	return S_OK;
 }
@@ -73,10 +68,9 @@ void CCore::Update()
 	CKeyMgr::GetInst()->Update();
 
 	// ==================
-	//	 Object Update
+	//	 Stage Update
 	// ==================
-
-	player.Update();
+	g_stage.Update();
 
 
 	// ==================
@@ -86,8 +80,8 @@ void CCore::Update()
 	// BackBuffer 화면 지우기
 	Rectangle(m_hBackDC, -1, -1, m_ptResolution.x + 1, m_ptResolution.y + 1);
 	
-	// BackBuffer에 Player 그리기
-	player.Render(m_hBackDC);
+	// BackBuffer에 Stage 그리기
+	g_stage.Render(m_hBackDC);
 
 	// BackBuffer 내용을 윈도우 비트맵으로 옮기기(복사)
 	BitBlt(m_hDC, 0, 0, m_ptResolution.x, m_ptResolution.y, m_hBackDC, 0, 0, SRCCOPY);
