@@ -56,6 +56,9 @@
     <Filter Include="GAME\07. Stage\Start">
       <UniqueIdentifier>{dfed5261-a216-43c2-93c9-b75a7ca4fd52}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GAME\07. Stage\Play01">
+      <UniqueIdentifier>{ec73e4d6-bcaa-4064-a729-01dad3338eef}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -106,6 +109,9 @@
     <ClInclude Include="CStage.h">
       <Filter>GAME\07. Stage</Filter>
     </ClInclude>
+    <ClInclude Include="CStage_Play01.h">
+      <Filter>GAME\07. Stage\Play01</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WinAPIStudy.rc">
@@ -155,6 +161,9 @@
     </ClCompile>
     <ClCompile Include="CStage.cpp">
       <Filter>GAME\07. Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="CStage_Play01.cpp">
+      <Filter>GAME\07. Stage\Play01</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

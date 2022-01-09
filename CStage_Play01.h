@@ -1,7 +1,7 @@
 #pragma once
 #include "Cstage.h"
 
-class CStage_Start :
+class CStage_Play01 :
     public CStage
 {
 private:
@@ -13,10 +13,8 @@ public:
     void Enter() override;
     void Exit() override;
 
-
 public:
-    CStage_Start();
-    ~CStage_Start();
-
+    CStage_Play01();
+    ~CStage_Play01();
 };
 

@@ -11,11 +11,13 @@ private:
 	CStage* m_pCurStage; // 현재 스테이지
 
 public:
-	CStage* GetCurStage() { return m_pCurStage; }
-
-public:
 	void Init();
 	void Update();
 	void Render(HDC _dc);
+
+public:
+	CStage* GetCurStage() { return m_pCurStage; }
+	void ChangeStage(ESTAGE_TYPE _eNextStage);
+
 };
 

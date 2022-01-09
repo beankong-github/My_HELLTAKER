@@ -12,12 +12,17 @@ public:
 	virtual void Init() = 0;
 	virtual void Update();
 	virtual void Render(HDC _dc);
+	
+	virtual void Enter() = 0;
+	virtual void Exit() = 0;
 
 public:
 	void AddObject(CObj* _obj)
 	{
 		m_vecObj.push_back(_obj);
 	}
+	
+	void Clear();
 
 	//const CObj* GetObject(wstring _name)
 	//{

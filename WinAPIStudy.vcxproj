@@ -131,7 +131,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ConformanceMode>true</ConformanceMode>
+      <ConformanceMode>false</ConformanceMode>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -148,6 +148,7 @@
     <ClInclude Include="CPlayer.h" />
     <ClInclude Include="CStage.h" />
     <ClInclude Include="CStageMgr.h" />
+    <ClInclude Include="CStage_Play01.h" />
     <ClInclude Include="CStage_Start.h" />
     <ClInclude Include="CTimeMgr.h" />
     <ClInclude Include="framework.h" />
@@ -166,6 +167,7 @@
     <ClCompile Include="CPlayer.cpp" />
     <ClCompile Include="CStage.cpp" />
     <ClCompile Include="CStageMgr.cpp" />
+    <ClCompile Include="CStage_Play01.cpp" />
     <ClCompile Include="CStage_Start.cpp" />
     <ClCompile Include="CTimeMgr.cpp" />
     <ClCompile Include="WinAPIStudy.cpp" />

@@ -2,7 +2,7 @@
 #include "CStageMgr.h"
 #include "CStage.h"
 #include "CStage_Start.h"
-//#include "CStage_Play01.h"
+#include "CStage_Play01.h"
 //#include "CStage_Play02.h"
 //#include "CStage_Exit.h"
 
@@ -29,11 +29,11 @@ void CStageMgr::Init()
 {
 	// 모든 스테이지 생성
 	m_arrStage[(UINT)ESTAGE_TYPE::START] = new CStage_Start;
-	//m_arrStage[(UINT)ESTAGE_TYPE::PLAY_01] = new CStage_Play01;
+	m_arrStage[(UINT)ESTAGE_TYPE::PLAY_01] = new CStage_Play01;
 	//m_arrStage[(UINT)ESTAGE_TYPE::PLAY_02] = new CStage_Play02;
 	//m_arrStage[(UINT)ESTAGE_TYPE::EXIT] = new CStage_Exit;
 	
-	// 현재 스테이지 지정
+	// 첫 스테이지 지정
 	m_pCurStage = m_arrStage[(UINT)ESTAGE_TYPE::START];
 	m_pCurStage->Init();
 }
@@ -46,4 +46,14 @@ void CStageMgr::Update()
 void CStageMgr::Render(HDC _dc)
 {
 	m_pCurStage->Render(_dc);
+}
+
+void CStageMgr::ChangeStage(ESTAGE_TYPE _eNextStage)
+{
+	// 같은 Stage로 change 요청이 들어오면 assert
+	assert(m_pCurStage != m_arrStage[(UINT)_eNextStage]);
+
+	m_pCurStage->Exit();
+	m_pCurStage= m_arrStage[(UINT)_eNextStage];	
+	m_pCurStage->Enter();
 }
