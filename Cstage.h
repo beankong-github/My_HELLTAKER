@@ -9,9 +9,9 @@ private:
 	vector<CObj*> m_vecObj;
 
 public:
-	void Init();
-	void Update();
-	void Render(HDC _dc);
+	virtual void Init() = 0;
+	virtual void Update();
+	virtual void Render(HDC _dc);
 
 public:
 	void AddObject(CObj* _obj)
@@ -32,6 +32,6 @@ public:
 
 public:
 	CStage();
-	~CStage();
+	virtual ~CStage();
 
 };

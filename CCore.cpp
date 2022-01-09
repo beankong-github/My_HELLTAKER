@@ -4,10 +4,9 @@
 // Manager Header
 #include "CTimeMgr.h"
 #include "CKeyMgr.h"
+#include "CStageMgr.h"
 // Stage Header
 #include "Cstage.h"
-
-CStage g_stage;
 
 CCore::CCore()
 	: m_hwnd(nullptr)
@@ -49,13 +48,12 @@ int CCore::Init(HWND _hwnd, POINT _ptResolution)
 	HBITMAP hPrevBitMap = (HBITMAP)SelectObject(m_hBackDC, m_hBackBitMap);	// m_hBackBitMap과 m_hBackDC 연결
 	DeleteObject(hPrevBitMap);												// 연결 후 임시 비트맵 삭제
 
-	// Manager 초기화
+	// ==================
+	//	 Manager Init
+	// ==================
 	CTimeMgr::GetInst()->Init();
 	CKeyMgr::GetInst()->Init();
-
-
-	// Stage 초기화
-	g_stage.Init();
+	CStageMgr::GetInst()->Init();
 
 	return S_OK;
 }
@@ -66,11 +64,7 @@ void CCore::Update()
 	// ==================
 	CTimeMgr::GetInst()->Update();
 	CKeyMgr::GetInst()->Update();
-
-	// ==================
-	//	 Stage Update
-	// ==================
-	g_stage.Update();
+	CStageMgr::GetInst()->Update();
 
 
 	// ==================
@@ -81,7 +75,7 @@ void CCore::Update()
 	Rectangle(m_hBackDC, -1, -1, m_ptResolution.x + 1, m_ptResolution.y + 1);
 	
 	// BackBuffer에 Stage 그리기
-	g_stage.Render(m_hBackDC);
+	CStageMgr::GetInst()->Render(m_hBackDC);
 
 	// BackBuffer 내용을 윈도우 비트맵으로 옮기기(복사)
 	BitBlt(m_hDC, 0, 0, m_ptResolution.x, m_ptResolution.y, m_hBackDC, 0, 0, SRCCOPY);

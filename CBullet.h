@@ -7,7 +7,8 @@ private:
     float m_fSpeed;
 
 public:
-    void Update() override;
+    virtual void Init();
+    virtual void Update();
     void Render(HDC _dc) override;
 
 public:

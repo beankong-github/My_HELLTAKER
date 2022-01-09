@@ -3,6 +3,7 @@
 // 모든 c/cpp 파일은 이 해더를 #include 해야한다.
 
 #include <Windows.h>
+#include <assert.h>
 
 #include <vector>
 using std::vector;
@@ -10,9 +11,6 @@ using std::vector;
 #include <string>
 using std::string;
 using std::wstring;
-
-class CStage;
-extern CStage g_stage;
 
 #include "define.h"
 #include "struct.h"

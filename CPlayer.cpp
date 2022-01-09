@@ -2,9 +2,10 @@
 #include "CPlayer.h"
 #include "CTimeMgr.h"
 #include "CKeyMgr.h"
+#include "CStageMgr.h"
 #include "CBullet.h"
-#include "CCore.h"
 #include "CStage.h"
+
 
 CPlayer::CPlayer()
 	:m_fSpeed(400.f)	
@@ -12,6 +13,10 @@ CPlayer::CPlayer()
 }
 
 CPlayer::~CPlayer()
+{
+}
+
+void CPlayer::Init()
 {
 }
 
@@ -42,9 +47,12 @@ void CPlayer::Update()
 	{
 		// Bullet 초기화
 		CObj* bObj = new CBullet;
-		bObj->SetPos(GetPos());
+		bObj->SetPos(Vec{ GetPos().x, GetPos().y - GetScale().y/2});
 		bObj->SetScale(Vec{ 30, 30 });
-		g_stage.AddObject(bObj);
+		
+		// StageMgr로부터 현재 스테이지를 가져온다
+		CStage* curStage = CStageMgr::GetInst()->GetCurStage();
+		curStage->AddObject(bObj);
 	}
 	SetPos(vPos);
 }

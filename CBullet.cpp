@@ -11,6 +11,10 @@ CBullet::~CBullet()
 {
 }
 
+void CBullet::Init()
+{
+}
+
 void CBullet::Update()
 {
 	Vec Pos = GetPos();

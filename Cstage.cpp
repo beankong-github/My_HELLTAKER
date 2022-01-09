@@ -11,18 +11,13 @@ CStage::CStage()
 
 CStage::~CStage()
 {
+	for (size_t i = 0; i < m_vecObj.size(); i++)
+	{
+		assert(m_vecObj[i]);
+		delete m_vecObj[i];
+	}
 }
 
-void CStage::Init()
-{
-	POINT ptResolution = CCore::GetInst()->GetResolution();
-
-	// player ÃÊ±âÈ­
-	CObj* pObj = new CPlayer;
-	pObj->SetPos(Vec{ ptResolution.x / 2, ptResolution.y / 2 });
-	pObj->SetScale(Vec{ 100, 100 });
-	AddObject(pObj);
-}
 
 void CStage::Update()
 {

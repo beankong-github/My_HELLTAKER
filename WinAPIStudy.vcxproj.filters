@@ -50,6 +50,12 @@
     <Filter Include="GAME\05. Component">
       <UniqueIdentifier>{87892819-8f27-4994-ba11-1568368c6406}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GAME\03. Manager\StageMgr">
+      <UniqueIdentifier>{57091f66-1b29-40b9-baf2-482b8eda33ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GAME\07. Stage\Start">
+      <UniqueIdentifier>{dfed5261-a216-43c2-93c9-b75a7ca4fd52}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -90,6 +96,12 @@
     </ClInclude>
     <ClInclude Include="CBullet.h">
       <Filter>GAME\04. Object\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="CStageMgr.h">
+      <Filter>GAME\03. Manager\StageMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="CStage_Start.h">
+      <Filter>GAME\07. Stage\Start</Filter>
     </ClInclude>
     <ClInclude Include="CStage.h">
       <Filter>GAME\07. Stage</Filter>
@@ -134,6 +146,12 @@
     </ClCompile>
     <ClCompile Include="CBullet.cpp">
       <Filter>GAME\04. Object\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="CStageMgr.cpp">
+      <Filter>GAME\03. Manager\StageMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="CStage_Start.cpp">
+      <Filter>GAME\07. Stage\Start</Filter>
     </ClCompile>
     <ClCompile Include="CStage.cpp">
       <Filter>GAME\07. Stage</Filter>

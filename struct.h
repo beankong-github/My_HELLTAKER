@@ -6,6 +6,16 @@ public:
 	float x;
 	float y;
 
+public:
+
+	Vec operator / (float _f)
+	{
+		assert(_f);
+
+		return Vec(x / _f, y / _f);
+	}
+
+public:
 	Vec()
 		: x(0.0f), y(0.0f)
 	{}

@@ -22,6 +22,10 @@ int APIENTRY wWinMain(HINSTANCE hInstance,
 				      LPWSTR    lpCmdLine,
 	                  int       nCmdShow)
 {
+	// CRT 메모리 릭 디버그
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+	//_CrtSetBreakAlloc(숫자);
+	
 	// 생성시킬 윈도우 설정
 	MyRegisterClass(hInstance);
 
