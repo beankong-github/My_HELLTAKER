@@ -20,6 +20,7 @@ public:
 
 public:
 	HWND GetMainWndHWND() {return m_hwnd;}
+	HDC GetMainDC() { return m_hDC; }
 	POINT GetResolution() { return m_ptResolution; }
 };
 

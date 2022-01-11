@@ -49,5 +49,5 @@ void CStage_Play01::Enter()
 
 void CStage_Play01::Exit()
 {
-
+	CStage::Clear();
 }

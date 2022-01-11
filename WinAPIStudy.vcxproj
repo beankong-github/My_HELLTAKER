@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -78,9 +78,11 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)OutputFile\bin_debug\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)OutputFile\bin\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -145,11 +147,15 @@
     <ClInclude Include="CCore.h" />
     <ClInclude Include="CKeyMgr.h" />
     <ClInclude Include="CObj.h" />
+    <ClInclude Include="CPathMgr.h" />
     <ClInclude Include="CPlayer.h" />
+    <ClInclude Include="CResMgr.h" />
+    <ClInclude Include="CResource.h" />
     <ClInclude Include="CStage.h" />
     <ClInclude Include="CStageMgr.h" />
     <ClInclude Include="CStage_Play01.h" />
     <ClInclude Include="CStage_Start.h" />
+    <ClInclude Include="CTexture.h" />
     <ClInclude Include="CTimeMgr.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Resource.h" />
@@ -164,11 +170,15 @@
     <ClCompile Include="CCore.cpp" />
     <ClCompile Include="CKeyMgr.cpp" />
     <ClCompile Include="CObj.cpp" />
+    <ClCompile Include="CPathMgr.cpp" />
     <ClCompile Include="CPlayer.cpp" />
+    <ClCompile Include="CResMgr.cpp" />
+    <ClCompile Include="CResource.cpp" />
     <ClCompile Include="CStage.cpp" />
     <ClCompile Include="CStageMgr.cpp" />
     <ClCompile Include="CStage_Play01.cpp" />
     <ClCompile Include="CStage_Start.cpp" />
+    <ClCompile Include="CTexture.cpp" />
     <ClCompile Include="CTimeMgr.cpp" />
     <ClCompile Include="WinAPIStudy.cpp" />
   </ItemGroup>

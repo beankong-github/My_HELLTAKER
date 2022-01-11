@@ -8,6 +8,10 @@
 #include <vector>
 using std::vector;
 
+#include <map>
+using std::map;
+using std::make_pair;
+
 #include <string>
 using std::string;
 using std::wstring;

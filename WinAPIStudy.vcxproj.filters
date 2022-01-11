@@ -59,6 +59,18 @@
     <Filter Include="GAME\07. Stage\Play01">
       <UniqueIdentifier>{ec73e4d6-bcaa-4064-a729-01dad3338eef}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GAME\06. Resource\Texture">
+      <UniqueIdentifier>{d4494569-1050-46b6-baa8-485e6c58065d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GAME\06. Resource\Sound">
+      <UniqueIdentifier>{3d43a2af-1422-40a5-8d75-0142e80d3b34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GAME\03. Manager\ResMgr">
+      <UniqueIdentifier>{008e48ee-a452-4bad-b7a6-bacdedaf0639}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GAME\03. Manager\PathMgr">
+      <UniqueIdentifier>{156ae386-f613-4b59-aef1-109ed8be497a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -112,6 +124,18 @@
     <ClInclude Include="CStage_Play01.h">
       <Filter>GAME\07. Stage\Play01</Filter>
     </ClInclude>
+    <ClInclude Include="CResource.h">
+      <Filter>GAME\06. Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="CTexture.h">
+      <Filter>GAME\06. Resource\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="CResMgr.h">
+      <Filter>GAME\03. Manager\ResMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="CPathMgr.h">
+      <Filter>GAME\03. Manager\PathMgr</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WinAPIStudy.rc">
@@ -164,6 +188,18 @@
     </ClCompile>
     <ClCompile Include="CStage_Play01.cpp">
       <Filter>GAME\07. Stage\Play01</Filter>
+    </ClCompile>
+    <ClCompile Include="CResource.cpp">
+      <Filter>GAME\06. Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="CTexture.cpp">
+      <Filter>GAME\06. Resource\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="CResMgr.cpp">
+      <Filter>GAME\03. Manager\ResMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="CPathMgr.cpp">
+      <Filter>GAME\03. Manager\PathMgr</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

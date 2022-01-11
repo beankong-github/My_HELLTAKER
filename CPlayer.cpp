@@ -5,11 +5,26 @@
 #include "CStageMgr.h"
 #include "CBullet.h"
 #include "CStage.h"
-
+#include "CTexture.h"
+#include "CResMgr.h"
+#include "CPathMgr.h  "
 
 CPlayer::CPlayer()
-	:m_fSpeed(400.f)	
+	:m_fSpeed(400.f)
+	, m_pTex(nullptr)
 {
+	//// 현재 디렉토리 경로 받아오기
+	//wchar_t szPath[256] = {};
+	//GetCurrentDirectory(256, szPath);
+
+	//// 비행기(플레이어) 이미지 가져오기
+	//wstring strPath = szPath;
+	//strPath += L"\\Plane.bmp";
+
+	wstring strContentPath = CPathMgr::GetInst()->GetContentPath();
+
+	// 텍스처 한 장 로딩
+	m_pTex = CResMgr::GetInst()->LoadTexture(L"PlayerImage", strPath);
 }
 
 CPlayer::~CPlayer()
@@ -59,5 +74,8 @@ void CPlayer::Update()
 
 void CPlayer::Render(HDC _dc)
 {
-	CObj::Render(_dc);
+	// 이미지로 출력
+	Vec vPos = GetPos();
+
+	BitBlt(_dc, (int)vPos.x - 32, (int)vPos.y - 32, 64, 64, m_pTex->GetDC(), 0, 0, SRCCOPY);
 }

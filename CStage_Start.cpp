@@ -2,6 +2,7 @@
 #include "CStage_Start.h"
 #include "CKeyMgr.h"
 #include "CStageMgr.h"
+#include "CTexture.h"
 
 CStage_Start::CStage_Start()
 {
@@ -39,5 +40,6 @@ void CStage_Start::Enter()
 
 void CStage_Start::Exit()
 {
+	CStage::Clear();
 }
 
