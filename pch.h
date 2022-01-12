@@ -3,6 +3,7 @@
 // 모든 c/cpp 파일은 이 해더를 #include 해야한다.
 
 #include <Windows.h>
+#pragma comment(lib, "Msimg32.lib")	// TransparentBlt();
 #include <assert.h>
 
 #include <vector>

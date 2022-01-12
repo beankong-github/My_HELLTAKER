@@ -4,9 +4,14 @@
 class CPathMgr
 {
 	SINGLE(CPathMgr);
+
 private:
-	void Init();
+	wchar_t m_strContentPath[255];
+
 public:
-	wchar_t* GetContentPath();
+	void Init();
+
+public:
+	const wchar_t* GetContentPath() { return  m_strContentPath; }
 };
 

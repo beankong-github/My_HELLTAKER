@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CResMgr.h"
 #include "CTexture.h"
+#include "CPathMgr.h"
 
 CResMgr::CResMgr()
 {
@@ -24,15 +25,20 @@ CTexture* CResMgr::LoadTexture(const wstring& _strKey, const wstring& _strRelati
 	if (nullptr != pNewTex)
 		return (CTexture*)pNewTex;
 
+	wstring strFilePath = CPathMgr::GetInst()->GetContentPath();
+	strFilePath += _strRelativePath;
+
+	// 중복된 리소스가 없으면
 	pNewTex = new CTexture;
 
-	if (FAILED(pNewTex->Load(_strRelativePath)))
+	if (FAILED(pNewTex->Load(strFilePath)))
 	{
 		// Load 실패
 		return nullptr;
 	}
 
 	pNewTex -> SetKey(_strKey);
+	pNewTex->SetRelativePath(_strRelativePath);
 	m_mapTex.insert(make_pair(_strKey, (CTexture*)pNewTex));
 
 	return (CTexture*)pNewTex;

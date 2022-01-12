@@ -5,6 +5,7 @@
 #include "CTimeMgr.h"
 #include "CKeyMgr.h"
 #include "CStageMgr.h"
+#include "CPathMgr.h"
 // Stage Header
 #include "Cstage.h"
 
@@ -51,6 +52,7 @@ int CCore::Init(HWND _hwnd, POINT _ptResolution)
 	// ==================
 	//	 Manager Init
 	// ==================
+	CPathMgr::GetInst()->Init();
 	CTimeMgr::GetInst()->Init();
 	CKeyMgr::GetInst()->Init();
 	CStageMgr::GetInst()->Init();

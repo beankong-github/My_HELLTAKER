@@ -30,7 +30,7 @@ void CStage_Start::Render(HDC _dc)
 {
 	CStage::Render(_dc);
 
-	TextOut(_dc, 10, 10, L"Here is Start Stage", wcslen(L"Here is Start Stage"));
+	TextOut(_dc, 10, 10, L"Here is Start Stage", (int)wcslen(L"Here is Start Stage"));
 }
 
 void CStage_Start::Enter()

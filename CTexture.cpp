@@ -2,6 +2,19 @@
 #include "CTexture.h"
 #include "CCore.h"
 
+CTexture::CTexture()
+    :m_hBit(0)
+    ,m_hDC(0)
+    ,m_info{}
+{
+}
+
+CTexture::~CTexture()
+{
+    DeleteObject(m_hBit);
+    DeleteDC(m_hDC);
+}
+
 int CTexture::Load(const wstring& _strFullPath)
 {
     m_hBit = (HBITMAP)LoadImage(nullptr, _strFullPath.c_str(), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION | LR_DEFAULTSIZE);
@@ -17,19 +30,9 @@ int CTexture::Load(const wstring& _strFullPath)
     HBITMAP hPrevBitMap = (HBITMAP)SelectObject(m_hDC, m_hBit);	// m_hbit과 m_hDC 연결
     DeleteObject(hPrevBitMap);									// 연결 후 임시 비트맵 삭제
 
+    // 비트맵 정보 알아내기
+    GetObject(m_hBit,sizeof(BITMAP), & m_info);
+
     return S_OK;
 }
 
-CTexture::CTexture()
-    :m_iHeight()
-    ,m_iWidth()
-    ,m_hBit(0)
-    ,m_hDC(0)
-{
-}
-
-CTexture::~CTexture()
-{
-    DeleteObject(m_hBit);
-    DeleteDC(m_hDC);
-}

@@ -13,19 +13,10 @@ CPlayer::CPlayer()
 	:m_fSpeed(400.f)
 	, m_pTex(nullptr)
 {
-	//// 현재 디렉토리 경로 받아오기
-	//wchar_t szPath[256] = {};
-	//GetCurrentDirectory(256, szPath);
-
-	//// 비행기(플레이어) 이미지 가져오기
-	//wstring strPath = szPath;
-	//strPath += L"\\Plane.bmp";
-
-	wstring strContentPath = CPathMgr::GetInst()->GetContentPath();
-
-	// 텍스처 한 장 로딩
-	m_pTex = CResMgr::GetInst()->LoadTexture(L"PlayerImage", strPath);
+	// 텍스처 로딩
+	m_pTex = CResMgr::GetInst()->LoadTexture(L"PlayerImage", L"texture\\Plane.bmp");
 }
+
 
 CPlayer::~CPlayer()
 {
@@ -77,5 +68,17 @@ void CPlayer::Render(HDC _dc)
 	// 이미지로 출력
 	Vec vPos = GetPos();
 
-	BitBlt(_dc, (int)vPos.x - 32, (int)vPos.y - 32, 64, 64, m_pTex->GetDC(), 0, 0, SRCCOPY);
-}
+	UINT iWidth = m_pTex->Width();
+	UINT iHeight = m_pTex->Height();
+
+	//BitBlt(_dc, (int)vPos.x - iWidth/2, (int)vPos.y - iHeight/2, iWidth, iHeight, m_pTex->GetDC(), 0, 0, SRCCOPY);
+
+	TransparentBlt( _dc,
+					(int)vPos.x - iWidth / 2,
+					(int)vPos.y - iHeight / 2,
+					iWidth, iHeight,
+					m_pTex->GetDC(),
+					0,0,
+					iWidth, iHeight,
+					RGB(255,0,255));
+}  
