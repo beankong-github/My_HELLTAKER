@@ -26,3 +26,22 @@ enum class ESTAGE_TYPE
 
 	STAGE_END
 };
+
+enum class EOBJ_TYPE
+{
+	DEFAULT,
+	PLAYER,
+	MONSTER,
+	PLAYER_PROJECTILE,
+	MONSTER_PROJECTILE,
+
+	END = 32
+};
+
+enum class EEVENT_TYPE
+{
+	CREATE_OBJ,
+	DELETE_OBJ,
+	STAGE_CHANGE,	// lParam : Next Stage Enum
+	END
+};

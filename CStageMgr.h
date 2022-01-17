@@ -17,7 +17,10 @@ public:
 
 public:
 	CStage* GetCurStage() { return m_pCurStage; }
+
+private:
 	void ChangeStage(ESTAGE_TYPE _eNextStage);
 
+	friend class CEventMgr;
 };
 

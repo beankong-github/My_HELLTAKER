@@ -3,7 +3,6 @@
 #include "CPlayer.h"
 #include "CCore.h"
 #include "CKeyMgr.h"
-#include "CStageMgr.h"
 
 CStage_Play01::CStage_Play01()
 {
@@ -21,16 +20,16 @@ void CStage_Play01::Init()
 	CObj* pObj = new CPlayer;
 	pObj->SetPos(Vec{ ptResolution.x / 2, ptResolution.y / 2 });
 	pObj->SetScale(Vec{ 100, 100 });
-	AddObject(pObj);
+	AddObject(pObj, EOBJ_TYPE::PLAYER);
 }
 
 void CStage_Play01::Update()
 {
 	CStage::Update();
 
-	if (IS_KEY_TAP(KEY::ENTER))
+	if (IS_KEY_TAP(KEY::ESC))
 	{
-		CStageMgr::GetInst()->ChangeStage(ESTAGE_TYPE::START);
+		ChangeStage(ESTAGE_TYPE::START);
 	}
 
 }

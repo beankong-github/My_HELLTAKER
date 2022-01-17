@@ -6,6 +6,7 @@
 #include "CKeyMgr.h"
 #include "CStageMgr.h"
 #include "CPathMgr.h"
+#include "CEventMgr.h"
 // Stage Header
 #include "Cstage.h"
 
@@ -81,4 +82,10 @@ void CCore::Update()
 
 	// BackBuffer 내용을 윈도우 비트맵으로 옮기기(복사)
 	BitBlt(m_hDC, 0, 0, m_ptResolution.x, m_ptResolution.y, m_hBackDC, 0, 0, SRCCOPY);
+
+
+	// ==================
+	//	 Event Handling
+	// ==================
+	CEventMgr::GetInst()->Update();
 }

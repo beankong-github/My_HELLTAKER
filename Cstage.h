@@ -6,7 +6,7 @@ class CObj;
 class CStage
 {
 private:
-	vector<CObj*> m_vecObj;
+	vector<CObj*> m_vecObj[(UINT)EOBJ_TYPE::END];
 
 public:
 	virtual void Init() = 0;
@@ -17,23 +17,12 @@ public:
 	virtual void Exit() = 0;
 
 public:
-	void AddObject(CObj* _obj)
+	void AddObject(CObj* _obj, EOBJ_TYPE _objType)
 	{
-		m_vecObj.push_back(_obj);
+		m_vecObj[(UINT)_objType].push_back(_obj);
 	}
 	
 	void Clear();
-
-	//const CObj* GetObject(wstring _name)
-	//{
-	//	for (size_t i = 0; i < m_vecObj.size(); i++)
-	//	{
-	//		if (_name == m_vecObj[i]->GetName())
-	//		{
-	//			return m_vecObj[i];
-	//		}
-	//	}
-	//}
 
 public:
 	CStage();

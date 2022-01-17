@@ -2,7 +2,6 @@
 #include "CPlayer.h"
 #include "CTimeMgr.h"
 #include "CKeyMgr.h"
-#include "CStageMgr.h"
 #include "CBullet.h"
 #include "CStage.h"
 #include "CTexture.h"
@@ -52,14 +51,16 @@ void CPlayer::Update()
 	if (IS_KEY_TAP(KEY::SPACE))
 	{
 		// Bullet 초기화
-		CObj* bObj = new CBullet;
-		bObj->SetPos(Vec{ GetPos().x, GetPos().y - GetScale().y/2});
-		bObj->SetScale(Vec{ 30, 30 });
-		
-		// StageMgr로부터 현재 스테이지를 가져온다
-		CStage* curStage = CStageMgr::GetInst()->GetCurStage();
-		curStage->AddObject(bObj);
+		CObj* pBullet = new CBullet;
+
+		Vec vPos = GetPos();
+		Vec vScale = GetScale();
+		pBullet->SetScale(vScale / 2.f);
+		vPos = Vec(vPos.x, vPos.y - vScale.y / 2.f);
+
+		CreateObject(pBullet, EOBJ_TYPE::PLAYER_PROJECTILE, vPos);
 	}
+
 	SetPos(vPos);
 }
 

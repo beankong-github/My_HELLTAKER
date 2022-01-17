@@ -134,6 +134,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -145,6 +147,7 @@
   <ItemGroup>
     <ClInclude Include="CBullet.h" />
     <ClInclude Include="CCore.h" />
+    <ClInclude Include="CEventMgr.h" />
     <ClInclude Include="CKeyMgr.h" />
     <ClInclude Include="CObj.h" />
     <ClInclude Include="CPathMgr.h" />
@@ -158,6 +161,7 @@
     <ClInclude Include="CTexture.h" />
     <ClInclude Include="CTimeMgr.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="func.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="struct.h" />
     <ClInclude Include="targetver.h" />
@@ -168,6 +172,7 @@
   <ItemGroup>
     <ClCompile Include="CBullet.cpp" />
     <ClCompile Include="CCore.cpp" />
+    <ClCompile Include="CEventMgr.cpp" />
     <ClCompile Include="CKeyMgr.cpp" />
     <ClCompile Include="CObj.cpp" />
     <ClCompile Include="CPathMgr.cpp" />
@@ -180,6 +185,7 @@
     <ClCompile Include="CStage_Start.cpp" />
     <ClCompile Include="CTexture.cpp" />
     <ClCompile Include="CTimeMgr.cpp" />
+    <ClCompile Include="func.cpp" />
     <ClCompile Include="WinAPIStudy.cpp" />
   </ItemGroup>
   <ItemGroup>

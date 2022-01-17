@@ -1,10 +1,9 @@
 #pragma once
-// 미리 컴파일된 헤더 (precompiled header)
-// 모든 c/cpp 파일은 이 해더를 #include 해야한다.
 
 #include <Windows.h>
-#pragma comment(lib, "Msimg32.lib")	// TransparentBlt();
-#include <assert.h>
+#pragma comment(lib, "Msimg32.lib")
+
+#include <wchar.h>
 
 #include <vector>
 using std::vector;
@@ -13,9 +12,14 @@ using std::vector;
 using std::map;
 using std::make_pair;
 
+
 #include <string>
 using std::string;
 using std::wstring;
 
+#include <assert.h>
+
+
 #include "define.h"
 #include "struct.h"
+#include "func.h"

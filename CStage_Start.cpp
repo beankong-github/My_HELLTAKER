@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "CStage_Start.h"
-#include "CKeyMgr.h"
 #include "CStageMgr.h"
+#include "CKeyMgr.h"
 #include "CTexture.h"
 
 CStage_Start::CStage_Start()
@@ -22,7 +22,7 @@ void CStage_Start::Update()
 
 	if (IS_KEY_TAP(KEY::ENTER))
 	{
-		CStageMgr::GetInst()->ChangeStage(ESTAGE_TYPE::PLAY_01);
+		ChangeStage(ESTAGE_TYPE::PLAY_01);
 	}
 }
 

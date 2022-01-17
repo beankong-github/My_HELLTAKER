@@ -32,3 +32,10 @@ public:
 		: x(float(_x)), y(float(_y))
 	{}
 };
+
+struct tEventInfo
+{
+	EEVENT_TYPE eType;
+	DWORD_PTR lParam;
+	DWORD_PTR wParam;
+};
