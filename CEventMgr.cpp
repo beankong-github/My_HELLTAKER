@@ -2,6 +2,7 @@
 #include "CEventMgr.h"
 #include "CStageMgr.h"
 #include "CStage.h"
+#include "CObj.h"
 
 CEventMgr::CEventMgr()
 {
@@ -15,6 +16,16 @@ CEventMgr::~CEventMgr()
 
 void CEventMgr::Update()
 {
+	// Dead Object 삭제
+	for (size_t i = 0; i < m_vecDead.size(); ++i)
+	{
+		assert(m_vecDead[i]);
+
+		delete m_vecDead[i];
+	}
+	m_vecDead.clear();
+
+	// 이벤트 처리
 	bool bChangeStage = false;
 
 	for (size_t i = 0; i < m_vecEvent.size(); ++i)
@@ -33,7 +44,12 @@ void CEventMgr::Update()
 			break;
 
 		case EEVENT_TYPE::DELETE_OBJ:
-
+			// lParam : Object Adress
+		{
+			CObj* pDeleteObject = (CObj*)m_vecEvent[i].lParam;
+			pDeleteObject->SetDead();
+			m_vecDead.push_back(pDeleteObject);
+		}
 			break;
 
 		case EEVENT_TYPE::STAGE_CHANGE:

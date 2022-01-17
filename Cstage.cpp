@@ -21,6 +21,9 @@ void CStage::Update()
 	{
 		for (size_t i = 0; i < m_vecObj[j].size(); i++)
 		{
+			if (m_vecObj[j][i]->isDead())
+				continue;
+
 			m_vecObj[j][i]->Update();
 		}
 	}
@@ -30,9 +33,17 @@ void CStage::Render(HDC _dc)
 {
 	for (int j = 0; j < (UINT)EOBJ_TYPE::END; j++)
 	{
-		for (size_t i = 0; i < m_vecObj[j].size(); i++)
+		vector<CObj*>::iterator iter = m_vecObj[j].begin();
+
+		for (; iter != m_vecObj[j].end();)
 		{
-			m_vecObj[j][i]->Render(_dc);
+			if ((*iter)->isDead())
+				iter = m_vecObj[j].erase(iter);
+			else
+			{
+				(*iter)->Render(_dc);
+				++iter;
+			}
 		}
 	}
 }

@@ -5,7 +5,8 @@ class CEventMgr
 	SINGLE(CEventMgr);
 
 private:
-	vector<tEventInfo> m_vecEvent;
+	vector<tEventInfo>	m_vecEvent;
+	vector<CObj*>		m_vecDead;
 
 public:
 	void Update();

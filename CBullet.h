@@ -5,6 +5,7 @@ class CBullet :
 {
 private:
     float m_fSpeed;
+    float m_fAddTime;
 
 public:
     virtual void Init();

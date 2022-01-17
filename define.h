@@ -40,8 +40,8 @@ enum class EOBJ_TYPE
 
 enum class EEVENT_TYPE
 {
-	CREATE_OBJ,
-	DELETE_OBJ,
+	CREATE_OBJ,		// lParam : Object Adress		wParam : Object Type
+	DELETE_OBJ,		// lParam : Object Adress
 	STAGE_CHANGE,	// lParam : Next Stage Enum
 	END
 };

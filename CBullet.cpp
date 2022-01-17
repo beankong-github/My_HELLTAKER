@@ -4,6 +4,7 @@
 
 CBullet::CBullet()
 	:m_fSpeed(200.f)
+	,m_fAddTime(0.f)
 {
 }
 
@@ -18,10 +19,14 @@ void CBullet::Init()
 void CBullet::Update()
 {
 	Vec Pos = GetPos();
-	
 	Pos.y -= m_fSpeed * DS;
-
 	SetPos(Pos);
+
+	m_fAddTime += DS;
+	if (m_fAddTime >= 2.f)
+	{
+		DeleteObject(this);
+	}
 }
 
 void CBullet::Render(HDC _dc)
