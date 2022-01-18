@@ -1,12 +1,15 @@
 #include "pch.h"
 #include "CPlayer.h"
+
 #include "CTimeMgr.h"
 #include "CKeyMgr.h"
-#include "CBullet.h"
+#include "CResMgr.h"
+#include "CPathMgr.h"
+
 #include "CStage.h"
 #include "CTexture.h"
-#include "CResMgr.h"
-#include "CPathMgr.h  "
+#include "CBullet.h"
+
 
 CPlayer::CPlayer()
 	:m_fSpeed(400.f)
@@ -14,14 +17,16 @@ CPlayer::CPlayer()
 {
 	// 텍스처 로딩
 	m_pTex = CResMgr::GetInst()->LoadTexture(L"PlayerImage", L"texture\\Plane.bmp");
+
+	// 충돌체 생성
+	CCollider* pCol = new CCollider;
+	pCol->SetOffsetPos(Vec(0.f, 0.f));
+	pCol->SetScale(Vec(60.f, 50.f));
+	AddComponent(pCol);
 }
 
 
 CPlayer::~CPlayer()
-{
-}
-
-void CPlayer::Init()
 {
 }
 
@@ -82,4 +87,10 @@ void CPlayer::Render(HDC _dc)
 					0,0,
 					iWidth, iHeight,
 					RGB(255,0,255));
+
+#ifdef DEBUG
+	// 플레이어 소속 component render
+	Render_Component(_dc);
+#endif // DEBUG
+
 }  

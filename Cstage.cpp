@@ -29,6 +29,20 @@ void CStage::Update()
 	}
 }
 
+void CStage::LateUpdate()
+{
+	for (int j = 0; j < (UINT)EOBJ_TYPE::END; j++)
+	{
+		for (size_t i = 0; i < m_vecObj[j].size(); i++)
+		{
+			if (m_vecObj[j][i]->isDead())
+				continue;
+
+			m_vecObj[j][i]->LateUpdate();
+		}
+	}
+}
+
 void CStage::Render(HDC _dc)
 {
 	for (int j = 0; j < (UINT)EOBJ_TYPE::END; j++)

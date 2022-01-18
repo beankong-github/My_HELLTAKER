@@ -41,6 +41,7 @@ void CStageMgr::Init()
 void CStageMgr::Update()
 {
 	m_pCurStage->Update();
+	m_pCurStage->LateUpdate();
 }
 
 void CStageMgr::Render(HDC _dc)

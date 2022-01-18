@@ -74,6 +74,15 @@
     <Filter Include="GAME\03. Manager\EventMgr">
       <UniqueIdentifier>{4b42961d-df63-4e48-a175-3f85d29d5f6f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GAME\05. Component\5-01. Collider">
+      <UniqueIdentifier>{2c7ba3f3-49f2-4df6-af18-2954c28dc8d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GAME\05. Component\5-02. Animatior">
+      <UniqueIdentifier>{da9a8205-4859-4ced-a508-ca3939be9b7d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GAME\05. Component\5-03. AI">
+      <UniqueIdentifier>{c06fb1d5-8a94-4cad-b3dc-a233bd85a09d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -145,6 +154,18 @@
     <ClInclude Include="func.h">
       <Filter>GAME\01. Header</Filter>
     </ClInclude>
+    <ClInclude Include="CComponent.h">
+      <Filter>GAME\05. Component</Filter>
+    </ClInclude>
+    <ClInclude Include="CCollider.h">
+      <Filter>GAME\05. Component\5-01. Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="CAnimator.h">
+      <Filter>GAME\05. Component\5-02. Animatior</Filter>
+    </ClInclude>
+    <ClInclude Include="CFSM.h">
+      <Filter>GAME\05. Component\5-03. AI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WinAPIStudy.rc">
@@ -215,6 +236,18 @@
     </ClCompile>
     <ClCompile Include="func.cpp">
       <Filter>GAME\01. Header</Filter>
+    </ClCompile>
+    <ClCompile Include="CComponent.cpp">
+      <Filter>GAME\05. Component</Filter>
+    </ClCompile>
+    <ClCompile Include="CCollider.cpp">
+      <Filter>GAME\05. Component\5-01. Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="CAnimator.cpp">
+      <Filter>GAME\05. Component\5-02. Animatior</Filter>
+    </ClCompile>
+    <ClCompile Include="CFSM.cpp">
+      <Filter>GAME\05. Component\5-03. AI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

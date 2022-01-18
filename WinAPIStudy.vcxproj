@@ -145,7 +145,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CFSM.h" />
+    <ClInclude Include="CAnimator.h" />
     <ClInclude Include="CBullet.h" />
+    <ClInclude Include="CCollider.h" />
+    <ClInclude Include="CComponent.h" />
     <ClInclude Include="CCore.h" />
     <ClInclude Include="CEventMgr.h" />
     <ClInclude Include="CKeyMgr.h" />
@@ -170,7 +174,11 @@
     <ClInclude Include="define.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CFSM.cpp" />
+    <ClCompile Include="CAnimator.cpp" />
     <ClCompile Include="CBullet.cpp" />
+    <ClCompile Include="CCollider.cpp" />
+    <ClCompile Include="CComponent.cpp" />
     <ClCompile Include="CCore.cpp" />
     <ClCompile Include="CEventMgr.cpp" />
     <ClCompile Include="CKeyMgr.cpp" />

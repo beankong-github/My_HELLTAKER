@@ -11,6 +11,7 @@ private:
 public:
 	virtual void Init() = 0;
 	virtual void Update();
+	virtual void LateUpdate();
 	virtual void Render(HDC _dc);
 	
 	virtual void Enter() = 0;

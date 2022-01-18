@@ -45,3 +45,11 @@ enum class EEVENT_TYPE
 	STAGE_CHANGE,	// lParam : Next Stage Enum
 	END
 };
+
+enum class ECOM_TYPE
+{
+	COLLIDER,
+	ANIMATOR,
+	FSM,
+	END
+};

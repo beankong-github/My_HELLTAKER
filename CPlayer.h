@@ -15,7 +15,6 @@ public:
 	float GetSpeed() { return m_fSpeed;}
 
 public:
-	virtual void Init();
 	virtual void Update();
 	void Render(HDC _dc);
 

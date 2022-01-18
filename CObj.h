@@ -1,12 +1,22 @@
 #pragma once
+
+#include "CComponent.h"
+#include "CCollider.h"
+#include "CAnimator.h"
+#include "CFSM.h"
+
+class CComponent;
+
 class CObj
 {
 private:
-	wstring m_strName;
-	Vec m_vPos;
-	Vec m_vScale;
+	wstring		m_strName;
+	Vec			m_vPos;
+	Vec			m_vScale;
+	
+	CComponent* m_arrCom[(UINT)ECOM_TYPE::END];
 
-	bool m_bDead;
+	bool		m_bDead;
 
 public:
 	void SetName(wstring _name)		{ m_strName = _name; }
@@ -16,13 +26,18 @@ public:
 	const wstring& GetName()		{ return m_strName; }
 	Vec GetPos()					{ return m_vPos; }
 	Vec GetScale()					{ return m_vScale; }
-	
+
+	void AddComponent(CComponent* _pCom);
+
 	bool isDead()					{ return m_bDead; }
 
+	
 public:
-	virtual void Init() = 0;
 	virtual void Update() = 0;
+	virtual void LateUpdate() final;
 	virtual void Render(HDC _dc);
+
+	void Render_Component(HDC _dc);
 
 private:
 	void SetDead(){	m_bDead = true;	}

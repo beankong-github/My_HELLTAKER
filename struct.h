@@ -8,11 +8,70 @@ public:
 
 public:
 
+	Vec operator + (float _f)
+	{
+		return Vec(x + _f, y + _f);
+	}
+
+	Vec operator - (float _f)
+	{
+		return Vec(x - _f, y - _f);
+	}
+
+	Vec operator * (float _f)
+	{
+		return Vec(x * _f, y * _f);
+	}
+
 	Vec operator / (float _f)
 	{
 		assert(_f);
 
 		return Vec(x / _f, y / _f);
+	}
+	
+	Vec operator + (const Vec& _other)
+	{
+		return Vec(x + _other.x, y + _other.y);
+	}
+
+	Vec operator - (const Vec& _other)
+	{
+		return Vec(x - _other.x, y - _other.y);
+	}
+
+	Vec operator * (const Vec& _other)
+	{
+		return Vec(x * _other.x, y * _other.y);
+	}
+	
+	Vec operator / (const Vec& _other)
+	{
+		return Vec(x / _other.x, y / _other.y);
+	}
+
+	Vec operator += (const Vec& _other)
+	{
+		x = x + _other.x;
+		y = y + _other.y;
+	}
+	
+	Vec operator -= (const Vec& _other)
+	{
+		x = x - _other.x;
+		y = y - _other.y;
+	}
+
+	Vec operator *= (const Vec& _other)
+	{
+		x = x * _other.x;
+		y = y * _other.y;
+	}
+
+	Vec operator /= (const Vec& _other)
+	{
+		x = x / _other.x;
+		y = y / _other.y;
 	}
 
 public:
