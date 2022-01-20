@@ -12,7 +12,7 @@
 
 
 CPlayer::CPlayer()
-	:m_fSpeed(400.f)
+	: m_fSpeed(400.f)
 	, m_pTex(nullptr)
 {
 	// 텍스처 로딩
@@ -21,7 +21,7 @@ CPlayer::CPlayer()
 	// 충돌체 생성
 	CCollider* pCol = new CCollider;
 	pCol->SetOffsetPos(Vec(0.f, 0.f));
-	pCol->SetScale(Vec(60.f, 50.f));
+	pCol->SetScale(Vec(60.f, 40.f));
 	AddComponent(pCol);
 }
 
@@ -88,9 +88,9 @@ void CPlayer::Render(HDC _dc)
 					iWidth, iHeight,
 					RGB(255,0,255));
 
-#ifdef DEBUG
+#ifdef _DEBUG
 	// 플레이어 소속 component render
-	Render_Component(_dc);
+ 	Render_Component(_dc);
 #endif // DEBUG
 
 }  

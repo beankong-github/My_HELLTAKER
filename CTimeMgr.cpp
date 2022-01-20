@@ -8,7 +8,8 @@ CTimeMgr::CTimeMgr()
 	, m_liCurCount{}
 	, m_iFPS(0)
 	, m_fDS(0.f)
-	, m_iElapsedTime(0)
+	, m_fAddTime(0)
+	, m_fCurTime(0)
 {
 }
 
@@ -57,8 +58,8 @@ void CTimeMgr::Update()
 	m_liPrevCount.QuadPart = m_liCurCount.QuadPart;
 
 	// 시간 누적 ( 경과 시간은 프레임 실행 시간의 누적이다 )
-	m_fOneSec += m_fDS;
-
+	m_fAddTime += m_fDS;
+	m_fCurTime += m_fDS;
 
 	// ===============================
 	//			FPS 구하기
@@ -67,13 +68,12 @@ void CTimeMgr::Update()
 	m_iFPS++;
 	
 	// 누적 시간이 1초를 넘는 순간
-	if (m_fOneSec >= 1.f)
+	if (m_fAddTime >= 1.f)
 	{
-		m_fOneSec = m_fOneSec - 1.f;
-		m_iElapsedTime++;
+		m_fAddTime = m_fAddTime - 1.f;
 
 		wchar_t szStr[255] = L"";
-		wsprintf(szStr, L"FPS: %d || Elapsed time: %d", m_iFPS, m_iElapsedTime);
+		wsprintf(szStr, L"FPS: %d || Elapsed time: %d", m_iFPS, (int)m_fCurTime);
 		SetWindowTextW(CCore::GetInst()->GetMainWndHWND(), szStr);
 
 		m_iFPS = 0;

@@ -16,8 +16,6 @@ CCollider::~CCollider()
 
 void CCollider::Update()
 {
-
-
 	// 충돌체의 이번 프레임의 최종 위치
 	m_vFinalPos = GetOwner()->GetPos() + m_vOffsetPos;
 }

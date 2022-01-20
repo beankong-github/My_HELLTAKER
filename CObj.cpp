@@ -3,6 +3,8 @@
 
 #include "CTimeMgr.h"
 
+#include "CTexture.h"
+
 
 CObj::CObj()
 	: m_vPos{}
