@@ -83,6 +83,9 @@
     <Filter Include="GAME\05. Component\5-03. AI">
       <UniqueIdentifier>{c06fb1d5-8a94-4cad-b3dc-a233bd85a09d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GAME\04. Object\Monster">
+      <UniqueIdentifier>{0a7f4e6f-1280-48d3-ab03-38aac3c2dd32}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -166,6 +169,9 @@
     <ClInclude Include="CFSM.h">
       <Filter>GAME\05. Component\5-03. AI</Filter>
     </ClInclude>
+    <ClInclude Include="CMonster.h">
+      <Filter>GAME\04. Object\Monster</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WinAPIStudy.rc">
@@ -248,6 +254,9 @@
     </ClCompile>
     <ClCompile Include="CFSM.cpp">
       <Filter>GAME\05. Component\5-03. AI</Filter>
+    </ClCompile>
+    <ClCompile Include="CMonster.cpp">
+      <Filter>GAME\04. Object\Monster</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

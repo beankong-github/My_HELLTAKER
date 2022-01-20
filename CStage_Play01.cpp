@@ -1,8 +1,10 @@
 #include "pch.h"
 #include "CStage_Play01.h"
-#include "CPlayer.h"
-#include "CCore.h"
 #include "CKeyMgr.h"
+#include "CCore.h"
+
+#include "CPlayer.h"
+#include "CMonster.h"
 
 CStage_Play01::CStage_Play01()
 {
@@ -16,11 +18,17 @@ void CStage_Play01::Init()
 {
 	POINT ptResolution = CCore::GetInst()->GetResolution();
 
-	// player 초기화
-	CObj* pObj = new CPlayer;
-	pObj->SetPos(Vec{ ptResolution.x / 2, ptResolution.y / 2 });
-	pObj->SetScale(Vec{ 100, 100 });
-	AddObject(pObj, EOBJ_TYPE::PLAYER);
+	// player 추가
+	CObj* pPlayerObj = new CPlayer;
+	pPlayerObj->SetPos(Vec(ptResolution.x / 2.f, (ptResolution.y * 3.f) / 4.f));
+	pPlayerObj->SetScale(Vec(100, 100));
+	AddObject(pPlayerObj, EOBJ_TYPE::PLAYER);
+
+	// Monster 추가
+	CObj* pMonsterObj = new CMonster;
+	pMonsterObj->SetPos(Vec(ptResolution.x / 2.f, (ptResolution.y * 1.f) / 4.f));
+	pMonsterObj->SetScale(Vec(50, 50));
+	AddObject(pMonsterObj, EOBJ_TYPE::MONSTER);
 }
 
 void CStage_Play01::Update()

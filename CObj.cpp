@@ -16,6 +16,7 @@ CObj::CObj()
 
 CObj::~CObj()
 {
+	// 컴포넌트 삭제
 	for (UINT i = 0; i < (UINT)ECOM_TYPE::END; ++i)
 	{
 		if (nullptr != m_arrCom[i])
@@ -27,6 +28,7 @@ CObj::~CObj()
 
 void CObj::AddComponent(CComponent* _pCom)
 {
+	// 컴포넌트 추가
 	ECOM_TYPE eType = _pCom->GetType();
 	m_arrCom[(UINT)eType] = _pCom;
 	_pCom->m_pOwer = this;
@@ -34,6 +36,7 @@ void CObj::AddComponent(CComponent* _pCom)
 
 void CObj::LateUpdate()
 {
+	// 컴포넌트 업데이트
 	for (UINT i = 0; i < (UINT)ECOM_TYPE::END; ++i)
 	{
 		if (nullptr == m_arrCom[i])
@@ -53,6 +56,7 @@ void CObj::Render(HDC _dc)
 
 void CObj::Render_Component(HDC _dc)
 {
+	// 컴포넌트 랜더
 	for (UINT i = 0; i < (UINT)ECOM_TYPE::END; ++i)
 	{
 		if (nullptr == m_arrCom[i])

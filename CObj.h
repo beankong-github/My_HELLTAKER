@@ -19,17 +19,21 @@ private:
 	bool		m_bDead;
 
 public:
-	void SetName(wstring _name)		{ m_strName = _name; }
-	void SetPos(Vec _point)			{ m_vPos = _point; }
-	void SetScale(Vec _point)		{ m_vScale = _point; }
+	void SetName(wstring _name)					{ m_strName = _name; }
+	void SetPos(Vec _point)						{ m_vPos = _point; }
+	void SetScale(Vec _point)					{ m_vScale = _point; }
 
-	const wstring& GetName()		{ return m_strName; }
-	Vec GetPos()					{ return m_vPos; }
-	Vec GetScale()					{ return m_vScale; }
+	const wstring& GetName()					{ return m_strName; }
+	Vec GetPos()								{ return m_vPos; }
+	Vec GetScale()								{ return m_vScale; }
 
 	void AddComponent(CComponent* _pCom);
+	CComponent* GetComponent(ECOM_TYPE _eType)	{ return m_arrCom[(UINT)_eType]; }
+	CCollider* GetCollider()					{ return (CCollider*)m_arrCom[(UINT)ECOM_TYPE::COLLIDER]; }
+	CAnimator* GetAnimator()					{ return (CAnimator*)m_arrCom[(UINT)ECOM_TYPE::ANIMATOR]; }
+	CFSM* GetFSM()								{ return (CFSM*)m_arrCom[(UINT)ECOM_TYPE::FSM]; }
 
-	bool isDead()					{ return m_bDead; }
+	bool isDead()								{ return m_bDead; }
 
 	
 public:
