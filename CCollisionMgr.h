@@ -2,12 +2,24 @@
 
 class CCollider;
 
+union COLLIDER_ID
+{
+	struct {
+		UINT iLeftID;
+		UINT iRightID;
+	};
+
+	LONGLONG id;
+};
+
+
 class CCollisionMgr
 {
 	SINGLE(CCollisionMgr);
 
 private:
-	UINT m_arrCheck[MAX_LAYER];
+	UINT					m_arrCheck[MAX_LAYER];
+	map<LONGLONG, bool>		m_mapColInfo;				// 이전 프레임 충돌 여부 저장
 
 public:
 	void Update();

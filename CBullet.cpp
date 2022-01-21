@@ -14,6 +14,9 @@ CBullet::CBullet()
 	, m_pTex(nullptr)
 	
 {
+	// 이름 설정
+	SetName(L"Player_Bullet");
+
 	// 충돌체 생성
 	CCollider* pCol = new CCollider();
 	pCol->SetOffsetPos(Vec(0.f, 0.f));
@@ -124,6 +127,10 @@ void CBullet::Render(HDC _dc)
 #endif
 }
 
+void CBullet::OnCollisionEnter(CObj* _pOther)
+{
+}
+
 void CBullet::OnCollision(CObj* _pOtherObj)
 {
 	// 몬스터와 충돌시
@@ -132,5 +139,9 @@ void CBullet::OnCollision(CObj* _pOtherObj)
 	{
 		DeleteObject(this);
 	}
+}
+
+void CBullet::OnCollisionExit(CObj* _pOther)
+{
 }
 

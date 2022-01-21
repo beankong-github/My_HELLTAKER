@@ -41,7 +41,11 @@ public:
 	virtual void Update() = 0;
 	virtual void LateUpdate() final;
 	virtual void Render(HDC _dc);
+
+
+	virtual void OnCollisionEnter(CObj* _pOther);
 	virtual void OnCollision(CObj* _pOther);
+	virtual void OnCollisionExit(CObj* _pOther);
 
 private:
 	void SetDead(){	m_bDead = true;	}

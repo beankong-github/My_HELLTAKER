@@ -54,7 +54,15 @@ void CObj::Render(HDC _dc)
 		(int)(m_vPos.y + (m_vScale.y / 2.f)));
 }
 
+void CObj::OnCollisionEnter(CObj* _pOther)
+{
+}
+
 void CObj::OnCollision(CObj* _pOther)
+{
+}
+
+void CObj::OnCollisionExit(CObj* _pOther)
 {
 }
 

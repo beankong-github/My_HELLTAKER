@@ -98,6 +98,14 @@ void CPlayer::Render(HDC _dc)
 
 }
 
+void CPlayer::OnCollisionEnter(CObj* _pOther)
+{
+}
+
 void CPlayer::OnCollision(CObj* _pOther)
+{
+}
+
+void CPlayer::OnCollisionExit(CObj* _pOther)
 {
 }

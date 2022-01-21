@@ -41,27 +41,89 @@ void CCollisionMgr::CollisionGroup(const vector<CObj*>& _left, const vector<CObj
 	{
 		pLeftCol = _left[i]->GetCollider();
 		// 오브젝트에 콜라이더가 없다면 또는 Dead 상태라면
-		if (nullptr == pLeftCol || pLeftCol->GetOwner()->IsDead())
+		if (nullptr == pLeftCol)
 			continue;
 
 		for (size_t j = 0; j < _right.size(); ++j)
 		{
 			pRightCol = _right[j]->GetCollider();
 			// 오브젝트에 콜라이더가 없다면 또는 Dead 상태라면
-			if (nullptr == pRightCol || pRightCol->GetOwner()->IsDead())
+			if (nullptr == pRightCol)
 				continue;
 
-			// 오브젝트 1 대 1 충돌 검사
+			// 두 충돌체가 이전에 충돌했었는지 검사
+			// 두 충돌체의 조합 아이디 생성
+			COLLIDER_ID ID;
+			ID.iLeftID = pLeftCol->GetID();
+			ID.iRightID = pRightCol->GetID();
+			map<LONGLONG, bool> ::iterator iter = m_mapColInfo.find(ID.id);
+
+			if (iter == m_mapColInfo.end())
+			{
+				m_mapColInfo.insert(make_pair(ID.id, false));
+				iter = m_mapColInfo.find(ID.id);
+			}
+
+			// 둘 중 하나라도 Dead 인지 체크
+			bool bDead = pRightCol->GetOwner()->IsDead() || pLeftCol->GetOwner()->IsDead();
+
+			// 충돌 검사
 			if (IsCollision(pLeftCol, pRightCol))
 			{
-				// 충돌중일 경우
-				// 두 collider에게 충돌 알림
-				pLeftCol->OnCollision(pRightCol);
-				pRightCol->OnCollision(pLeftCol);
+			// 충돌 O
+				// 이전 프레임에도 충돌 중이었다.
+				if (iter->second)	
+				{
+					// 둘 중 한 오브젝트가 Dead 일 경우
+					if (bDead)
+					{
+						// 두 collider에게 충돌 종료 알림
+						pLeftCol->OnCollisionExit(pRightCol);
+						pRightCol->OnCollisionExit(pLeftCol);
+						m_mapColInfo.erase(iter);
+					}
+					else
+					{
+						// 두 collider에게 충돌 알림
+						pLeftCol->OnCollision(pRightCol);
+						pRightCol->OnCollision(pLeftCol); 
+					}
+				}
+
+				// 이전 프레임에는 충돌하지 않았다.
+				else
+				{
+					// 두 collider에게 충돌 시작 알림
+					if (!bDead)
+					{
+						pLeftCol->OnCollisionEnter(pRightCol);
+						pRightCol->OnCollisionEnter(pLeftCol);
+						iter->second = true;
+					}
+					else
+					{
+						m_mapColInfo.erase(iter);
+					}
+				}
+
 			}
+			
+			// 충돌 x
 			else
 			{
 				// 충돌이 아닐 경우
+				// 이전 프레임까지는 충돌중이었다
+				if (iter->second)
+				{
+					// 두 collider에게 충돌 종료 알림
+					pLeftCol->OnCollisionExit(pRightCol);
+					pRightCol->OnCollisionExit(pLeftCol);
+					iter->second = false;
+				}
+				if (bDead)
+				{
+					m_mapColInfo.erase(iter);
+				}
 			}
 		}
 	}

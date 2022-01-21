@@ -17,7 +17,10 @@ public:
 public:
 	virtual void Update();
 	void Render(HDC _dc);
+
+	void OnCollisionEnter(CObj* _pOther) override;
 	void OnCollision(CObj* _pOther) override;
+	void OnCollisionExit(CObj* _pOther) override;
 
 public:
 	CPlayer();

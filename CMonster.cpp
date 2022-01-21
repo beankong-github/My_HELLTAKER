@@ -2,6 +2,8 @@
 #include "CMonster.h"
 
 #include "CBullet.h"
+#include "CCore.h"
+#include "CCollider.h"
 
 CMonster::CMonster()
 	:m_iHitCount(5)
@@ -29,11 +31,15 @@ void CMonster::Render(HDC _dc)
 
 }
 
-void CMonster::OnCollision(CObj* _pOtherObj)
+void CMonster::OnCollisionEnter(CObj* _pOther)
+{	
+}
+
+void CMonster::OnCollision(CObj* _pOther)
 {
 	// 플레이어 총알과 충돌 시 
-	dynamic_cast<CBullet*>(_pOtherObj);
-	if (nullptr != _pOtherObj)
+ 	CBullet* pbullet = dynamic_cast<CBullet*>(_pOther);
+	if (nullptr != pbullet)
 	{
 		// HitCount 만큼 Buller과 충돌 후 삭제
 		m_iHitCount -= 1;
@@ -41,5 +47,9 @@ void CMonster::OnCollision(CObj* _pOtherObj)
 			DeleteObject(this);
 	}
 
+}
+
+void CMonster::OnCollisionExit(CObj* _pOther)
+{	
 }
 

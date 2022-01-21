@@ -26,6 +26,10 @@ CCore::~CCore()
 	// DC 해제
 	ReleaseDC(m_hwnd, m_hDC);
 
+	// 펜 삭제
+	DeleteObject(m_hGreenPen);
+	DeleteObject(m_hRedPen);
+
 	// 백 버퍼 해제
 	DeleteObject(m_hBackBitMap);
 	DeleteDC(m_hBackDC);			// 직접 생성한 DC는 ReleaseDC가 아닌 DeleteDC를 사용한다.
@@ -41,6 +45,10 @@ int CCore::Init(HWND _hwnd, POINT _ptResolution)
 	AdjustWindowRect(&rt, WS_OVERLAPPEDWINDOW, false);
 	SetWindowPos(m_hwnd, nullptr, -8, 0, rt.right - rt.left, rt.bottom - rt.top, 0);
 	
+	// Pen 생성
+	m_hGreenPen = CreatePen(PS_SOLID, 1, RGB(120, 250, 50));
+	m_hRedPen = CreatePen(PS_SOLID, 1, RGB(255, 0, 0));
+
 	// Device Context 생성
 	m_hDC = GetDC(m_hwnd);	// 메인 window를 목적으로 하는 DC
 	
@@ -85,6 +93,7 @@ void CCore::Update()
 	// ==================
 
 	// BackBuffer 화면 지우기
+
 	Rectangle(m_hBackDC, -1, -1, m_ptResolution.x + 1, m_ptResolution.y + 1);
 	
 	// BackBuffer에 Stage 그리기
