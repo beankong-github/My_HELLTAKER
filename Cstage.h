@@ -23,6 +23,11 @@ public:
 		m_vecObj[(UINT)_objType].push_back(_obj);
 	}
 	
+	const vector<CObj*>& GetObjects(EOBJ_TYPE _eType)
+	{
+		return m_vecObj[(UINT)_eType];
+	}
+	
 	void Clear();
 
 public:

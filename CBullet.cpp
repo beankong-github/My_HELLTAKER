@@ -5,6 +5,7 @@
 #include "CResMgr.h"
 
 #include "CTexture.h"
+#include "CMonster.h"
 
 CBullet::CBullet()
 	: m_fSpeed(400.f)
@@ -14,7 +15,7 @@ CBullet::CBullet()
 	
 {
 	// 충돌체 생성
-	CCollider* pCol = new CCollider;
+	CCollider* pCol = new CCollider();
 	pCol->SetOffsetPos(Vec(0.f, 0.f));
   	pCol->SetScale(Vec(20.f, 20.f));
 	AddComponent(pCol);
@@ -121,5 +122,15 @@ void CBullet::Render(HDC _dc)
 #ifdef _DEBUG
 	Render_Component(_dc);
 #endif
+}
+
+void CBullet::OnCollision(CObj* _pOtherObj)
+{
+	// 몬스터와 충돌시
+	CMonster* pMonster = dynamic_cast<CMonster*>(_pOtherObj);
+	if (nullptr != pMonster)
+	{
+		DeleteObject(this);
+	}
 }
 

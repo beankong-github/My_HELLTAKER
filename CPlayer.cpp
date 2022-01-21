@@ -12,9 +12,12 @@
 
 
 CPlayer::CPlayer()
-	: m_fSpeed(400.f)
+	: m_fSpeed(300.f)
 	, m_pTex(nullptr)
 {
+	// 이름 설정
+	SetName(L"Player");
+
 	// 텍스처 로딩
 	m_pTex = CResMgr::GetInst()->LoadTexture(L"PlayerImage", L"texture\\Plane.bmp");
 
@@ -93,4 +96,8 @@ void CPlayer::Render(HDC _dc)
  	Render_Component(_dc);
 #endif // DEBUG
 
-}  
+}
+
+void CPlayer::OnCollision(CObj* _pOther)
+{
+}

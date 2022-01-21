@@ -21,7 +21,7 @@ void CStage::Update()
 	{
 		for (size_t i = 0; i < m_vecObj[j].size(); i++)
 		{
-			if (m_vecObj[j][i]->isDead())
+			if (m_vecObj[j][i]->IsDead())
 				continue;
 
 			m_vecObj[j][i]->Update();
@@ -35,7 +35,7 @@ void CStage::LateUpdate()
 	{
 		for (size_t i = 0; i < m_vecObj[j].size(); i++)
 		{
-			if (m_vecObj[j][i]->isDead())
+			if (m_vecObj[j][i]->IsDead())
 				continue;
 
 			m_vecObj[j][i]->LateUpdate();
@@ -51,8 +51,10 @@ void CStage::Render(HDC _dc)
 
 		for (; iter != m_vecObj[j].end();)
 		{
-			if ((*iter)->isDead())
+			// 오브젝트가 Dead 상태면 오브젝트 배열에서 삭제한다
+			if ((*iter)->IsDead())
 				iter = m_vecObj[j].erase(iter);
+
 			else
 			{
 				(*iter)->Render(_dc);

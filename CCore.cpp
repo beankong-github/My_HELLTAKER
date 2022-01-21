@@ -7,8 +7,10 @@
 #include "CStageMgr.h"
 #include "CPathMgr.h"
 #include "CEventMgr.h"
+#include "CCollisionMgr.h"
 // Stage Header
 #include "Cstage.h"
+
 
 CCore::CCore()
 	: m_hwnd(nullptr)
@@ -67,8 +69,16 @@ void CCore::Update()
 	// ==================
 	CTimeMgr::GetInst()->Update();
 	CKeyMgr::GetInst()->Update();
+
+	// ==================
+	//	 Stage Update
+	// ==================
 	CStageMgr::GetInst()->Update();
 
+	// ==================
+	//	Collision Check
+	// ==================
+	CCollisionMgr::GetInst()->Update();
 
 	// ==================
 	//	  Game Render

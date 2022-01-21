@@ -21,6 +21,7 @@ public:
     Vec GetScale()                  { return m_vScale; }
     Vec GetFinalPos()               { return m_vFinalPos;}
 
+    void OnCollision(CCollider* _pCollider);
     
 public:
     CCollider();

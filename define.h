@@ -17,6 +17,8 @@
 #define IS_KEY_AWAY(key) KEY_STATE::AWAY == CKeyMgr::GetInst()->GetKeyState(key)
 #define IS_KEY_NONE(key) KEY_STATE::NONE == CKeyMgr::GetInst()->GetKeyState(key)
 
+#define MAX_LAYER 32
+
 enum class ESTAGE_TYPE
 {
 	START,

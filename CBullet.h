@@ -24,8 +24,9 @@ private:
     list<tTailInfo> m_listTailInfo;
 
 public:
-    virtual void Update();
+    void Update() override;
     void Render(HDC _dc) override;
+    void OnCollision(CObj* _pOtherObj) override;
 
 public:
     CBullet();

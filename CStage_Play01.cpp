@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "CStage_Play01.h"
+
 #include "CKeyMgr.h"
+#include "CCollisionMgr.h"
 #include "CCore.h"
 
 #include "CPlayer.h"
@@ -19,16 +21,22 @@ void CStage_Play01::Init()
 	POINT ptResolution = CCore::GetInst()->GetResolution();
 
 	// player 추가
-	CObj* pPlayerObj = new CPlayer;
-	pPlayerObj->SetPos(Vec(ptResolution.x / 2.f, (ptResolution.y * 3.f) / 4.f));
-	pPlayerObj->SetScale(Vec(100, 100));
-	AddObject(pPlayerObj, EOBJ_TYPE::PLAYER);
+	CObj* pPlayer = new CPlayer;
+	pPlayer->SetPos(Vec(ptResolution.x / 2.f, (ptResolution.y * 3.f) / 4.f));
+	pPlayer->SetScale(Vec(100, 100));
+	AddObject(pPlayer, EOBJ_TYPE::PLAYER);
 
 	// Monster 추가
-	CObj* pMonsterObj = new CMonster;
-	pMonsterObj->SetPos(Vec(ptResolution.x / 2.f, (ptResolution.y * 1.f) / 4.f));
-	pMonsterObj->SetScale(Vec(50, 50));
-	AddObject(pMonsterObj, EOBJ_TYPE::MONSTER);
+	CObj* pMonster = new CMonster;
+	pMonster->SetPos(Vec(ptResolution.x / 2.f, (ptResolution.y * 1.f) / 4.f));
+	pMonster->SetScale(Vec(50, 50));
+	pMonster->GetCollider()->SetScale(pMonster->GetScale());
+	AddObject(pMonster, EOBJ_TYPE::MONSTER);
+
+	// 충돌
+	CCollisionMgr::GetInst()->CollisionOn(EOBJ_TYPE::MONSTER, EOBJ_TYPE::PLAYER_PROJECTILE);
+	CCollisionMgr::GetInst()->CollisionOn(EOBJ_TYPE::MONSTER, EOBJ_TYPE::PLAYER);
+	CCollisionMgr::GetInst()->CollisionOn(EOBJ_TYPE::PLAYER, EOBJ_TYPE::MONSTER_PROJECTILE);
 }
 
 void CStage_Play01::Update()

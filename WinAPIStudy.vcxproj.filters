@@ -86,6 +86,9 @@
     <Filter Include="GAME\04. Object\Monster">
       <UniqueIdentifier>{0a7f4e6f-1280-48d3-ab03-38aac3c2dd32}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GAME\03. Manager\CollisionMgr">
+      <UniqueIdentifier>{28c284b4-248d-45fa-a75c-d6f4521e7195}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -172,6 +175,9 @@
     <ClInclude Include="CMonster.h">
       <Filter>GAME\04. Object\Monster</Filter>
     </ClInclude>
+    <ClInclude Include="CCollisionMgr.h">
+      <Filter>GAME\03. Manager\CollisionMgr</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WinAPIStudy.rc">
@@ -257,6 +263,9 @@
     </ClCompile>
     <ClCompile Include="CMonster.cpp">
       <Filter>GAME\04. Object\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="CCollisionMgr.cpp">
+      <Filter>GAME\03. Manager\CollisionMgr</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

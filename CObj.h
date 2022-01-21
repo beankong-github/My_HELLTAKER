@@ -33,15 +33,15 @@ public:
 	CAnimator* GetAnimator()					{ return (CAnimator*)m_arrCom[(UINT)ECOM_TYPE::ANIMATOR]; }
 	CFSM* GetFSM()								{ return (CFSM*)m_arrCom[(UINT)ECOM_TYPE::FSM]; }
 
-	bool isDead()								{ return m_bDead; }
+	bool IsDead()								{ return m_bDead; }
 
+	void Render_Component(HDC _dc);
 	
 public:
 	virtual void Update() = 0;
 	virtual void LateUpdate() final;
 	virtual void Render(HDC _dc);
-
-	void Render_Component(HDC _dc);
+	virtual void OnCollision(CObj* _pOther);
 
 private:
 	void SetDead(){	m_bDead = true;	}

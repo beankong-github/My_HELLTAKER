@@ -147,6 +147,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CCollisionMgr.h" />
     <ClInclude Include="CFSM.h" />
     <ClInclude Include="CAnimator.h" />
     <ClInclude Include="CBullet.h" />
@@ -177,6 +178,7 @@
     <ClInclude Include="define.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CCollisionMgr.cpp" />
     <ClCompile Include="CFSM.cpp" />
     <ClCompile Include="CAnimator.cpp" />
     <ClCompile Include="CBullet.cpp" />

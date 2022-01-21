@@ -17,6 +17,7 @@ public:
 public:
 	virtual void Update();
 	void Render(HDC _dc);
+	void OnCollision(CObj* _pOther) override;
 
 public:
 	CPlayer();

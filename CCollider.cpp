@@ -2,6 +2,12 @@
 #include "CCollider.h"
 #include "CObj.h"
 
+// 충돌 알림
+void CCollider::OnCollision(CCollider* _pCollider)
+{
+	GetOwner()->OnCollision(_pCollider->GetOwner());
+}
+
 CCollider::CCollider()
 	: CComponent(ECOM_TYPE::COLLIDER)
 	, m_vOffsetPos{}
