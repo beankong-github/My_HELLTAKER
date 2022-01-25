@@ -8,6 +8,7 @@
 #include "CPathMgr.h"
 #include "CEventMgr.h"
 #include "CCollisionMgr.h"
+#include "CCamera.h"
 // Stage Header
 #include "Cstage.h"
 
@@ -67,6 +68,7 @@ int CCore::Init(HWND _hwnd, POINT _ptResolution)
 	CTimeMgr::GetInst()->Init();
 	CKeyMgr::GetInst()->Init();
 	CStageMgr::GetInst()->Init();
+	CCamera::GetInst()->Init();
 
 	return S_OK;
 }
@@ -81,6 +83,7 @@ void CCore::Update()
 	// ==================
 	//	 Stage Update
 	// ==================
+	CCamera::GetInst()->Update();
 	CStageMgr::GetInst()->Update();
 
 	// ==================

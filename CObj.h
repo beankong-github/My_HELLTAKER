@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CComponent.h"
+#include "CCamera.h"
 #include "CCollider.h"
 #include "CAnimator.h"
 #include "CFSM.h"

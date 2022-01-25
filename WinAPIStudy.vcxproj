@@ -147,6 +147,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CCamera.h" />
     <ClInclude Include="CCollisionMgr.h" />
     <ClInclude Include="CFSM.h" />
     <ClInclude Include="CAnimator.h" />
@@ -178,6 +179,7 @@
     <ClInclude Include="define.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CCamera.cpp" />
     <ClCompile Include="CCollisionMgr.cpp" />
     <ClCompile Include="CFSM.cpp" />
     <ClCompile Include="CAnimator.cpp" />

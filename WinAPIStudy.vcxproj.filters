@@ -89,6 +89,9 @@
     <Filter Include="GAME\03. Manager\CollisionMgr">
       <UniqueIdentifier>{28c284b4-248d-45fa-a75c-d6f4521e7195}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GAME\03. Manager\Camera">
+      <UniqueIdentifier>{54a7d79d-308c-4c57-8f03-792932b4ddc8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -178,6 +181,9 @@
     <ClInclude Include="CCollisionMgr.h">
       <Filter>GAME\03. Manager\CollisionMgr</Filter>
     </ClInclude>
+    <ClInclude Include="CCamera.h">
+      <Filter>GAME\03. Manager\Camera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WinAPIStudy.rc">
@@ -266,6 +272,9 @@
     </ClCompile>
     <ClCompile Include="CCollisionMgr.cpp">
       <Filter>GAME\03. Manager\CollisionMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="CCamera.cpp">
+      <Filter>GAME\03. Manager\Camera</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

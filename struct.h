@@ -54,24 +54,42 @@ public:
 	{
 		x = x + _other.x;
 		y = y + _other.y;
+
+		return *this;
 	}
 	
 	Vec operator -= (const Vec& _other)
 	{
-		x = x - _other.x;
-		y = y - _other.y;
+		x -= _other.x;
+		y -= _other.y;
+
+		return *this;
 	}
 
 	Vec operator *= (const Vec& _other)
 	{
 		x = x * _other.x;
 		y = y * _other.y;
+		
+		return *this;
 	}
 
 	Vec operator /= (const Vec& _other)
 	{
 		x = x / _other.x;
 		y = y / _other.y;
+
+		return *this;
+	}
+
+	Vec operator /= (float _other)
+	{
+		assert(_other);
+
+		x /= _other;
+		y /= _other;
+
+		return *this;
 	}
 
 public:
@@ -89,6 +107,10 @@ public:
 
 	Vec(int _x, int _y)
 		: x(float(_x)), y(float(_y))
+	{}
+
+	Vec(const POINT& _point)
+		:x(float(_point.x)), y(float(_point.y))
 	{}
 };
 

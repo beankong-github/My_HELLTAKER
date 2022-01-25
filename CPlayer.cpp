@@ -38,19 +38,19 @@ void CPlayer::Update()
 	Vec vPos = GetPos();
 	
 	// Player 이동
-	if (IS_KEY_PRESSED(KEY::LEFT)) // VK_LEFT가 이전에 누른 적이 없고 호출 시점에는 눌려있는 상태라면
+	if (IS_KEY_PRESSED(KEY::A)) // VK_LEFT가 이전에 누른 적이 없고 호출 시점에는 눌려있는 상태라면
 	{
 		vPos.x -= m_fSpeed * DS;
 	}
-	if (IS_KEY_PRESSED(KEY::RIGHT))
+	if (IS_KEY_PRESSED(KEY::D))
 	{
 		vPos.x += m_fSpeed * DS;
 	}
-	if (IS_KEY_PRESSED(KEY::UP))
+	if (IS_KEY_PRESSED(KEY::W))
 	{
 		vPos.y -= m_fSpeed * DS;
 	}
-	if (IS_KEY_PRESSED(KEY::DOWN))
+	if (IS_KEY_PRESSED(KEY::S))
 	{
 		vPos.y += m_fSpeed * DS;
 	}
@@ -76,6 +76,8 @@ void CPlayer::Render(HDC _dc)
 {
 	// 이미지로 출력
 	Vec vPos = GetPos();
+	Vec vDiff = CCamera::GetInst()->GetDiff();
+	vPos -= vDiff;	// 카메라 위치에 따른 플래이어가 최종 렌더링 될 위치
 
 	UINT iWidth = m_pTex->Width();
 	UINT iHeight = m_pTex->Height();
