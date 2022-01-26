@@ -48,10 +48,12 @@ void CObj::LateUpdate()
 
 void CObj::Render(HDC _dc)
 {
-	Rectangle(_dc, (int)(m_vPos.x - (m_vScale.x / 2.f)),
-		(int)(m_vPos.y - (m_vScale.y / 2.f)),
-		(int)(m_vPos.x + (m_vScale.x / 2.f)),
-		(int)(m_vPos.y + (m_vScale.y / 2.f)));
+	Vec vRenderPos = CCamera::GetInst()->GetRenderPos(m_vPos);
+
+	Rectangle(_dc, (int)(vRenderPos.x - (m_vScale.x / 2.f)),
+		(int)(vRenderPos.y - (m_vScale.y / 2.f)),
+		(int)(vRenderPos.x + (m_vScale.x / 2.f)),
+		(int)(vRenderPos.y + (m_vScale.y / 2.f)));
 }
 
 void CObj::OnCollisionEnter(CObj* _pOther)

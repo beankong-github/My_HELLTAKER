@@ -96,11 +96,11 @@ void CCore::Update()
 	// ==================
 
 	// BackBuffer 화면 지우기
-
 	Rectangle(m_hBackDC, -1, -1, m_ptResolution.x + 1, m_ptResolution.y + 1);
 	
 	// BackBuffer에 Stage 그리기
 	CStageMgr::GetInst()->Render(m_hBackDC);
+	CCamera::GetInst()->Render(m_hBackDC);
 
 	// BackBuffer 내용을 윈도우 비트맵으로 옮기기(복사)
 	BitBlt(m_hDC, 0, 0, m_ptResolution.x, m_ptResolution.y, m_hBackDC, 0, 0, SRCCOPY);

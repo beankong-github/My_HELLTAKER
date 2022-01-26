@@ -75,9 +75,7 @@ void CPlayer::Update()
 void CPlayer::Render(HDC _dc)
 {
 	// 이미지로 출력
-	Vec vPos = GetPos();
-	Vec vDiff = CCamera::GetInst()->GetDiff();
-	vPos -= vDiff;	// 카메라 위치에 따른 플래이어가 최종 렌더링 될 위치
+	Vec vRenderPos = CCamera::GetInst()->GetRenderPos(GetPos());	// 카메라 위치에 따른 플래이어 최종 랜더링 위치 구하기
 
 	UINT iWidth = m_pTex->Width();
 	UINT iHeight = m_pTex->Height();
@@ -85,8 +83,8 @@ void CPlayer::Render(HDC _dc)
 	//BitBlt(_dc, (int)vPos.x - iWidth/2, (int)vPos.y - iHeight/2, iWidth, iHeight, m_pTex->GetDC(), 0, 0, SRCCOPY);
 
 	TransparentBlt( _dc,
-					(int)vPos.x - iWidth / 2,
-					(int)vPos.y - iHeight / 2,
+					(int)vRenderPos.x - iWidth / 2,
+					(int)vRenderPos.y - iHeight / 2,
 					iWidth, iHeight,
 					m_pTex->GetDC(),
 					0,0,

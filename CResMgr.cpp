@@ -44,6 +44,24 @@ CTexture* CResMgr::LoadTexture(const wstring& _strKey, const wstring& _strRelati
 	return (CTexture*)pNewTex;
 }
 
+CTexture* CResMgr::CreateTexture(const wstring& _strKey, UINT _iWidth, UINT _iHeight)
+{	
+	// 府家胶 吝汗 眉农
+	CTexture* pNewTex = FindTexture(_strKey);
+
+	if (nullptr != pNewTex)
+		return pNewTex;
+	
+	// 咆胶贸 积己
+	pNewTex = new CTexture;
+	pNewTex-> Create(_iWidth, _iHeight);
+	
+	pNewTex->SetKey(_strKey);
+	m_mapTex.insert(make_pair(_strKey, (CTexture*)pNewTex));
+	
+	return pNewTex;
+}
+
 CTexture* CResMgr::FindTexture(const wstring& _strKey)
 {
 	map<wstring, CTexture*>::iterator iter =  m_mapTex.find(_strKey);

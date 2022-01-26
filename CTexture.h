@@ -16,10 +16,12 @@ public:
 
 private:
     int Load(const wstring& _strFullPath) override;
+    int Create(UINT _iWidth, UINT _iHeight);
 
 public:
     CTexture();
     ~CTexture();
 
+    friend class CResMgr;
 };
 

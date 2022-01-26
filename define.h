@@ -56,3 +56,9 @@ enum class ECOM_TYPE
 	FSM,
 	END
 };
+
+enum class EDIRECTION
+{
+	HORIZIONTAL,
+	VERTICAL
+};

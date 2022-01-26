@@ -74,15 +74,16 @@ void CCollider::Render(HDC _dc)
 	}
 
 	HBRUSH hBrush = (HBRUSH)GetStockObject(HOLLOW_BRUSH);
-
 	HPEN hPrevPen = (HPEN)SelectObject(_dc, hPen);
 	HBRUSH hPrevBrush = (HBRUSH)SelectObject(_dc, hBrush);
 
+	Vec vRenderPos = CCamera::GetInst()->GetRenderPos(m_vFinalPos);
+
 	Rectangle(_dc
-		, int(m_vFinalPos.x - m_vScale.x / 2.f)
-		, int(m_vFinalPos.y - m_vScale.y / 2.f)
-		, int(m_vFinalPos.x + m_vScale.x / 2.f)
-		, int(m_vFinalPos.y + m_vScale.y / 2.f));
+		, int(vRenderPos.x - m_vScale.x / 2.f)
+		, int(vRenderPos.y - m_vScale.y / 2.f)
+		, int(vRenderPos.x + m_vScale.x / 2.f)
+		, int(vRenderPos.y + m_vScale.y / 2.f));
 
 	SelectObject(_dc, hPrevPen);
 	SelectObject(_dc, hPrevBrush);

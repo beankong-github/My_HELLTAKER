@@ -88,12 +88,14 @@ void CBullet::Render(HDC _dc)
 				vCurScale.x = 0;
 			}
 
+			Vec vTailRenderPos = CCamera::GetInst()->GetRenderPos(iter->vPos);
+
 			// ²¿¸® ±×¸®±â
 			Rectangle(_dc
-				, int(iter->vPos.x - vCurScale.x / 2.f)
-				, int(iter->vPos.y - vCurScale.y / 2.f)
-				, int(iter->vPos.x + vCurScale.x / 2.f)
-				, int(iter->vPos.y + vCurScale.y / 2.f));
+				, int(vTailRenderPos.x - vCurScale.x / 2.f)
+				, int(vTailRenderPos.y - vCurScale.y / 2.f)
+				, int(vTailRenderPos.x + vCurScale.x / 2.f)
+				, int(vTailRenderPos.y + vCurScale.y / 2.f));
 
 			++iter;
 		}
@@ -108,13 +110,13 @@ void CBullet::Render(HDC _dc)
 	DeleteObject(hBrush);
 
 	// ÃÑ¾Ë ·»´õ¸µ
-	Vec vPos = GetPos();
+	Vec vRenderPos = CCamera::GetInst()->GetRenderPos(GetPos());
 	UINT iWidth = m_pTex->Width();
 	UINT iHeight = m_pTex->Height();
 
 	TransparentBlt(_dc,
-		(int)vPos.x - iWidth / 2,
-		(int)vPos.y - iHeight / 2,
+		(int)vRenderPos.x - iWidth / 2,
+		(int)vRenderPos.y - iHeight / 2,
 		iWidth, iHeight,
 		m_pTex->GetDC(),
 		0, 0,

@@ -16,6 +16,14 @@ CStage_Play01::~CStage_Play01()
 {
 }
 
+void CStage_Play01::Enter()
+{
+	Init();
+	
+	//CCamera::GetInst()->FadeOut(3.f);
+	CCamera::GetInst()->FadeIn(3.f);
+}
+
 void CStage_Play01::Init()
 {
 	POINT ptResolution = CCore::GetInst()->GetResolution();
@@ -57,10 +65,6 @@ void CStage_Play01::Render(HDC _dc)
 	TextOut(_dc, 10, 10, L"Here is Play01 Stage",(int)wcslen(L"Here is Play01 Stage"));
 }
 
-void CStage_Play01::Enter()
-{
-	Init();
-}
 
 void CStage_Play01::Exit()
 {
