@@ -14,10 +14,7 @@ CCamera::CCamera()
 	: m_pVeilTex(nullptr)
 	, m_vDiff()
 	, m_vLookAt()
-	, m_fAddTime(0)
 	, m_fAlpha(0)
-	, m_fEffectTime(0)
-	, m_eEffect(ECAM_EFFECT::NONE)
 	, m_fRange(0)
 	, m_fSpeed(0)
 	, m_eVibDir(EDIRECTION::HORIZIONTAL)
@@ -82,25 +79,33 @@ void CCamera::Update()
 
 void CCamera::Render(HDC _dc)
 {
-	if (ECAM_EFFECT::NONE == m_eEffect)
-		return;
-
-	m_fAddTime += DS;
-	// 이펙트 시간이 초과된 경우
-	if (m_fAddTime > m_fEffectTime)
+	while (true)
 	{
-		if(ECAM_EFFECT::VIBRATE == m_eEffect)
-			m_vLookAt = m_vOriginLookAt;
-	
-		m_eEffect = ECAM_EFFECT::NONE;
-		return;
+		if (m_EffectQueue.empty())
+			return;
+
+		tCamEffect& effect = m_EffectQueue.front();
+		effect.fAddTime += DS;
+
+		// 이펙트 시간이 초과된 경우
+		if (effect.fAddTime > effect.fEffectTime)
+		{
+			if (ECAM_EFFECT::VIBRATE == effect.eEffect)
+				m_vLookAt = m_vOriginLookAt;
+
+			m_EffectQueue.pop_front();
+		}
+		else
+			break;
 	}
+
+	tCamEffect& effect = m_EffectQueue.front();
 
 	// ============================
 	//			Vibration
 	// ============================
 
-	if (ECAM_EFFECT::VIBRATE == m_eEffect)
+	if (ECAM_EFFECT::VIBRATE == effect.eEffect)
 	{
 		if (EDIRECTION::VERTICAL == m_eVibDir)
 		{
@@ -129,13 +134,13 @@ void CCamera::Render(HDC _dc)
 	//		PADEIN / PADEOUT
 	// ============================
 	
-	if (ECAM_EFFECT::FADEOUT == m_eEffect)
+	if (ECAM_EFFECT::FADEOUT == effect.eEffect)
 	{
-		m_fAlpha = m_fAddTime / m_fEffectTime;
+		m_fAlpha = effect.fAddTime / effect.fEffectTime;
 	}
-	else if (ECAM_EFFECT::FADEIN == m_eEffect)
+	else if (ECAM_EFFECT::FADEIN == effect.eEffect)
 	{
-		m_fAlpha = 1.f - (m_fAddTime / m_fEffectTime);
+		m_fAlpha = 1.f - (effect.fAddTime / effect.fEffectTime);
 	}
 
 	UINT iWidth = m_pVeilTex->Width();
@@ -146,6 +151,9 @@ void CCamera::Render(HDC _dc)
 	bf.BlendFlags = 0;
 	bf.SourceConstantAlpha = (BYTE)(255 * m_fAlpha);
 	bf.AlphaFormat = 0;
+
+	if (m_fAlpha <= 0.f)
+		return;
 
 	AlphaBlend(_dc, 0, 0, iWidth, iHeight, m_pVeilTex->GetDC(), 0, 0, iWidth, iHeight, bf);
 }

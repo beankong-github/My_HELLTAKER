@@ -4,6 +4,7 @@ class CAnimator :
     public CComponent
 {
 private:
+    
 
 public:
     CAnimator();

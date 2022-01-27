@@ -19,9 +19,8 @@ CStage_Play01::~CStage_Play01()
 void CStage_Play01::Enter()
 {
 	Init();
-	
-	//CCamera::GetInst()->FadeOut(3.f);
-	CCamera::GetInst()->FadeIn(3.f);
+	CCamera::GetInst()->FadeOut(0.f);
+	CCamera::GetInst()->FadeIn(1.f);
 }
 
 void CStage_Play01::Init()
