@@ -18,7 +18,7 @@ public:
 
 public:
 	CComponent(ECOM_TYPE _eType);
-	~CComponent();
+	virtual ~CComponent();
 
 	friend class CObj;
 };

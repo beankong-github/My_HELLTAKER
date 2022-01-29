@@ -24,6 +24,6 @@ public:
 
 public:
 	CPlayer();
-	~CPlayer();
+	virtual ~CPlayer();
 };
 

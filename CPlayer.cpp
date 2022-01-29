@@ -9,7 +9,9 @@
 #include "CStage.h"
 #include "CTexture.h"
 #include "CBullet.h"
-
+#include "CAnimation.h"
+#include "CAnimator.h"
+#include "CCollider.h"
 
 CPlayer::CPlayer()
 	: m_fSpeed(300.f)
@@ -26,6 +28,17 @@ CPlayer::CPlayer()
 	pCol->SetOffsetPos(Vec(0.f, 0.f));
 	pCol->SetScale(Vec(60.f, 40.f));
 	AddComponent(pCol);
+
+	// 애니메이션 생성
+	CAnimator* pAnimator = new CAnimator;
+	CTexture* pAnimAtlasTex = CResMgr::GetInst()->LoadTexture(L"PlayerAnimation", L"texture\\animation\\link_0.bmp");
+	pAnimator->CreateAnimation(L"IDLE", pAnimAtlasTex, Vec(0.f, 0.f), Vec(60.f, 65.f), 60.f, 0.1f, 3);
+	pAnimator->CreateAnimation(L"WALK_DOWN", pAnimAtlasTex, Vec(0.f, 260.f), Vec(60.f, 65.f), 60.f, 0.05f, 10);
+	pAnimator->CreateAnimation(L"WALK_UP", pAnimAtlasTex, Vec(0.f, 390.f), Vec(60.f, 65.f), 60.f, 0.05f, 10);
+	pAnimator->CreateAnimation(L"WALK_RIGHT", pAnimAtlasTex, Vec(0.f, 325.f), Vec(60.f, 65.f), 60.f, 0.05f, 10);
+	pAnimator->CreateAnimation(L"WALK_LEFT", pAnimAtlasTex, Vec(0.f, 455.f), Vec(60.f, 65.f), 60.f, 0.05f, 10);
+	AddComponent(pAnimator);
+	pAnimator->Play(L"IDLE");
 }
 
 
@@ -54,6 +67,23 @@ void CPlayer::Update()
 	{
 		vPos.y += m_fSpeed * DS;
 	}
+	
+	if (IS_KEY_TAP(KEY::A)) // VK_LEFT가 이전에 누른 적이 없고 호출 시점에는 눌려있는 상태라면
+	{
+		GetAnimator()->Play(L"WALK_RIGHT");
+	}
+	if (IS_KEY_TAP(KEY::D))
+	{
+		GetAnimator()->Play(L"WALK_LEFT");
+	}
+	if (IS_KEY_TAP(KEY::W))
+	{
+		GetAnimator()->Play(L"WALK_UP");
+	}
+	if (IS_KEY_TAP(KEY::S))
+	{
+		GetAnimator()->Play(L"WALK_DOWN");
+	}
 
 	// 총알 생성
 	if (IS_KEY_TAP(KEY::SPACE))
@@ -75,27 +105,23 @@ void CPlayer::Update()
 void CPlayer::Render(HDC _dc)
 {
 	// 이미지로 출력
-	Vec vRenderPos = CCamera::GetInst()->GetRenderPos(GetPos());	// 카메라 위치에 따른 플래이어 최종 랜더링 위치 구하기
+	//Vec vRenderPos = CCamera::GetInst()->GetRenderPos(GetPos());	// 카메라 위치에 따른 플래이어 최종 랜더링 위치 구하기
 
-	UINT iWidth = m_pTex->Width();
-	UINT iHeight = m_pTex->Height();
+	//UINT iWidth = m_pTex->Width();
+	//UINT iHeight = m_pTex->Height();
 
-	//BitBlt(_dc, (int)vPos.x - iWidth/2, (int)vPos.y - iHeight/2, iWidth, iHeight, m_pTex->GetDC(), 0, 0, SRCCOPY);
+	////BitBlt(_dc, (int)vPos.x - iWidth/2, (int)vPos.y - iHeight/2, iWidth, iHeight, m_pTex->GetDC(), 0, 0, SRCCOPY);
 
-	TransparentBlt( _dc,
-					(int)vRenderPos.x - iWidth / 2,
-					(int)vRenderPos.y - iHeight / 2,
-					iWidth, iHeight,
-					m_pTex->GetDC(),
-					0,0,
-					iWidth, iHeight,
-					RGB(255,0,255));
+	//TransparentBlt( _dc,
+	//				(int)vRenderPos.x - iWidth / 2,
+	//				(int)vRenderPos.y - iHeight / 2,
+	//				iWidth, iHeight,
+	//				m_pTex->GetDC(),
+	//				0,0,
+	//				iWidth, iHeight,
+	//				RGB(255,0,255));
 
-#ifdef _DEBUG
-	// 플레이어 소속 component render
  	Render_Component(_dc);
-#endif // DEBUG
-
 }
 
 void CPlayer::OnCollisionEnter(CObj* _pOther)

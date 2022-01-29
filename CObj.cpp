@@ -4,7 +4,12 @@
 #include "CTimeMgr.h"
 
 #include "CTexture.h"
-
+#include "CComponent.h"
+#include "CCamera.h"
+#include "CCollider.h"
+#include "CAnimator.h"
+#include "CAnimation.h"
+#include "CFSM.h"
 
 CObj::CObj()
 	: m_vPos{}

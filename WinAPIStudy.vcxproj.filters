@@ -92,6 +92,9 @@
     <Filter Include="GAME\03. Manager\Camera">
       <UniqueIdentifier>{54a7d79d-308c-4c57-8f03-792932b4ddc8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GAME\05. Component\5-02. Animatior\Animation">
+      <UniqueIdentifier>{9e79e330-7e5f-4622-be81-e742c45892bf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -184,6 +187,9 @@
     <ClInclude Include="CCamera.h">
       <Filter>GAME\03. Manager\Camera</Filter>
     </ClInclude>
+    <ClInclude Include="CAnimation.h">
+      <Filter>GAME\05. Component\5-02. Animatior\Animation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WinAPIStudy.rc">
@@ -275,6 +281,12 @@
     </ClCompile>
     <ClCompile Include="CCamera.cpp">
       <Filter>GAME\03. Manager\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="CAnimation.cpp">
+      <Filter>GAME\05. Component\5-02. Animatior\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>Main</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

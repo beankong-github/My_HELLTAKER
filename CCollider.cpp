@@ -59,6 +59,7 @@ void CCollider::Update()
 
 void CCollider::Render(HDC _dc)
 {
+#ifdef _DEBUG
 	HPEN hPen = nullptr;
 	if (m_iCollisionCount > 0)
 	{
@@ -87,4 +88,5 @@ void CCollider::Render(HDC _dc)
 
 	SelectObject(_dc, hPrevPen);
 	SelectObject(_dc, hPrevBrush);
+#endif // _DEBUG
 }

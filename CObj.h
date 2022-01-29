@@ -1,12 +1,9 @@
 #pragma once
 
-#include "CComponent.h"
-#include "CCamera.h"
-#include "CCollider.h"
-#include "CAnimator.h"
-#include "CFSM.h"
-
 class CComponent;
+class CAnimator;
+class CCollider;
+class CFSM;
 
 class CObj
 {
@@ -29,7 +26,7 @@ public:
 	Vec GetScale()								{ return m_vScale; }
 
 	void AddComponent(CComponent* _pCom);
-	CComponent* GetComponent(ECOM_TYPE _eType)	{ return m_arrCom[(UINT)_eType]; }
+	CComponent* GetComponent(ECOM_TYPE _eType)	{ return m_arrCom[(UINT)_eType];}
 	CCollider* GetCollider()					{ return (CCollider*)m_arrCom[(UINT)ECOM_TYPE::COLLIDER]; }
 	CAnimator* GetAnimator()					{ return (CAnimator*)m_arrCom[(UINT)ECOM_TYPE::ANIMATOR]; }
 	CFSM* GetFSM()								{ return (CFSM*)m_arrCom[(UINT)ECOM_TYPE::FSM]; }
