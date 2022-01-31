@@ -39,14 +39,14 @@ void CAnimator::Render(HDC _dc)
 	}
 }
 
-void CAnimator::CreateAnimation(const wstring& _strAnimName, CTexture* _pAtlasTex, Vec _vLeftTop, Vec _vSize, float _fxDistance, float _fDuration, UINT _iFrmCount)
+void CAnimator::CreateAnimation(const wstring& _strAnimName, CTexture* _pAtlasTex, Vec _vLeftTop, Vec _vSize, Vec _vOffset, float _fxDistance, float _fDuration, UINT _iFrmCount)
 {
 	// 이미 생성된 애니메이션이면 오류발생
 	CAnimation* pAnim = FindAnimation(_strAnimName);
 	assert(!pAnim);
 	
 	pAnim = new CAnimation;
-	pAnim->Create(_strAnimName, _pAtlasTex, _vLeftTop, _vSize, _fxDistance, _fDuration, _iFrmCount);
+	pAnim->Create(_strAnimName, _pAtlasTex, _vLeftTop, _vSize, _vOffset, _fxDistance, _fDuration, _iFrmCount);
 	pAnim->m_pAnimator = this;
 	m_mapAnim.insert(make_pair(_strAnimName, pAnim));
 
@@ -62,11 +62,19 @@ CAnimation* CAnimator::FindAnimation(const wstring& _strName)
 	return iter->second;
 }
 
-void CAnimator::Play(const wstring& _strName, bool _bRepeat)
+void CAnimator::PlayAnimation(const wstring& _strName, bool _bRepeat)
 {
 	m_pCurAnim =  FindAnimation(_strName);
 	assert(m_pCurAnim);
 
 	m_bRepeat = _bRepeat;
+}
+
+void CAnimator::LoadAnimation(const wstring& _strRelativePath)
+{
+	CAnimation* pAnim = new CAnimation;
+	pAnim->Load(_strRelativePath);
+	pAnim->m_pAnimator = this;
+	m_mapAnim.insert(make_pair(pAnim->GetName(), pAnim));
 }
 

@@ -37,3 +37,29 @@ void ChangeStage(ESTAGE_TYPE _eNextStage)
 
 	CEventMgr::GetInst()->AddEvent(info);
 }
+
+void SaveWString(const wstring& _str, FILE* _pFile)
+{
+	const wchar_t* pStr =  _str.c_str();
+	
+	size_t iLen = _str.length();
+
+	// 문자열 글자수 저장
+	fwrite(&iLen, sizeof(size_t), 1, _pFile);
+	
+	// 문자열 저장
+	fwrite(pStr, sizeof(wchar_t), iLen, _pFile);
+}
+
+void LoadWString(wstring& _str, FILE* _pFile)
+{
+	// 글자수 읽어오기
+	size_t iLen = 0;
+	fread(&iLen, sizeof(size_t), 1, _pFile);
+
+	// 문자열 읽어오기
+	wchar_t szData[256] = {};
+	fread(szData, sizeof(wchar_t), iLen, _pFile);
+
+	_str = szData;
+}
