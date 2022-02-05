@@ -39,6 +39,7 @@ CPlayer::CPlayer()
 	//pAnimator->CreateAnimation(L"WALK_RIGHT", pAnimAtlasTex, Vec(0.f, 325.f), Vec(60.f, 65.f), Vec(0.f, 0.f), 60.f, 0.05f, 10);
 	//pAnimator->CreateAnimation(L"WALK_LEFT", pAnimAtlasTex, Vec(0.f, 455.f), Vec(60.f, 65.f), Vec(0.f,0.f),60.f, 0.05f, 10);
 	//
+
 	//CAnimation* pSaveAnim = nullptr;
 	//pSaveAnim = pAnimator->FindAnimation(L"IDLE");
 	//pSaveAnim->Save(L"animation\\player\\");

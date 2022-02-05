@@ -109,13 +109,14 @@ void CAnimation::Save(const wstring& _strRelativeFolderPath)
 	// ===============
 	FILE* pFile = nullptr;
 	_wfopen_s(&pFile, strFilePath.c_str(), L"wb");	// 파일 포인터 변수의 주소값을 받아가서 파일의 주소를 저장해준다.
-
 	if (nullptr == pFile)
 	{
 		wchar_t szErr[256] = {};
 		errno_t err = GetLastError();
 		wsprintf(szErr, L"에러 발생, 에러코드: %d", err);
 		MessageBox(CCore::GetInst()->GetMainWndHWND(), szErr, L"애니메이션 저장 오류", MB_OK);
+
+		return;
 	}
 
 	// =======================
@@ -123,16 +124,42 @@ void CAnimation::Save(const wstring& _strRelativeFolderPath)
 	// =======================
 
 	// 애니메이션 이름
-	SaveWString(m_strName, pFile);
-	
+	fwprintf_s(pFile, L"[Animation_Name]\n");
+	fwprintf_s(pFile, m_strName.c_str());
+	fwprintf_s(pFile, L"\n\n");
+
 	// 아틀라스 텍스쳐 정보 - 이름, 주소
-	SaveWString(m_pAtlas->GetKey(), pFile);
-	SaveWString(m_pAtlas->GetRelativePath(), pFile);
+	fwprintf_s(pFile, L"[Atlas_Texture_Name]\n");
+	fwprintf_s(pFile, m_pAtlas->GetKey().c_str());
+	fwprintf_s(pFile, L"\n\n");
+
+	fwprintf_s(pFile, L"[Atlas_Texture_Address]\n");
+	fwprintf_s(pFile, m_pAtlas->GetRelativePath().c_str());
+	fwprintf_s(pFile, L"\n\n");
 
 	// 각 프레임 정보
-	size_t iFrmCount = m_vecFrm.size();
-	fwrite(&iFrmCount, sizeof(size_t), 1, pFile);
-	fwrite(m_vecFrm.data(), sizeof(tAnimFrm), m_vecFrm.size(), pFile);
+	fwprintf_s(pFile, L"[Frame_Information]\n");
+	fwprintf_s(pFile, L"[Frame_Count]\n");
+	fwprintf_s(pFile, L"%d", (int)m_vecFrm.size());
+	fwprintf_s(pFile, L"\n\n");
+
+	for (size_t i = 0; i < m_vecFrm.size(); ++i)
+	{
+		fwprintf_s(pFile, L"[Frame_IDX]\n");
+		fwprintf_s(pFile, L"%d\n", (int)i);
+
+		fwprintf_s(pFile, L"[Left_Top]\n");
+		fwprintf_s(pFile, L"%f %f\n", m_vecFrm[i].vLeftTop.x, m_vecFrm[i].vLeftTop.y);
+		
+		fwprintf_s(pFile, L"[Size]\n");
+		fwprintf_s(pFile, L"%f %f\n", m_vecFrm[i].vSize.x, m_vecFrm[i].vSize.y);
+
+		fwprintf_s(pFile, L"[Offset]\n");
+		fwprintf_s(pFile, L"%f %f\n", m_vecFrm[i].vOffset.x, m_vecFrm[i].vOffset.y);
+
+		fwprintf_s(pFile, L"[Duration]\n");
+		fwprintf_s(pFile, L"%f\n\n", m_vecFrm[i].fDuration);
+	}
 
 	// ===============
 	//	  파일 닫기
@@ -161,36 +188,58 @@ void CAnimation::Load(const wstring& _strRelativeFilePath)
 		errno_t err = GetLastError();
 		wsprintf(szErr, L"에러 발생, 에러코드: %d", err);
 		MessageBox(CCore::GetInst()->GetMainWndHWND(), szErr, L"애니메이션 로딩 오류", MB_OK);
-	}
 
+		return;
+	}
 
 	// =======================
 	// 애니메이션 데이터 읽어오기
 	// =======================
 	
 	// 애니메이션 이름
-	LoadWString(m_strName, pFile);		
-	
-	// 아틀라스 텍스쳐 정보 - 이름, 주소
-	wstring strAtlasName;
-	wstring strAtlasRelativePath;
+	wchar_t szBuff[256] = L"";
+	fwscanf_s(pFile, L"%s", szBuff, 256);
+	fwscanf_s(pFile, L"%s", szBuff,256);
+	m_strName = szBuff;
 
-	LoadWString(strAtlasName, pFile);
-	LoadWString(strAtlasRelativePath, pFile);
+	// 아틀라스 텍스쳐 정보 - 이름, 주소
+	fwscanf_s(pFile, L"%s", szBuff, 256);
+	fwscanf_s(pFile, L"%s", szBuff, 256);
+	wstring strAtlasName = szBuff;
+
+	fwscanf_s(pFile, L"%s", szBuff, 256);
+	fwscanf_s(pFile, L"%s", szBuff, 256);
+	wstring strAtlasRelativePath = szBuff;
 
 	m_pAtlas = CResMgr::GetInst()->LoadTexture(strAtlasName, strAtlasRelativePath);
 
 	// 각 프레임 정보
-	size_t iFrmCount = 0;
-	fread(&iFrmCount, sizeof(size_t), 1, pFile);
+	fwscanf_s(pFile, L"%s", szBuff, 256);
+	fwscanf_s(pFile, L"%s", szBuff, 256);
 	
-	for (size_t i = 0; i < iFrmCount; ++i)
+	int iFrmCount = 0;
+	fwscanf_s(pFile, L"%d", &iFrmCount);
+	
+	for (int i = 0; i < iFrmCount; ++i)
 	{
 		tAnimFrm frm = {};
-		fread(&frm, sizeof(tAnimFrm), 1, pFile);
+
+		fwscanf_s(pFile, L"%s", szBuff, 256);
+		fwscanf_s(pFile, L"%s", szBuff, 256);
+		fwscanf_s(pFile, L"%s", szBuff, 256);
+		fwscanf_s(pFile, L"%f %f", &frm.vLeftTop.x, &frm.vLeftTop.y);
+
+		fwscanf_s(pFile, L"%s", szBuff, 256);
+		fwscanf_s(pFile, L"%f %f", &frm.vSize.x, &frm.vSize.y);
+		
+		fwscanf_s(pFile, L"%s", szBuff, 256);
+		fwscanf_s(pFile, L"%f %f", &frm.vOffset.x, &frm.vOffset.y);
+		
+		fwscanf_s(pFile, L"%s", szBuff, 256);
+		fwscanf_s(pFile, L"%f", &frm.fDuration);
+
 		m_vecFrm.push_back(frm);
 	}
-
 
 	// ===============
 	//	  파일 닫기
