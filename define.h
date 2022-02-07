@@ -17,11 +17,15 @@
 #define IS_KEY_AWAY(key) KEY_STATE::AWAY == CKeyMgr::GetInst()->GetKeyState(key)
 #define IS_KEY_NONE(key) KEY_STATE::NONE == CKeyMgr::GetInst()->GetKeyState(key)
 
+#define PI 3.14159289f
 
 #define MAX_LAYER 32
 
+#define TILE_SIZE 64
+
 enum class ESTAGE_TYPE
 {
+	TOOL,
 	START,
 	PLAY_01,
 	PLAY_02,
@@ -33,6 +37,7 @@ enum class ESTAGE_TYPE
 enum class EOBJ_TYPE
 {
 	DEFAULT,
+	TILE,
 	PLAYER,
 	MONSTER,
 	PLAYER_PROJECTILE,

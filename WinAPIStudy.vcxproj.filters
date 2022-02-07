@@ -95,6 +95,12 @@
     <Filter Include="GAME\05. Component\5-02. Animatior\Animation">
       <UniqueIdentifier>{9e79e330-7e5f-4622-be81-e742c45892bf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GAME\07. Stage\Tool">
+      <UniqueIdentifier>{a586fea6-7031-4266-bdd4-6d376f84b5c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GAME\04. Object\Tile">
+      <UniqueIdentifier>{0fc49134-b8e2-4d9f-bf3b-55a5d4733e30}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -189,6 +195,12 @@
     </ClInclude>
     <ClInclude Include="CAnimation.h">
       <Filter>GAME\05. Component\5-02. Animatior\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="CStage_Tool.h">
+      <Filter>GAME\07. Stage\Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="CTile.h">
+      <Filter>GAME\04. Object\Tile</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -287,6 +299,12 @@
     </ClCompile>
     <ClCompile Include="pch.cpp">
       <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="CStage_Tool.cpp">
+      <Filter>GAME\07. Stage\Tool</Filter>
+    </ClCompile>
+    <ClCompile Include="CTile.cpp">
+      <Filter>GAME\04. Object\Tile</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

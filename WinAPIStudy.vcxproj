@@ -174,7 +174,9 @@
     <ClInclude Include="CStageMgr.h" />
     <ClInclude Include="CStage_Play01.h" />
     <ClInclude Include="CStage_Start.h" />
+    <ClInclude Include="CStage_Tool.h" />
     <ClInclude Include="CTexture.h" />
+    <ClInclude Include="CTile.h" />
     <ClInclude Include="CTimeMgr.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="func.h" />
@@ -207,7 +209,9 @@
     <ClCompile Include="CStageMgr.cpp" />
     <ClCompile Include="CStage_Play01.cpp" />
     <ClCompile Include="CStage_Start.cpp" />
+    <ClCompile Include="CStage_Tool.cpp" />
     <ClCompile Include="CTexture.cpp" />
+    <ClCompile Include="CTile.cpp" />
     <ClCompile Include="CTimeMgr.cpp" />
     <ClCompile Include="func.cpp" />
     <ClCompile Include="pch.cpp">

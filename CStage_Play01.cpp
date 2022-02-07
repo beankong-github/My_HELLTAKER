@@ -1,12 +1,15 @@
 #include "pch.h"
 #include "CStage_Play01.h"
 
+#include "CCore.h"
 #include "CKeyMgr.h"
 #include "CCollisionMgr.h"
-#include "CCore.h"
+#include "CCamera.h"
 
 #include "CPlayer.h"
 #include "CMonster.h"
+
+#include "CCollider.h"
 
 CStage_Play01::CStage_Play01()
 {

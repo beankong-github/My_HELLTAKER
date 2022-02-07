@@ -16,6 +16,6 @@ public:
 
 public:
     CMonster();
-    ~CMonster();
+    virtual ~CMonster();
 };
 

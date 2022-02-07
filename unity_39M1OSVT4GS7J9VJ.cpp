@@ -63,7 +63,13 @@
 #include "C:\Users\bueon\source\repos\WinAPIStudy\CStage_Start.cpp"
 
 
+#include "C:\Users\bueon\source\repos\WinAPIStudy\CStage_Tool.cpp"
+
+
 #include "C:\Users\bueon\source\repos\WinAPIStudy\CTexture.cpp"
+
+
+#include "C:\Users\bueon\source\repos\WinAPIStudy\CTile.cpp"
 
 
 #include "C:\Users\bueon\source\repos\WinAPIStudy\CTimeMgr.cpp"

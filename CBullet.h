@@ -33,6 +33,6 @@ public:
 
 public:
     CBullet();
-    ~CBullet();
+    virtual ~CBullet();
 };
 

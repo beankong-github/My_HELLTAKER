@@ -27,5 +27,7 @@ public:
 	POINT	GetResolution()		{ return m_ptResolution; }
 	HPEN	GetGreenPen()		{ return m_hGreenPen; }
 	HPEN	GetRedPen()			{ return m_hRedPen; }
+
+	void ChangeWindowSize(POINT _ptResolution, bool _bMenu);
 };
 

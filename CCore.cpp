@@ -39,13 +39,10 @@ CCore::~CCore()
 int CCore::Init(HWND _hwnd, POINT _ptResolution)
 {
 	m_hwnd = _hwnd;
-	m_ptResolution = _ptResolution;
 
-	// 화면 크기 초기화 ( 윈도우 해상도에 맞는 크기로 재설정)
-	RECT rt = {0, 0, _ptResolution.x, _ptResolution.y};
-	AdjustWindowRect(&rt, WS_OVERLAPPEDWINDOW, false);
-	SetWindowPos(m_hwnd, nullptr, -8, 0, rt.right - rt.left, rt.bottom - rt.top, 0);
-	
+	// 윈도우 사이즈 설정
+	ChangeWindowSize(_ptResolution, false);
+
 	// Pen 생성
 	m_hGreenPen = CreatePen(PS_SOLID, 1, RGB(120, 250, 50));
 	m_hRedPen = CreatePen(PS_SOLID, 1, RGB(255, 0, 0));
@@ -110,4 +107,14 @@ void CCore::Update()
 	//	 Event Handling
 	// ==================
 	CEventMgr::GetInst()->Update();
+}
+
+void CCore::ChangeWindowSize(POINT _ptResolution, bool _bMenu)
+{
+	// 화면 크기 초기화 ( 윈도우 해상도에 맞는 크기로 재설정)
+	RECT rt = { 0, 0, _ptResolution.x, _ptResolution.y };
+	AdjustWindowRect(&rt, WS_OVERLAPPEDWINDOW, _bMenu);
+	SetWindowPos(m_hwnd, nullptr, -8, 0, rt.right - rt.left, rt.bottom - rt.top, 0);
+	
+	m_ptResolution = _ptResolution;
 }
