@@ -1,6 +1,15 @@
 #pragma once
 #include "Cstage.h"
 
+enum class TOOL_MOD
+{
+    TILE,
+    OBJECT,
+    ANIMATION,
+    NONE
+};
+
+
 class CStage_Tool :
     public CStage
 {
@@ -15,6 +24,8 @@ public:
       void Enter() override;
       void Exit() override;
 
+public:
+    void PopupCreateTile();
 public:
     CStage_Tool();
     ~CStage_Tool() override;

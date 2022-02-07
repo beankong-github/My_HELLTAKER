@@ -62,11 +62,11 @@ void CCamera::Update()
 
 	if (IS_KEY_PRESSED(KEY::LEFT))
 	{
-		m_vLookAt.x += DS * 200.f;
+		m_vLookAt.x -= DS * 200.f;
 	}
 	if (IS_KEY_PRESSED(KEY::RIGHT))
 	{
-		m_vLookAt.x -= DS * 200.f;
+		m_vLookAt.x += DS * 200.f;
 	}
 
 	// 해상도 중앙값 구하기

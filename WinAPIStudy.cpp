@@ -120,6 +120,9 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 	return TRUE;
 }
 
+#include "CStageMgr.h"
+#include "CStage_Tool.h"
+
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 
@@ -136,6 +139,19 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		case IDM_ABOUT:
 			DialogBox(g_hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
 			break;
+
+		case ID_32774:
+		{
+			CStage* pCurStage = CStageMgr::GetInst()->GetCurStage();
+			CStage_Tool* pToolStage = dynamic_cast<CStage_Tool*>(pCurStage);
+			
+			if (nullptr != pToolStage)
+			{
+				pToolStage->PopupCreateTile();
+			}
+		}
+			break;
+
 		case IDM_EXIT:
 			DestroyWindow(hWnd);    // WM_QUIT 발생
 			break;
