@@ -13,7 +13,8 @@ UINT g_iCol;
 UINT g_iRow;
 
 CStage_Tool::CStage_Tool()
-	:m_hMenu(nullptr)
+	: m_hMenu(nullptr)
+	, m_eMode(ETOOL_MODE::TILE)
 {
 }
 
@@ -35,8 +36,20 @@ void CStage_Tool::Update()
 {
 	CStage::Update();
 
+	switch (m_eMode)
+	{
+	case ETOOL_MODE::TILE:
+		Update_Tile();
+		break;
 
+	case ETOOL_MODE::OBJECT:
+		Update_Object();
+		break;
 
+	case ETOOL_MODE::ANIMATION:
+		Update_Animation();
+		break;
+	}
 
 	if (IS_KEY_TAP(KEY::ESC))
 	{
@@ -44,6 +57,24 @@ void CStage_Tool::Update()
 	}
 
 }
+
+void CStage_Tool::Update_Tile()
+{
+	// 마우스 클릭 발생 -> 해당 타일 접근 -> 타일 인덱스 증가
+	if (IS_KEY_TAP(KEY::LBTN))
+	{
+		Vec vMousePos = CKeyMgr::GetInst()->GetMousePos();
+	}
+}
+
+void CStage_Tool::Update_Object()
+{
+}
+
+void CStage_Tool::Update_Animation()
+{
+}
+
 
 void CStage_Tool::Render(HDC _dc)
 {

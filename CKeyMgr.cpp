@@ -1,13 +1,15 @@
 #include "pch.h"
 #include "CKeyMgr.h"
 
+#include "CCore.h"
+
 // KEY enum 순서에 대응하는 키에 대한 아스키코드
-int g_iVK[(UINT)KEY::KEY_END] = 
+int g_iVK[(UINT)KEY::KEY_END] =
 {
 	'Q','W','E','R','T','Y','U','I','O','P',
 	'A','S','D','F','G','H','J','K','L',
 	'Z','X','C','V','B','N','M',
-	
+
 	VK_LEFT,
 	VK_RIGHT,
 	VK_UP,
@@ -43,6 +45,9 @@ int g_iVK[(UINT)KEY::KEY_END] =
 	VK_BACK,
 	VK_ESCAPE,
 	VK_TAB,
+
+	VK_LBUTTON,
+	VK_RBUTTON,
 };
 
 CKeyMgr::CKeyMgr()
@@ -65,44 +70,75 @@ void CKeyMgr::Init()
 
 void CKeyMgr::Update()
 {
-	// 모든 키의 상태 체크
-	for (UINT i = 0; i < (UINT)KEY::KEY_END; i++)
+	HWND hFocusedHwnd = GetFocus();
+
+	if (hFocusedHwnd)
 	{
-		// 키가 눌려있다.
-		if (GetAsyncKeyState(g_iVK[i]) & 0x8000)
+		// 모든 키의 상태 체크
+		for (UINT i = 0; i < (UINT)KEY::KEY_END; i++)
 		{
-			// 이전에 눌리지 않았다.
-			if (false == m_vecKey[i].bprevCheck)
+			// 키가 눌려있다.
+			if (GetAsyncKeyState(g_iVK[i]) & 0x8000)
 			{
-				m_vecKey[i].eState = KEY_STATE::TAP;
+				// 이전에 눌리지 않았다.
+				if (false == m_vecKey[i].bprevCheck)
+				{
+					m_vecKey[i].eState = KEY_STATE::TAP;
+				}
+
+				// 이전에 눌려 있었다.
+				else
+				{
+					m_vecKey[i].eState = KEY_STATE::PRESSED;
+				}
+
+				// 현재 입력상태를 저장
+				m_vecKey[i].bprevCheck = true;
 			}
 
-			// 이전에 눌려 있었다.
+			// 키가 눌려있지 않다.
 			else
 			{
-				m_vecKey[i].eState = KEY_STATE::PRESSED;
+				// 이전에 눌려있었다.
+				if (KEY_STATE::TAP == m_vecKey[i].eState || KEY_STATE::PRESSED == m_vecKey[i].eState)
+				{
+					m_vecKey[i].eState = KEY_STATE::AWAY;
+				}
+				// 이전에 눌려있지 않았다
+				else
+				{
+					m_vecKey[i].eState = KEY_STATE::NONE;
+				}
+
+				// 현재 입력상태를 저장
+				m_vecKey[i].bprevCheck = false;
 			}
-			
-			// 현재 입력상태를 저장
-			m_vecKey[i].bprevCheck = true;
 		}
 
-		// 키가 눌려있지 않다.
-		else
+		// 마우스 좌표 받아오기
+		POINT ptMouse = {};
+		GetCursorPos(&ptMouse);
+		ScreenToClient(CCore::GetInst()->GetMainWndHWND(), &ptMouse);
+
+		m_vMousePrevPos = m_vMousePos;
+		m_vMousePos = ptMouse;
+	}
+
+	// 현재 윈도우가 포커싱되어있지 않다.
+	else
+	{
+		for (UINT i = 0; i < (UINT)KEY::KEY_END; i++)
 		{
-			// 이전에 눌려있었다.
+			m_vecKey[i].bprevCheck = false;
 			if (KEY_STATE::TAP == m_vecKey[i].eState || KEY_STATE::PRESSED == m_vecKey[i].eState)
 			{
 				m_vecKey[i].eState = KEY_STATE::AWAY;
 			}
-			// 이전에 눌려있지 않았다
-			else
+			
+			else if (KEY_STATE::AWAY == m_vecKey[i].eState)
 			{
 				m_vecKey[i].eState = KEY_STATE::NONE;
 			}
-
-			// 현재 입력상태를 저장
-			m_vecKey[i].bprevCheck = false;
 		}
 	}
 }

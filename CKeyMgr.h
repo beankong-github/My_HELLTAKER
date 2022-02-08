@@ -42,6 +42,9 @@ enum class KEY
 	ESC,
 	TAB,
 
+	LBTN,
+	RBTN,
+
 	KEY_END
 };
 
@@ -64,17 +67,19 @@ class CKeyMgr
 	SINGLE(CKeyMgr);
 
 private:
-	vector<tKeyInfo> m_vecKey;
+	vector<tKeyInfo>	m_vecKey;
+	Vec					m_vMousePos;
+	Vec					m_vMousePrevPos;
 
 public:
 	void Init();
 	void Update();
 
 public:
-	KEY_STATE GetKeyState(KEY _eKey)
-	{
-		return m_vecKey[(UINT)_eKey].eState;
-	}
+	KEY_STATE GetKeyState(KEY _eKey) { return m_vecKey[(UINT)_eKey].eState;	}
+	Vec GetMousePos() { return m_vMousePos; }
+	Vec GetMouseDir() { return (m_vMousePos - m_vMousePrevPos); }
+
 };
 
  

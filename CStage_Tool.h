@@ -1,7 +1,7 @@
 #pragma once
 #include "Cstage.h"
 
-enum class TOOL_MOD
+enum class ETOOL_MODE
 {
     TILE,
     OBJECT,
@@ -14,7 +14,8 @@ class CStage_Tool :
     public CStage
 {
 private:
-    HMENU m_hMenu;
+    ETOOL_MODE    m_eMode;
+    HMENU        m_hMenu;
 
 public:    
       void Init() override;
@@ -26,6 +27,12 @@ public:
 
 public:
     void PopupCreateTile();
+
+private:
+    void Update_Tile();
+    void Update_Object();
+    void Update_Animation();
+
 public:
     CStage_Tool();
     ~CStage_Tool() override;
