@@ -27,7 +27,7 @@ CStage_Tool::~CStage_Tool()
 void CStage_Tool::Init()
 {
 	// 메뉴생성
-	m_hMenu = LoadMenu(nullptr, MAKEINTRESOURCE(IDC_WINAPISTUDY));
+	m_hMenu = LoadMenu(nullptr, MAKEINTRESOURCE(IDC_MYGAMEENGINE));
 
 	Enter();
 }
@@ -144,10 +144,9 @@ INT_PTR CALLBACK TileCountProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lP
 			// EndDialog의 두번째 인자는 Dialog 종료시 반환되는 값이다.
 			// 어떤 버튼이 눌려서 종료된 것인지 알리기 위해서 눌린 버튼의 아이디 값을 넣어 놓는다.
 			EndDialog(hDlg, LOWORD(wParam));
-			return (INT_PTR)TRUE;
 		}
 		
-		break;
+		return (INT_PTR)TRUE;
 	}
 	return (INT_PTR)FALSE;
 }

@@ -22,7 +22,7 @@
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{6d148363-dfd9-4ff9-a101-094c0cbdf8f3}</ProjectGuid>
-    <RootNamespace>WinAPIStudy</RootNamespace>
+    <RootNamespace>MyGameEngine</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -183,7 +183,7 @@
     <ClInclude Include="Resource.h" />
     <ClInclude Include="struct.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="WinAPIStudy.h" />
+    <ClInclude Include="MyGameEngine.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="define.h" />
   </ItemGroup>
@@ -218,14 +218,14 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="WinAPIStudy.cpp" />
+    <ClCompile Include="MyGameEngine.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="WinAPIStudy.rc" />
+    <ResourceCompile Include="MyGameEngine.rc" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="small.ico" />
-    <Image Include="WinAPIStudy.ico" />
+    <Image Include="MyGameEngine.ico" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="winAPI_main_해설.txt" />

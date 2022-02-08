@@ -112,7 +112,7 @@
     <ClInclude Include="targetver.h">
       <Filter>Main</Filter>
     </ClInclude>
-    <ClInclude Include="WinAPIStudy.h">
+    <ClInclude Include="MyGameEngine.h">
       <Filter>Main</Filter>
     </ClInclude>
     <ClInclude Include="CPlayer.h">
@@ -204,7 +204,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="WinAPIStudy.rc">
+    <ResourceCompile Include="MyGameEngine.rc">
       <Filter>리소스 파일</Filter>
     </ResourceCompile>
   </ItemGroup>
@@ -212,7 +212,7 @@
     <Image Include="small.ico">
       <Filter>리소스 파일</Filter>
     </Image>
-    <Image Include="WinAPIStudy.ico">
+    <Image Include="MyGameEngine.ico">
       <Filter>리소스 파일</Filter>
     </Image>
   </ItemGroup>
@@ -222,7 +222,7 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="WinAPIStudy.cpp">
+    <ClCompile Include="MyGameEngine.cpp">
       <Filter>Main</Filter>
     </ClCompile>
     <ClCompile Include="CPlayer.cpp">

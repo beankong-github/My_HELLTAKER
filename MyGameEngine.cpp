@@ -1,7 +1,7 @@
 ﻿// WinAPIStudy.cpp : 애플리케이션에 대한 진입점을 정의합니다.
 #include "pch.h"
 #include "framework.h"
-#include "WinAPIStudy.h"
+#include "MyGameEngine.h"
 #include "CPlayer.h"
 #include "CCore.h"
 
@@ -42,7 +42,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance,
 	}
 
 	// 단축키 정보들
-	HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_WINAPISTUDY));     // Accle Table 정보에 저장된 단축키 정보를 가져옴
+	HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_MYGAMEENGINE));     // Accle Table 정보에 저장된 단축키 정보를 가져옴
 
 	// 메세지 구조체
 	MSG msg = {};
@@ -91,7 +91,7 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 	wcex.cbClsExtra    = 0;
 	wcex.cbWndExtra    = 0;
 	wcex.hInstance     = hInstance;
-	wcex.hIcon         = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_WINAPISTUDY));
+	wcex.hIcon         = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_MYGAMEENGINE));
 	wcex.hCursor       = LoadCursor(nullptr, IDC_ARROW);
 	wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
 	wcex.lpszMenuName  = nullptr;
