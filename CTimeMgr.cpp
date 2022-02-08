@@ -73,7 +73,7 @@ void CTimeMgr::Update()
 		m_fAddTime = m_fAddTime - 1.f;
 
 		wchar_t szStr[255] = L"";
-		wsprintf(szStr, L"FPS: %d || Elapsed time: %d", m_iFPS, (int)m_fCurTime);
+		wsprintf(szStr, L"My HellTaker FPS: %d", m_iFPS);
 		SetWindowTextW(CCore::GetInst()->GetMainWndHWND(), szStr);
 
 		m_iFPS = 0;

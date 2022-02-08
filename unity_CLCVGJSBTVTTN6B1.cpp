@@ -60,6 +60,9 @@
 #include "C:\Users\bueon\source\repos\My_HELLTAKER\CStage_Play01.cpp"
 
 
+#include "C:\Users\bueon\source\repos\My_HELLTAKER\CStage_Puzzle.cpp"
+
+
 #include "C:\Users\bueon\source\repos\My_HELLTAKER\CStage_Start.cpp"
 
 

@@ -173,6 +173,7 @@
     <ClInclude Include="CStage.h" />
     <ClInclude Include="CStageMgr.h" />
     <ClInclude Include="CStage_Play01.h" />
+    <ClInclude Include="CStage_Puzzle.h" />
     <ClInclude Include="CStage_Start.h" />
     <ClInclude Include="CStage_Tool.h" />
     <ClInclude Include="CTexture.h" />
@@ -208,6 +209,7 @@
     <ClCompile Include="CStage.cpp" />
     <ClCompile Include="CStageMgr.cpp" />
     <ClCompile Include="CStage_Play01.cpp" />
+    <ClCompile Include="CStage_Puzzle.cpp" />
     <ClCompile Include="CStage_Start.cpp" />
     <ClCompile Include="CStage_Tool.cpp" />
     <ClCompile Include="CTexture.cpp" />
@@ -224,6 +226,8 @@
     <ResourceCompile Include="MyGameEngine.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="icon1.ico" />
+    <Image Include="OutputFile\bin\content\icon\helltaker.ico" />
     <Image Include="small.ico" />
     <Image Include="MyGameEngine.ico" />
   </ItemGroup>

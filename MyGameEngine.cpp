@@ -95,8 +95,8 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 	wcex.hCursor       = LoadCursor(nullptr, IDC_ARROW);
 	wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
 	wcex.lpszMenuName  = nullptr;
-	wcex.lpszClassName = L"MyWin";     // 윈도우 설정값의 이름
-	wcex.hIconSm       = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
+	wcex.lpszClassName = L"MyGame";     // 윈도우 설정값의 이름
+	wcex.hIconSm       = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_HELLICON));
 
 	return RegisterClassExW(&wcex);
 }
@@ -105,7 +105,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
 	g_hInst = hInstance;
 
-	g_hWnd = CreateWindowW(L"MyWin", L"MyWindow", WS_OVERLAPPEDWINDOW,
+	g_hWnd = CreateWindowW(L"MyGame", L"My HellTaker", WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT, 0, 10, 10, nullptr, nullptr, hInstance, nullptr);
 
 	if (!g_hWnd)

@@ -101,6 +101,9 @@
     <Filter Include="GAME\04. Object\Tile">
       <UniqueIdentifier>{0fc49134-b8e2-4d9f-bf3b-55a5d4733e30}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GAME\07. Stage\Puzzle">
+      <UniqueIdentifier>{98bebdd4-0cf4-47fd-90f3-1cb20f3b7742}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -202,6 +205,9 @@
     <ClInclude Include="CTile.h">
       <Filter>GAME\04. Object\Tile</Filter>
     </ClInclude>
+    <ClInclude Include="CStage_Puzzle.h">
+      <Filter>GAME\07. Stage\Puzzle</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MyGameEngine.rc">
@@ -213,6 +219,12 @@
       <Filter>리소스 파일</Filter>
     </Image>
     <Image Include="MyGameEngine.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="icon1.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="OutputFile\bin\content\icon\helltaker.ico">
       <Filter>리소스 파일</Filter>
     </Image>
   </ItemGroup>
@@ -305,6 +317,9 @@
     </ClCompile>
     <ClCompile Include="CTile.cpp">
       <Filter>GAME\04. Object\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="CStage_Puzzle.cpp">
+      <Filter>GAME\07. Stage\Puzzle</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

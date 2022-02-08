@@ -27,9 +27,10 @@ CCore::~CCore()
 	// DC 해제
 	ReleaseDC(m_hwnd, m_hDC);
 
-	// 펜 삭제
+	// 펜&브러쉬 삭제
 	DeleteObject(m_hGreenPen);
 	DeleteObject(m_hRedPen);
+	DeleteObject(m_hBGBrush);
 
 	// 백 버퍼 해제
 	DeleteObject(m_hBackBitMap);
@@ -46,6 +47,7 @@ int CCore::Init(HWND _hwnd, POINT _ptResolution)
 	// Pen 생성
 	m_hGreenPen = CreatePen(PS_SOLID, 1, RGB(120, 250, 50));
 	m_hRedPen = CreatePen(PS_SOLID, 1, RGB(255, 0, 0));
+	m_hBGBrush = CreateSolidBrush(RGB(2, 2, 27));
 
 	// Device Context 생성
 	m_hDC = GetDC(m_hwnd);	// 메인 window를 목적으로 하는 DC
@@ -53,7 +55,8 @@ int CCore::Init(HWND _hwnd, POINT _ptResolution)
 	// BackBuffer 생성
  	m_hBackBitMap =  CreateCompatibleBitmap(m_hDC, m_ptResolution.x, m_ptResolution.y);
 	m_hBackDC =  CreateCompatibleDC(m_hDC);
- 	
+	SelectObject(m_hBackDC, m_hBGBrush);		// 기본 Brush 색상 변경
+
 	// Backbuffer DC가 새로 만든 bitmap(BackBitMap)을 그리기 목적지로 선택한다.
 	HBITMAP hPrevBitMap = (HBITMAP)SelectObject(m_hBackDC, m_hBackBitMap);	// m_hBackBitMap과 m_hBackDC 연결
 	DeleteObject(hPrevBitMap);												// 연결 후 임시 비트맵 삭제

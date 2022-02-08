@@ -16,6 +16,7 @@ private:
 
 	HPEN		m_hGreenPen;
 	HPEN		m_hRedPen;
+	HBRUSH		m_hBGBrush;
 
 public:
 	int Init(HWND _hwnd, POINT _ptResolution);
@@ -27,6 +28,7 @@ public:
 	POINT	GetResolution()		{ return m_ptResolution; }
 	HPEN	GetGreenPen()		{ return m_hGreenPen; }
 	HPEN	GetRedPen()			{ return m_hRedPen; }
+	HBRUSH	GetBGBRUSH()		{ return m_hBGBrush; }
 
 	void ChangeWindowSize(POINT _ptResolution, bool _bMenu);
 };
