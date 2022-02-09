@@ -78,7 +78,6 @@ void CStage::CreateTile(UINT _iCol, UINT _iRow)
 			CTile* pTile = new CTile;
 			pTile->SetScale(Vec{ (float)TILE_SIZE, (float)TILE_SIZE });
 			pTile->SetPos(Vec{ (float)(iCol * TILE_SIZE), (float)(iRow * TILE_SIZE) });
-			pTile->SetImgIdx(0);
 
 			AddObject(pTile, EOBJ_TYPE::TILE);
 		}

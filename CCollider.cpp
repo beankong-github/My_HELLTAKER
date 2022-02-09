@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CCollider.h"
 
+#include "CCamera.h"
 #include "CCore.h"
 #include "CObj.h"
 

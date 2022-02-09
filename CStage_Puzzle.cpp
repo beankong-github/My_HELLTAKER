@@ -27,7 +27,7 @@ CStage_Puzzle::~CStage_Puzzle()
 
 void CStage_Puzzle::Init()
 {
-
+	CreateTile(10, 10);
 }
 
 void CStage_Puzzle::Update()

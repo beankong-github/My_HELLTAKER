@@ -5,18 +5,14 @@ class CTile :
     public CObj
 {
 private:
-    CTexture*   m_pAtlas;
-    UINT         m_iImgIdx;
-
 public:
     void Update() override;
     void Render(HDC _dc) override;
 
 public:
-    void SetImgIdx(int _iIdx)
-    {
-        m_iImgIdx = _iIdx;
-    }
+    void OnCollisionEnter(CObj* _pOther) override;
+    void OnCollision(CObj* _pOther) override;
+    void OnCollisionExit(CObj* _pOther) override;
 
 public:
     CTile();

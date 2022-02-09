@@ -111,6 +111,46 @@ void CStageMgr::Update()
 		CEventMgr::GetInst()->AddEvent(event);
 	}
 
+	if (IS_KEY_PRESSED(KEY::_6))
+	{
+		tEventInfo event;
+		event.eType = EEVENT_TYPE::STAGE_CHANGE;
+		event.lParam = (DWORD_PTR)ESTAGE_TYPE::PUZZLE;
+		event.wParam = (DWORD_PTR)ECHAPTER::CHAP_06;
+
+		CEventMgr::GetInst()->AddEvent(event);
+	}
+
+	if (IS_KEY_PRESSED(KEY::_7))
+	{
+		tEventInfo event;
+		event.eType = EEVENT_TYPE::STAGE_CHANGE;
+		event.lParam = (DWORD_PTR)ESTAGE_TYPE::PUZZLE;
+		event.wParam = (DWORD_PTR)ECHAPTER::CHAP_07;
+
+		CEventMgr::GetInst()->AddEvent(event);
+	}
+
+	if (IS_KEY_PRESSED(KEY::_8))
+	{
+		tEventInfo event;
+		event.eType = EEVENT_TYPE::STAGE_CHANGE;
+		event.lParam = (DWORD_PTR)ESTAGE_TYPE::PUZZLE;
+		event.wParam = (DWORD_PTR)ECHAPTER::CHAP_08;
+
+		CEventMgr::GetInst()->AddEvent(event);
+	}
+
+	if (IS_KEY_PRESSED(KEY::_9))
+	{
+		tEventInfo event;
+		event.eType = EEVENT_TYPE::STAGE_CHANGE;
+		event.lParam = (DWORD_PTR)ESTAGE_TYPE::PUZZLE;
+		event.wParam = (DWORD_PTR)ECHAPTER::CHAP_09;
+
+		CEventMgr::GetInst()->AddEvent(event);
+	}
+
 }
 
 void CStageMgr::Render(HDC _dc)
