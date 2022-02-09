@@ -154,6 +154,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CAnimation.h" />
+    <ClInclude Include="CBackGround.h" />
     <ClInclude Include="CCamera.h" />
     <ClInclude Include="CCollisionMgr.h" />
     <ClInclude Include="CFSM.h" />
@@ -190,6 +191,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CAnimation.cpp" />
+    <ClCompile Include="CBackGround.cpp" />
     <ClCompile Include="CCamera.cpp" />
     <ClCompile Include="CCollisionMgr.cpp" />
     <ClCompile Include="CFSM.cpp" />

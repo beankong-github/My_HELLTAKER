@@ -53,8 +53,9 @@ void CEventMgr::Update()
 			break;
 
 		case EEVENT_TYPE::STAGE_CHANGE:
-			// lParam : Next Stage Enum		
-			CStageMgr::GetInst()->ChangeStage((ESTAGE_TYPE)m_vecEvent[i].lParam);		
+			// lParam : Next Stage Enum
+			// wParam : Nect Stage Chapter
+			CStageMgr::GetInst()->ChangeStage((ESTAGE_TYPE)m_vecEvent[i].lParam, (ECHAPTER)m_vecEvent[i].wParam);
 			bChangeStage = true;
 			break;
 		}	

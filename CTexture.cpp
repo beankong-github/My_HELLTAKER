@@ -17,11 +17,12 @@ CTexture::~CTexture()
 
 int CTexture::Load(const wstring& _strFullPath)
 {
-    m_hBit = (HBITMAP)LoadImage(nullptr, _strFullPath.c_str(), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION | LR_DEFAULTSIZE);
+    m_hBit = (HBITMAP)LoadImage(NULL, _strFullPath.c_str(), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION | LR_DEFAULTSIZE);
     
     if (nullptr == m_hBit)
     {
-        return E_FAIL;
+        DWORD lastError = GetLastError();
+        return E_FAIL; 
     }
 
     m_hDC = CreateCompatibleDC(CCore::GetInst()->GetMainDC());

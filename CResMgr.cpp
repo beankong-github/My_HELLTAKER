@@ -37,8 +37,8 @@ CTexture* CResMgr::LoadTexture(const wstring& _strKey, const wstring& _strRelati
 		return nullptr;
 	}
 
-	pNewTex -> SetKey(_strKey);
-	pNewTex->SetRelativePath(_strRelativePath);
+	pNewTex-> SetKey(_strKey);
+	pNewTex-> SetRelativePath(_strRelativePath);
 	m_mapTex.insert(make_pair(_strKey, (CTexture*)pNewTex));
 
 	return (CTexture*)pNewTex;

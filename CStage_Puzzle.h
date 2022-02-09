@@ -1,33 +1,24 @@
 #pragma once
 #include "Cstage.h"
 
-enum Chapter
-{
-    NONE,
-    CHAP_01,		// pandemonica
-    CHAP_02,		// modeus
-    CHAP_03,		// cerberus
-    CHAP_04,		// malina
-    CHAP_05,        // zdrada
-    CHAP_06,		// azazel
-    CHAP_07,		// justice
-    CHAP_08,		// lucy
-    CHAP_09,		// door
-    CHAP_10,		// judgement
-    END
-};
-
-
 class CStage_Puzzle :
     public CStage
 {
 private:
-    Chapter     m_eChapter;
-    CTexture*   m_pBGTex;
+    ECHAPTER    m_eChapter;
+   
+    Vec         m_vTileCount;
+    UINT        m_iInitMoveCount;
+    UINT        m_iCurMoveCount;
 
-    Vec         m_vTileTable;
-    UINT        m_iMoveCount;
-
+public:
+    void    SetvTileCount(Vec _vTileCount)     { m_vTileCount = _vTileCount; }
+    void    SetInitMoveCount(UINT _iMove)      { m_iInitMoveCount = _iMove; }
+    
+    ECHAPTER    GetChapter()                   { return m_eChapter; }
+    Vec         GetTileCount()                 { return m_vTileCount; }
+    UINT        GetInitMoveCount()             { return m_iInitMoveCount; }
+    UINT        GetCurMoveCount()              { return m_iCurMoveCount; }
 
 public:
     void Init() override;
@@ -38,7 +29,7 @@ public:
     void Exit() override;
 
 public:
-    CStage_Puzzle();
+    CStage_Puzzle(ECHAPTER _eChap);
     ~CStage_Puzzle() override;
 };
 

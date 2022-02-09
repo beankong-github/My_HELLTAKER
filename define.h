@@ -21,7 +21,7 @@
 
 #define MAX_LAYER 32
 
-#define TILE_SIZE 64
+#define TILE_SIZE 100
 
 enum class ESTAGE_TYPE
 {
@@ -33,6 +33,22 @@ enum class ESTAGE_TYPE
 	EXIT,
 
 	STAGE_END
+};
+
+enum ECHAPTER
+{
+	NONE,
+	CHAP_01,		// pandemonica
+	CHAP_02,		// modeus
+	CHAP_03,		// cerberus
+	CHAP_04,		// malina
+	CHAP_05,        // zdrada
+	CHAP_06,		// azazel
+	CHAP_07,		// justice
+	CHAP_08,		// lucy
+	CHAP_09,		// door
+	CHAP_10,		// judgement
+	END
 };
 
 enum class EOBJ_TYPE

@@ -83,6 +83,8 @@ void CStage_Tool::Render(HDC _dc)
 
 void CStage_Tool::Enter()
 {
+	Init();
+
 	// ¸Þ´º ºÎÂø
 	SetMenu(CCore::GetInst()->GetMainWndHWND(), m_hMenu);
 	CCore::GetInst()->ChangeWindowSize(CCore::GetInst()->GetResolution(), true);

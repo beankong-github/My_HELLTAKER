@@ -23,7 +23,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance,
  {
 	// CRT 메모리 릭 디버그
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-	//_CrtSetBreakAlloc(572);
+	//_CrtSetBreakAlloc(906);
 	
 	// 생성시킬 윈도우 설정
 	MyRegisterClass(hInstance);
@@ -36,7 +36,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance,
 	}
 
 	// Core 초기화
-	if (FAILED(CCore::GetInst()->Init(g_hWnd, POINT{ 1280, 760})))
+	if (FAILED(CCore::GetInst()->Init(g_hWnd, POINT{ 1920, 1080})))
 	{
 		return false;
 	}

@@ -104,6 +104,9 @@
     <Filter Include="GAME\07. Stage\Puzzle">
       <UniqueIdentifier>{98bebdd4-0cf4-47fd-90f3-1cb20f3b7742}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GAME\04. Object\BackGround">
+      <UniqueIdentifier>{e6cdfe8a-0046-463b-9c37-552dce1a1669}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -207,6 +210,9 @@
     </ClInclude>
     <ClInclude Include="CStage_Puzzle.h">
       <Filter>GAME\07. Stage\Puzzle</Filter>
+    </ClInclude>
+    <ClInclude Include="CBackGround.h">
+      <Filter>GAME\04. Object\BackGround</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -320,6 +326,9 @@
     </ClCompile>
     <ClCompile Include="CStage_Puzzle.cpp">
       <Filter>GAME\07. Stage\Puzzle</Filter>
+    </ClCompile>
+    <ClCompile Include="CBackGround.cpp">
+      <Filter>GAME\04. Object\BackGround</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

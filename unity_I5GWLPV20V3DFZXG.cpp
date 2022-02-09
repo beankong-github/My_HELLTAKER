@@ -3,6 +3,9 @@
 #include "C:\Users\bueon\source\repos\My_HELLTAKER\CAnimation.cpp"
 
 
+#include "C:\Users\bueon\source\repos\My_HELLTAKER\CBackGround.cpp"
+
+
 #include "C:\Users\bueon\source\repos\My_HELLTAKER\CCamera.cpp"
 
 
