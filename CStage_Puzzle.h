@@ -30,6 +30,6 @@ public:
 
 public:
     CStage_Puzzle(ECHAPTER _eChap);
-    ~CStage_Puzzle() override;
+    ~CStage_Puzzle();
 };
 

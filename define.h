@@ -47,7 +47,7 @@ enum ECHAPTER
 	CHAP_07,		// justice
 	CHAP_08,		// lucy
 	CHAP_09,		// door
-	CHAP_10,		// judgement
+	//CHAP_10,		// judgement
 	END
 };
 
