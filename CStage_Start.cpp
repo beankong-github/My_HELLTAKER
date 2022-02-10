@@ -6,6 +6,7 @@
 
 CStage_Start::CStage_Start()
 {
+	SetStageName(L"Start");
 }
 
 CStage_Start::~CStage_Start()

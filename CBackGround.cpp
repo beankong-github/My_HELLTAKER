@@ -1,6 +1,9 @@
 #include "pch.h"
 #include "CBackGround.h"
 
+#include "CStageMgr.h"
+#include "CStage_Puzzle.h"
+
 #include "CResMgr.h"
 #include "CTexture.h"
 
@@ -13,8 +16,8 @@ CBackGround::CBackGround(ECHAPTER _chap)
 	{
 		assert(nullptr);
 	}
-	wstring bgName = L"CHAP_" + std::to_wstring((UINT)m_eChap);
-	m_pTex = CResMgr::GetInst()->LoadTexture(bgName + L"_BG", L"texture\\background\\stage_bg\\" + bgName + L".bmp");
+	wstring wstrStageName = CStageMgr::GetInst()->GetCurStage()->GetStageName();
+	m_pTex = CResMgr::GetInst()->LoadTexture(wstrStageName + L"_BG", L"texture\\background\\stage_bg\\" + wstrStageName + L".bmp");
 
 }
 

@@ -9,6 +9,7 @@
 #include "CTile.h"
 
 CStage::CStage()
+	:m_wstrStageName()
 {
 }
 
@@ -63,23 +64,6 @@ void CStage::Render(HDC _dc)
 				(*iter)->Render(_dc);
 				++iter;
 			}
-		}
-	}
-}
-
-void CStage::CreateTile(UINT _iCol, UINT _iRow)
-{
-	Clear(EOBJ_TYPE::TILE);
-
-	for (UINT iRow = 0; iRow < _iRow; ++iRow)
-	{
-		for (UINT iCol = 0; iCol < _iCol; ++iCol)
-		{
-			CTile* pTile = new CTile;
-			pTile->SetScale(Vec{ (float)TILE_SIZE, (float)TILE_SIZE });
-			pTile->SetPos(Vec{ (float)(iCol * TILE_SIZE), (float)(iRow * TILE_SIZE) });
-
-			AddObject(pTile, EOBJ_TYPE::TILE);
 		}
 	}
 }

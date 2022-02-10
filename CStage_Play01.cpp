@@ -13,6 +13,7 @@
 
 CStage_Play01::CStage_Play01()
 {
+	SetStageName(L"Play01");
 }
 
 CStage_Play01::~CStage_Play01()

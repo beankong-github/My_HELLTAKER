@@ -6,7 +6,8 @@ class CObj;
 class CStage
 {
 private:
-	vector<CObj*> m_arrObj[(UINT)EOBJ_TYPE::END];
+	wstring			m_wstrStageName;
+	vector<CObj*>	m_arrObj[(UINT)EOBJ_TYPE::END];
 
 public:
 	virtual void Init() = 0;
@@ -17,10 +18,14 @@ public:
 	virtual void Enter() = 0;
 	virtual void Exit() = 0;
 
+	const wstring&		GetStageName()				{ return m_wstrStageName; }
+
+protected:
+	void SetStageName(wstring _str) { m_wstrStageName = _str; }
+
 public:
 	void AddObject(CObj* _obj, EOBJ_TYPE _objType) { m_arrObj[(UINT)_objType].push_back(_obj);	}
 	const vector<CObj*>& GetObjects(EOBJ_TYPE _eType){ return m_arrObj[(UINT)_eType]; }
-	void CreateTile(UINT _iCol,UINT _iRow );
 
 	void Clear(EOBJ_TYPE _type);
 	void Clear();

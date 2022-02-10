@@ -35,18 +35,18 @@ enum class ESTAGE_TYPE
 	STAGE_END
 };
 
-enum ECHAPTER
+enum class ECHAPTER
 {
 	NONE,
-	CHAP_01,		// pandemonica
-	CHAP_02,		// modeus
-	CHAP_03,		// cerberus
-	CHAP_04,		// malina
-	CHAP_05,        // zdrada
-	CHAP_06,		// azazel
-	CHAP_07,		// justice
-	CHAP_08,		// lucy
-	CHAP_09,		// door
+	CHAP_1,		// pandemonica
+	CHAP_2,		// modeus
+	CHAP_3,		// cerberus
+	CHAP_4,		// malina
+	CHAP_5,     // zdrada
+	CHAP_6,		// azazel
+	CHAP_7,		// justice
+	CHAP_8,		// lucy
+	CHAP_9,		// door
 	//CHAP_10,		// judgement
 	END
 };
@@ -55,6 +55,7 @@ enum class EOBJ_TYPE
 {
 	DEFAULT,
 	BG,
+	TILEMAP,
 	TILE,
 	PLAYER,
 	OBSTACLE,

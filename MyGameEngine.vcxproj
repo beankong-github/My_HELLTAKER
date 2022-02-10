@@ -179,6 +179,7 @@
     <ClInclude Include="CStage_Tool.h" />
     <ClInclude Include="CTexture.h" />
     <ClInclude Include="CTile.h" />
+    <ClInclude Include="CTileMap.h" />
     <ClInclude Include="CTimeMgr.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="func.h" />
@@ -216,6 +217,7 @@
     <ClCompile Include="CStage_Tool.cpp" />
     <ClCompile Include="CTexture.cpp" />
     <ClCompile Include="CTile.cpp" />
+    <ClCompile Include="CTileMap.cpp" />
     <ClCompile Include="CTimeMgr.cpp" />
     <ClCompile Include="func.cpp" />
     <ClCompile Include="pch.cpp">

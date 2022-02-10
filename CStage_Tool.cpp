@@ -16,6 +16,7 @@ CStage_Tool::CStage_Tool()
 	: m_hMenu(nullptr)
 	, m_eMode(ETOOL_MODE::TILE)
 {
+	SetStageName(L"Tool");
 }
 
 CStage_Tool::~CStage_Tool()
@@ -110,7 +111,7 @@ void CStage_Tool::PopupCreateTile()
 	// OK 버튼이 눌렸을 떄
 	if (IDOK == dwID)
 	{
-		CreateTile(g_iCol, g_iRow);
+		//CreateTile(g_iCol, g_iRow, Vec{0.f, 0.f});
 	}
 
 	// CANCEL 버튼이 눌렸을 때

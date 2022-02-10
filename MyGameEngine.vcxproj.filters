@@ -98,14 +98,17 @@
     <Filter Include="GAME\07. Stage\Tool">
       <UniqueIdentifier>{a586fea6-7031-4266-bdd4-6d376f84b5c8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GAME\04. Object\Tile">
-      <UniqueIdentifier>{0fc49134-b8e2-4d9f-bf3b-55a5d4733e30}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GAME\07. Stage\Puzzle">
       <UniqueIdentifier>{98bebdd4-0cf4-47fd-90f3-1cb20f3b7742}</UniqueIdentifier>
     </Filter>
     <Filter Include="GAME\04. Object\BackGround">
       <UniqueIdentifier>{e6cdfe8a-0046-463b-9c37-552dce1a1669}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GAME\04. Object\TileMap">
+      <UniqueIdentifier>{fdb70ce9-9ead-469b-9576-e370e23fbe33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GAME\04. Object\TileMap\Tile">
+      <UniqueIdentifier>{0fc49134-b8e2-4d9f-bf3b-55a5d4733e30}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -206,13 +209,16 @@
       <Filter>GAME\07. Stage\Tool</Filter>
     </ClInclude>
     <ClInclude Include="CTile.h">
-      <Filter>GAME\04. Object\Tile</Filter>
+      <Filter>GAME\04. Object\TileMap\Tile</Filter>
     </ClInclude>
     <ClInclude Include="CStage_Puzzle.h">
       <Filter>GAME\07. Stage\Puzzle</Filter>
     </ClInclude>
     <ClInclude Include="CBackGround.h">
       <Filter>GAME\04. Object\BackGround</Filter>
+    </ClInclude>
+    <ClInclude Include="CTileMap.h">
+      <Filter>GAME\04. Object\TileMap</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -322,13 +328,16 @@
       <Filter>GAME\07. Stage\Tool</Filter>
     </ClCompile>
     <ClCompile Include="CTile.cpp">
-      <Filter>GAME\04. Object\Tile</Filter>
+      <Filter>GAME\04. Object\TileMap\Tile</Filter>
     </ClCompile>
     <ClCompile Include="CStage_Puzzle.cpp">
       <Filter>GAME\07. Stage\Puzzle</Filter>
     </ClCompile>
     <ClCompile Include="CBackGround.cpp">
       <Filter>GAME\04. Object\BackGround</Filter>
+    </ClCompile>
+    <ClCompile Include="CTileMap.cpp">
+      <Filter>GAME\04. Object\TileMap</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

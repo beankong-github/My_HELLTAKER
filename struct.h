@@ -92,6 +92,15 @@ public:
 		return *this;
 	}
 
+	bool operator < (const Vec& _other) const
+	{
+		if (y == _other.y)
+			return x < _other.x;
+
+		else
+			return y < _other.y;
+	}
+
 public:
 	Vec()
 		: x(0.0f), y(0.0f)
@@ -106,6 +115,10 @@ public:
 	{}
 
 	Vec(int _x, int _y)
+		: x(float(_x)), y(float(_y))
+	{}
+
+	Vec(UINT _x, UINT _y)
 		: x(float(_x)), y(float(_y))
 	{}
 

@@ -41,6 +41,7 @@ void CStageMgr::Init()
 	m_arrStage[(UINT)ESTAGE_TYPE::START][0] = new CStage_Start;
 	m_arrStage[(UINT)ESTAGE_TYPE::PLAY_01][0] = new CStage_Play01;
 
+
 	for (UINT i = 1; i < (UINT)ECHAPTER::END; i++)
 	{
 		CStage_Puzzle* newStage = new CStage_Puzzle((ECHAPTER)i);
@@ -51,7 +52,7 @@ void CStageMgr::Init()
 	//m_arrStage[(UINT)ESTAGE_TYPE::EXIT] = new CStage_Exit;
 	
 	// 첫 스테이지 지정
-	m_pCurStage = m_arrStage[(UINT)ESTAGE_TYPE::PUZZLE][ECHAPTER::CHAP_01];
+	m_pCurStage = m_arrStage[(UINT)ESTAGE_TYPE::PUZZLE][(UINT)ECHAPTER::CHAP_1];
 	m_pCurStage->Enter();
 }
 
@@ -66,7 +67,7 @@ void CStageMgr::Update()
 		tEventInfo event;
 		event.eType = EEVENT_TYPE::STAGE_CHANGE;
 		event.lParam = (DWORD_PTR)ESTAGE_TYPE::PUZZLE;
-		event.wParam = (DWORD_PTR)ECHAPTER::CHAP_01;
+		event.wParam = (DWORD_PTR)ECHAPTER::CHAP_1;
 
 		CEventMgr::GetInst()->AddEvent(event);
 	}
@@ -76,7 +77,7 @@ void CStageMgr::Update()
 		tEventInfo event;
 		event.eType = EEVENT_TYPE::STAGE_CHANGE;
 		event.lParam = (DWORD_PTR)ESTAGE_TYPE::PUZZLE;
-		event.wParam = (DWORD_PTR)ECHAPTER::CHAP_02;
+		event.wParam = (DWORD_PTR)ECHAPTER::CHAP_2;
 
 		CEventMgr::GetInst()->AddEvent(event);
 	}
@@ -86,7 +87,7 @@ void CStageMgr::Update()
 		tEventInfo event;
 		event.eType = EEVENT_TYPE::STAGE_CHANGE;
 		event.lParam = (DWORD_PTR)ESTAGE_TYPE::PUZZLE;
-		event.wParam = (DWORD_PTR)ECHAPTER::CHAP_03;
+		event.wParam = (DWORD_PTR)ECHAPTER::CHAP_3;
 
 		CEventMgr::GetInst()->AddEvent(event);
 	}
@@ -96,7 +97,7 @@ void CStageMgr::Update()
 		tEventInfo event;
 		event.eType = EEVENT_TYPE::STAGE_CHANGE;
 		event.lParam = (DWORD_PTR)ESTAGE_TYPE::PUZZLE;
-		event.wParam = (DWORD_PTR)ECHAPTER::CHAP_04;
+		event.wParam = (DWORD_PTR)ECHAPTER::CHAP_4;
 
 		CEventMgr::GetInst()->AddEvent(event);
 	}
@@ -106,7 +107,7 @@ void CStageMgr::Update()
 		tEventInfo event;
 		event.eType = EEVENT_TYPE::STAGE_CHANGE;
 		event.lParam = (DWORD_PTR)ESTAGE_TYPE::PUZZLE;
-		event.wParam = (DWORD_PTR)ECHAPTER::CHAP_05;
+		event.wParam = (DWORD_PTR)ECHAPTER::CHAP_5;
 
 		CEventMgr::GetInst()->AddEvent(event);
 	}
@@ -116,7 +117,7 @@ void CStageMgr::Update()
 		tEventInfo event;
 		event.eType = EEVENT_TYPE::STAGE_CHANGE;
 		event.lParam = (DWORD_PTR)ESTAGE_TYPE::PUZZLE;
-		event.wParam = (DWORD_PTR)ECHAPTER::CHAP_06;
+		event.wParam = (DWORD_PTR)ECHAPTER::CHAP_6;
 
 		CEventMgr::GetInst()->AddEvent(event);
 	}
@@ -126,7 +127,7 @@ void CStageMgr::Update()
 		tEventInfo event;
 		event.eType = EEVENT_TYPE::STAGE_CHANGE;
 		event.lParam = (DWORD_PTR)ESTAGE_TYPE::PUZZLE;
-		event.wParam = (DWORD_PTR)ECHAPTER::CHAP_07;
+		event.wParam = (DWORD_PTR)ECHAPTER::CHAP_7;
 
 		CEventMgr::GetInst()->AddEvent(event);
 	}
@@ -136,7 +137,7 @@ void CStageMgr::Update()
 		tEventInfo event;
 		event.eType = EEVENT_TYPE::STAGE_CHANGE;
 		event.lParam = (DWORD_PTR)ESTAGE_TYPE::PUZZLE;
-		event.wParam = (DWORD_PTR)ECHAPTER::CHAP_08;
+		event.wParam = (DWORD_PTR)ECHAPTER::CHAP_8;
 
 		CEventMgr::GetInst()->AddEvent(event);
 	}
@@ -146,7 +147,7 @@ void CStageMgr::Update()
 		tEventInfo event;
 		event.eType = EEVENT_TYPE::STAGE_CHANGE;
 		event.lParam = (DWORD_PTR)ESTAGE_TYPE::PUZZLE;
-		event.wParam = (DWORD_PTR)ECHAPTER::CHAP_09;
+		event.wParam = (DWORD_PTR)ECHAPTER::CHAP_9;
 
 		CEventMgr::GetInst()->AddEvent(event);
 	}
