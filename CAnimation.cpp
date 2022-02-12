@@ -15,7 +15,6 @@
 CAnimation::CAnimation()
 	: m_strName()
 	, m_pAnimator(nullptr)
-	, m_pAtlas(nullptr)
 	, m_vecFrm(0)
 	, m_iCuridx(0)
 	, m_fAddTime(0)
@@ -60,7 +59,7 @@ void CAnimation::Render(HDC _dc)
 		, 0, 0
 		, int(m_vecFrm[m_iCuridx].vSize.x)		// width in atlas
 		, int(m_vecFrm[m_iCuridx].vSize.y)		// height int atlas
-		, RGB(255, 0, 255));
+		, RGB(112, 12, 41));
 }
 
 void CAnimation::Create(const wstring& _strAnimName, const wstring& _strRelativePath, float _fDuration, UINT _iFrmCount)

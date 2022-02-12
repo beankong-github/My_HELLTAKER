@@ -18,8 +18,7 @@ class CAnimation
 private:
 	CAnimator*			m_pAnimator;
 	wstring				m_strName;
-
-	CTexture*			m_pAtlas;
+	
 	vector<tAnimFrm>	m_vecFrm;
 	int					m_iCuridx;
 	float				m_fAddTime;
