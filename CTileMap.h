@@ -7,8 +7,8 @@ private:
     wstring          m_strStageName;
     map<Vec, CTile*> m_mTileMap;
 
-    Vec     m_vSize;
-    Vec     m_vPos;
+    Vec     m_vSize;    // 타일맵 크기(가로, 세로)
+    Vec     m_vPos;     // 타일맵 위치
 
 public:
     void CreateTile(UINT _iCol, UINT _iRow, Vec _vPos);

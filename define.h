@@ -87,5 +87,9 @@ enum class ECOM_TYPE
 enum class EDIRECTION
 {
 	HORIZIONTAL,
-	VERTICAL
+	VERTICAL,
+	UP,
+	DOWN,
+	RIGHT,
+	LEFT
 };

@@ -9,7 +9,6 @@
 
 CHero::CHero()
 	: m_fSpeed(300.f)
-	, m_iMoveCount(100)
 {
 	// 이름 설정
 	SetName(L"Hero");
@@ -76,5 +75,12 @@ void CHero::OnCollision(CObj* _pOther)
 
 void CHero::OnCollisionExit(CObj* _pOther)
 {
+}
+
+void CHero::TryMove(EDIRECTION _eDir)
+{
+	// 현재 플레이어의 상태가 idle이고
+	// 이동하려는 위치의 tile에 타입에 따라 다른 결과
+	// move는 이벤트로 처리
 }
 

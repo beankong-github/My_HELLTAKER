@@ -84,6 +84,16 @@ void CTileMap::Update()
 }
 
 
+void CTileMap::Render(HDC _dc)
+{
+	map<Vec, CTile*>::iterator iter = m_mTileMap.begin();
+	for (; iter != m_mTileMap.end(); ++iter)
+	{
+		iter->second->Render(_dc);
+	}
+}
+
+
 void CTileMap::Save(const wstring& _strRelativeFolderPath)
 {
 	// ===============
@@ -201,13 +211,4 @@ void CTileMap::Load(const wstring& _strRelativeFilePath)
 	fclose(pFile);
 
 	CreateTile(m_vSize, m_vPos);
-}
-
-void CTileMap::Render(HDC _dc)
-{
-	map<Vec, CTile*>::iterator iter = m_mTileMap.begin();
-	for (; iter != m_mTileMap.end(); ++iter)
-	{
-		iter->second->Render(_dc);
-	}
 }

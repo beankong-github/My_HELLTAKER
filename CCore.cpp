@@ -31,6 +31,11 @@ CCore::~CCore()
 	DeleteObject(m_hGreenPen);
 	DeleteObject(m_hRedPen);
 	DeleteObject(m_hBGBrush);
+	DeleteObject(m_hWhiteBrush);
+	DeleteObject(m_hRedBrush);
+	DeleteObject(m_hGreenBrush);
+	DeleteObject(m_hBlueBrush);
+
 
 	// 백 버퍼 해제
 	DeleteObject(m_hBackBitMap);
@@ -48,6 +53,10 @@ int CCore::Init(HWND _hwnd, POINT _ptResolution)
 	m_hGreenPen = CreatePen(PS_SOLID, 1, RGB(120, 250, 50));
 	m_hRedPen = CreatePen(PS_SOLID, 1, RGB(255, 0, 0));
 	m_hBGBrush = CreateSolidBrush(RGB(2, 2, 27));
+	m_hWhiteBrush = CreateSolidBrush(RGB(255, 255, 255));
+	m_hRedBrush = CreateSolidBrush(RGB(255, 0, 0));
+	m_hGreenBrush = CreateSolidBrush(RGB(0, 255, 0));
+	m_hBlueBrush = CreateSolidBrush(RGB(0, 0, 255));
 
 	// Device Context 생성
 	m_hDC = GetDC(m_hwnd);	// 메인 window를 목적으로 하는 DC
