@@ -52,31 +52,29 @@ void CAnimation::Render(HDC _dc)
 	Vec vRenderPos = CCamera::GetInst()->GetRenderPos(GetOwner()->GetPos());
 
 	TransparentBlt(_dc
-		, int(vRenderPos.x - m_vecFrm[m_iCuridx].vSize.x / 2.f + m_vecFrm[m_iCuridx].vOffset.x)	// x
-		, int(vRenderPos.y - m_vecFrm[m_iCuridx].vSize.y / 2.f + m_vecFrm[m_iCuridx].vOffset.y)	// y
+		, int(vRenderPos.x - m_vecFrm[m_iCuridx].vSize.x / 2.f)	// x
+		, int(vRenderPos.y - m_vecFrm[m_iCuridx].vSize.y / 2.f)	// y
 		, int(m_vecFrm[m_iCuridx].vSize.x)	// width
 		, int(m_vecFrm[m_iCuridx].vSize.y)	// height
-		, m_pAtlas->GetDC()	// Src's HDC
-		, int(m_vecFrm[m_iCuridx].vLeftTop.x)	// x pos in atlas
-		, int(m_vecFrm[m_iCuridx].vLeftTop.y)	// y pos in atlas
+		, m_vecFrm[m_iCuridx].pTex->GetDC()	// Src's HDC
+		, 0, 0
 		, int(m_vecFrm[m_iCuridx].vSize.x)		// width in atlas
 		, int(m_vecFrm[m_iCuridx].vSize.y)		// height int atlas
 		, RGB(255, 0, 255));
 }
 
-void CAnimation::Create(const wstring& _strAnimName, CTexture* _pAtlasTex, Vec _vLeftTop, Vec _vSize, Vec _vOffset, float _fxDistance, float _fDuration, UINT _iFrmCount)
+void CAnimation::Create(const wstring& _strAnimName, const wstring& _strRelativePath, float _fDuration, UINT _iFrmCount)
 {
 	m_strName = _strAnimName;
-	m_pAtlas = _pAtlasTex;
-	
+
 	tAnimFrm frm = {};
-	for (UINT i = 0; i < _iFrmCount; i++)
+	for (UINT i = 1; i <= _iFrmCount; i++)
 	{
-		frm.vLeftTop = Vec(_vLeftTop.x + (float)i * _fxDistance, _vLeftTop.y);
-		frm.vSize = _vSize;
-		frm.vOffset = _vOffset;
+		frm.strName = _strAnimName + L"_" + std::to_wstring(i);
+		frm.strRelativeTexPath = _strRelativePath + frm.strName + L".bmp";
+		frm.pTex = CResMgr::GetInst()->LoadTexture(frm.strName, frm.strRelativeTexPath.c_str());
 		frm.fDuration = _fDuration;
-	
+		frm.vSize = Vec{ frm.pTex->Width(), frm.pTex->Height() };
 		m_vecFrm.push_back(frm);
 	}
 }
@@ -128,15 +126,6 @@ void CAnimation::Save(const wstring& _strRelativeFolderPath)
 	fwprintf_s(pFile, m_strName.c_str());
 	fwprintf_s(pFile, L"\n\n");
 
-	// 아틀라스 텍스쳐 정보 - 이름, 주소
-	fwprintf_s(pFile, L"[Atlas_Texture_Name]\n");
-	fwprintf_s(pFile, m_pAtlas->GetKey().c_str());
-	fwprintf_s(pFile, L"\n\n");
-
-	fwprintf_s(pFile, L"[Atlas_Texture_Address]\n");
-	fwprintf_s(pFile, m_pAtlas->GetRelativePath().c_str());
-	fwprintf_s(pFile, L"\n\n");
-
 	// 각 프레임 정보
 	fwprintf_s(pFile, L"[Frame_Information]\n");
 	fwprintf_s(pFile, L"[Frame_Count]\n");
@@ -145,17 +134,17 @@ void CAnimation::Save(const wstring& _strRelativeFolderPath)
 
 	for (size_t i = 0; i < m_vecFrm.size(); ++i)
 	{
-		fwprintf_s(pFile, L"[Frame_IDX]\n");
-		fwprintf_s(pFile, L"%d\n", (int)i);
+		fwprintf_s(pFile, L"[Frame_Name]\n");
+		fwprintf_s(pFile, m_vecFrm[i].strName.c_str());
+		fwprintf_s(pFile, L"\n");
 
-		fwprintf_s(pFile, L"[Left_Top]\n");
-		fwprintf_s(pFile, L"%f %f\n", m_vecFrm[i].vLeftTop.x, m_vecFrm[i].vLeftTop.y);
-		
+		fwprintf_s(pFile, L"[Frame_Adress]\n");
+		fwprintf_s(pFile, m_vecFrm[i].strRelativeTexPath.c_str());
+		fwprintf_s(pFile, L"\n");
+
+
 		fwprintf_s(pFile, L"[Size]\n");
 		fwprintf_s(pFile, L"%f %f\n", m_vecFrm[i].vSize.x, m_vecFrm[i].vSize.y);
-
-		fwprintf_s(pFile, L"[Offset]\n");
-		fwprintf_s(pFile, L"%f %f\n", m_vecFrm[i].vOffset.x, m_vecFrm[i].vOffset.y);
 
 		fwprintf_s(pFile, L"[Duration]\n");
 		fwprintf_s(pFile, L"%f\n\n", m_vecFrm[i].fDuration);
@@ -196,22 +185,12 @@ void CAnimation::Load(const wstring& _strRelativeFilePath)
 	// 애니메이션 데이터 읽어오기
 	// =======================
 	
+
 	// 애니메이션 이름
 	wchar_t szBuff[256] = L"";
 	fwscanf_s(pFile, L"%s", szBuff, 256);
-	fwscanf_s(pFile, L"%s", szBuff,256);
+	fwscanf_s(pFile, L"%s", szBuff, 256);
 	m_strName = szBuff;
-
-	// 아틀라스 텍스쳐 정보 - 이름, 주소
-	fwscanf_s(pFile, L"%s", szBuff, 256);
-	fwscanf_s(pFile, L"%s", szBuff, 256);
-	wstring strAtlasName = szBuff;
-
-	fwscanf_s(pFile, L"%s", szBuff, 256);
-	fwscanf_s(pFile, L"%s", szBuff, 256);
-	wstring strAtlasRelativePath = szBuff;
-
-	m_pAtlas = CResMgr::GetInst()->LoadTexture(strAtlasName, strAtlasRelativePath);
 
 	// 각 프레임 정보
 	fwscanf_s(pFile, L"%s", szBuff, 256);
@@ -219,22 +198,30 @@ void CAnimation::Load(const wstring& _strRelativeFilePath)
 	
 	int iFrmCount = 0;
 	fwscanf_s(pFile, L"%d", &iFrmCount);
-	
+
 	for (int i = 0; i < iFrmCount; ++i)
 	{
 		tAnimFrm frm = {};
 
+		// 프레임 이름
 		fwscanf_s(pFile, L"%s", szBuff, 256);
 		fwscanf_s(pFile, L"%s", szBuff, 256);
-		fwscanf_s(pFile, L"%s", szBuff, 256);
-		fwscanf_s(pFile, L"%f %f", &frm.vLeftTop.x, &frm.vLeftTop.y);
+		frm.strName = szBuff;
 
+		// 프레임 주소
+		fwscanf_s(pFile, L"%s", szBuff, 256);
+		fwscanf_s(pFile, L"%s", szBuff, 256);
+		frm.strRelativeTexPath = szBuff;
+		
+		// 프레임 텍스처
+		frm.pTex = CResMgr::GetInst()->LoadTexture(frm.strName, frm.strRelativeTexPath.c_str());
+
+
+		// 프레임 이미지 크기
 		fwscanf_s(pFile, L"%s", szBuff, 256);
 		fwscanf_s(pFile, L"%f %f", &frm.vSize.x, &frm.vSize.y);
-		
-		fwscanf_s(pFile, L"%s", szBuff, 256);
-		fwscanf_s(pFile, L"%f %f", &frm.vOffset.x, &frm.vOffset.y);
-		
+
+		// 프레임 길이
 		fwscanf_s(pFile, L"%s", szBuff, 256);
 		fwscanf_s(pFile, L"%f", &frm.fDuration);
 
@@ -245,6 +232,5 @@ void CAnimation::Load(const wstring& _strRelativeFilePath)
 	//	  파일 닫기
 	// ===============
 	fclose(pFile);
-
 }
 

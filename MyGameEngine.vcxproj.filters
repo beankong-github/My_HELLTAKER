@@ -110,6 +110,9 @@
     <Filter Include="GAME\04. Object\TileMap\Tile">
       <UniqueIdentifier>{0fc49134-b8e2-4d9f-bf3b-55a5d4733e30}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GAME\04. Object\Hero">
+      <UniqueIdentifier>{5732b87f-4aa8-4216-9704-99ee335b44d4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -219,6 +222,9 @@
     </ClInclude>
     <ClInclude Include="CTileMap.h">
       <Filter>GAME\04. Object\TileMap</Filter>
+    </ClInclude>
+    <ClInclude Include="CHero.h">
+      <Filter>GAME\04. Object\Hero</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -338,6 +344,9 @@
     </ClCompile>
     <ClCompile Include="CTileMap.cpp">
       <Filter>GAME\04. Object\TileMap</Filter>
+    </ClCompile>
+    <ClCompile Include="CHero.cpp">
+      <Filter>GAME\04. Object\Hero</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

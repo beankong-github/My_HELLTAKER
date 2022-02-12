@@ -179,22 +179,22 @@ void CTileMap::Load(const wstring& _strRelativeFilePath)
 	fwscanf_s(pFile, L"%s", szBuff, 256);
 	fwscanf_s(pFile, L"%s", szBuff, 256);
 	wstring size_x = szBuff;
-	m_vSize.x = _wtof(size_x.c_str());
+	m_vSize.x =	(float)_wtof(size_x.c_str());
 
 	fwscanf_s(pFile, L"%s", szBuff, 256);
 	wstring size_y = szBuff;
-	m_vSize.y = _wtof(size_y.c_str());
+	m_vSize.y = (float)_wtof(size_y.c_str());
 
 	// 타일  위치
 	// 각 프레임 정보
 	fwscanf_s(pFile, L"%s", szBuff, 256);
 	fwscanf_s(pFile, L"%s", szBuff, 256);
 	wstring pos_x = szBuff;
-	m_vPos.x = _wtof(pos_x.c_str());
+	m_vPos.x = (float)_wtof(pos_x.c_str());
 
 	fwscanf_s(pFile, L"%s", szBuff, 256);
 	wstring pos_y = szBuff;
-	m_vPos.y = _wtof(pos_y.c_str());
+	m_vPos.y = (float)_wtof(pos_y.c_str());
 	// ===============
 	//	  파일 닫기
 	// ===============

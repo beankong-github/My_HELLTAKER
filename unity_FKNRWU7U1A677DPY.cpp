@@ -33,6 +33,9 @@
 #include "C:\Users\bueon\source\repos\My_HELLTAKER\CEventMgr.cpp"
 
 
+#include "C:\Users\bueon\source\repos\My_HELLTAKER\CHero.cpp"
+
+
 #include "C:\Users\bueon\source\repos\My_HELLTAKER\CKeyMgr.cpp"
 
 

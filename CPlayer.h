@@ -15,7 +15,7 @@ public:
 	float GetSpeed() { return m_fSpeed;}
 
 public:
-	virtual void Update();
+	void Update();
 	void Render(HDC _dc);
 
 	void OnCollisionEnter(CObj* _pOther) override;

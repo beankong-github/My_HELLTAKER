@@ -6,10 +6,11 @@ class CObj;
 
 struct tAnimFrm
 {
-	Vec vLeftTop;
-	Vec vSize;
-	Vec vOffset;
-	float fDuration;
+	CTexture*	pTex;
+	wstring		strName;
+	wstring		strRelativeTexPath;
+	Vec			vSize;
+	float		fDuration;
 };
 
 class CAnimation
@@ -33,7 +34,7 @@ public:
 	void Load(const wstring& _strRelativeFilePath);
 
 private:
-	void Create(const wstring& _strAnimName, CTexture* _pAtlasTex, Vec _vLeftTop, Vec _vSize, Vec _vOffset, float _fxDistance, float _fDuration, UINT _iFrmCount);
+	void Create(const wstring& _strAnimName, const wstring& _strRelativePath, float _fDuration, UINT _iFrmCount);
 	void Reset();
 
 public:
