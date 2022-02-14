@@ -16,6 +16,10 @@ CTileMap::CTileMap()
 
 CTileMap::~CTileMap()
 {
+#ifdef _DEBUG
+	Save(L"stage\\");
+#endif // _DEBUG
+
 	ClearTileMap();
 }
 
@@ -63,9 +67,22 @@ void CTileMap::CreateTile(Vec _vSize, Vec _vPos)
 	}
 }
 
-void CTileMap::ClearTileMap()
+CTile* CTileMap::FindTile(UINT _iCol, UINT _iRow)
 {
 	map<Vec, CTile*>::iterator iter = m_mTileMap.begin();
+	for (; iter != m_mTileMap.end(); ++iter)
+	{
+		if (Vec{ _iCol, _iRow } == iter->first)
+		{
+			return iter->second;
+		}
+	}
+	return nullptr;
+}
+
+void CTileMap::ClearTileMap()
+{
+	map<Vec, CTile*>::iterator iter =  m_mTileMap.begin();
 	for (; iter != m_mTileMap.end(); ++iter)
 	{
 		delete iter->second;
@@ -141,7 +158,22 @@ void CTileMap::Save(const wstring& _strRelativeFolderPath)
 	fwprintf_s(pFile, std::to_wstring(m_vPos.x).c_str());
 	fwprintf_s(pFile, L"\n");
 	fwprintf_s(pFile, std::to_wstring(m_vPos.y).c_str());
-	
+	fwprintf_s(pFile, L"\n\n");
+
+	// 타일 저장
+	fwprintf_s(pFile, L"[TileInfo]\n");
+	for (UINT j = 0; j < m_vSize.y; ++j)
+	{
+		for (UINT i = 0; i < m_vSize.x; ++i)
+		{
+			CTile* tile = FindTile(i, j);
+		
+			fwprintf_s(pFile, L"[Tile_%d,%d]\n", i, j);
+			fwprintf_s(pFile, L"[Tile_Type]\n");
+			fwprintf_s(pFile, L"%d\n", (int)tile->GetTileType());
+		}
+	}
+
 	// ===============
 	//	  파일 닫기
 	// ===============
@@ -196,7 +228,6 @@ void CTileMap::Load(const wstring& _strRelativeFilePath)
 	m_vSize.y = (float)_wtof(size_y.c_str());
 
 	// 타일  위치
-	// 각 프레임 정보
 	fwscanf_s(pFile, L"%s", szBuff, 256);
 	fwscanf_s(pFile, L"%s", szBuff, 256);
 	wstring pos_x = szBuff;
@@ -205,10 +236,33 @@ void CTileMap::Load(const wstring& _strRelativeFilePath)
 	fwscanf_s(pFile, L"%s", szBuff, 256);
 	wstring pos_y = szBuff;
 	m_vPos.y = (float)_wtof(pos_y.c_str());
+
+	CreateTile(m_vSize, m_vPos);
+
+	// 타일 로드
+	fwscanf_s(pFile, L"%s", szBuff, 256);
+	for (UINT j = 0; j < m_vSize.y; ++j)
+	{
+		for (UINT i = 0; i < m_vSize.x; ++i)
+		{
+			CTile* tile = FindTile(i, j);
+
+			fwscanf_s(pFile, L"%s", szBuff, 256);
+			fwscanf_s(pFile, L"%s", szBuff, 256);
+			
+			ETILE_TYPE type;
+			fwscanf_s(pFile, L"%d", &type);
+			tile->SetTileType(type);
+
+			if (type == ETILE_TYPE::START)
+			{
+				m_pStartTile = tile;
+			}
+		}
+	}
+
 	// ===============
 	//	  파일 닫기
 	// ===============
 	fclose(pFile);
-
-	CreateTile(m_vSize, m_vPos);
 }

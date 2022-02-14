@@ -12,8 +12,8 @@
 
 CStage_Puzzle::CStage_Puzzle(ECHAPTER _chap)
 	: m_eChapter(_chap)
-	, m_vTileCount{9, 7}
-	, m_vTileStartPos{510.f, 143.f}
+	, m_vTileCount{0, 0}
+	, m_vTileStartPos{0, 0}
 	, m_iInitMoveCount(0)
 	, m_iCurMoveCount(0)
 {
@@ -52,7 +52,10 @@ void CStage_Puzzle::Init()
 
 	// hero Ãß°¡
 	CObj* pHero = new CHero;
-	pHero->SetPos(Vec(ptResolution.x / 2.f, ptResolution.y / 2.f));
+	if (nullptr != pTileMap->GetStartTile())
+		pHero->SetPos(pTileMap->GetStartTile()->GetCenterPos());
+	else
+		pHero->SetPos(Vec(ptResolution.x / 2.f, ptResolution.y / 2.f));
 	pHero->SetScale(Vec(100, 100));
 	AddObject(pHero, EOBJ_TYPE::PLAYER);
 }
@@ -60,6 +63,8 @@ void CStage_Puzzle::Init()
 void CStage_Puzzle::Update()
 {
 	CStage::Update();
+
+
 }
 
 void CStage_Puzzle::Render(HDC _dc)
@@ -74,5 +79,6 @@ void CStage_Puzzle::Enter()
 
 void CStage_Puzzle::Exit()
 {
+	CStage::Clear();
 }
 

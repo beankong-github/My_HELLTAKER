@@ -3,14 +3,10 @@
 
 enum class ETILE_TYPE
 {
-    WALL,               // 벽: 흰색
-    ROCK,               // 바위: 흰색
-    SPIKE_ACTIVE,       // 활성 가시: 빨간색
-    SPIKE_DEACTIVE,     // 비활성 가시
-    ITEM,               // 아이템 - 키: 파란색
-    LOCKBOX,            // 상자: 파란색
-    UNDEAD,             // 언데드 노예: 초록색
     NONE,               // 길
+    WALL,               // 벽: 흰색
+    OBSTACLE,           // 방해물 : 초록색
+    START,              // 시작 위치 : 파란색
     END
 };
 

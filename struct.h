@@ -101,6 +101,11 @@ public:
 			return y < _other.y;
 	}
 
+	bool operator == (const Vec& _other) const
+	{
+		return (x == _other.x && y == _other.y);
+	}
+
 public:
 	Vec()
 		: x(0.0f), y(0.0f)

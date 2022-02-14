@@ -39,7 +39,7 @@ void CTile::Update()
 		{
 			ETILE_TYPE type = (ETILE_TYPE)((UINT)m_eType + 1);
 			if (type == ETILE_TYPE::END)
-				type = ETILE_TYPE::WALL;
+				type = ETILE_TYPE::NONE;
 
 			m_eType = type;
 		}
@@ -52,30 +52,19 @@ void CTile::Render(HDC _dc)
 #ifdef _DEBUG
 	HBRUSH hBrush = (HBRUSH)GetStockObject(HOLLOW_BRUSH);
 	SelectObject(_dc, CCore::GetInst()->GetRedPen());
+	
 	switch (m_eType)
 	{
 	case ETILE_TYPE::WALL:
 		SelectObject(_dc, CCore::GetInst()->GetWhiteBRUSH());
 		break;
-	case ETILE_TYPE::ROCK:
-		SelectObject(_dc, CCore::GetInst()->GetWhiteBRUSH());
-		break;
-	case ETILE_TYPE::SPIKE_ACTIVE:
-		SelectObject(_dc, CCore::GetInst()->GetRedBRUSH());
-		break;
-	case ETILE_TYPE::SPIKE_DEACTIVE:
-		SelectObject(_dc, CCore::GetInst()->GetRedBRUSH());
-		break;
-	case ETILE_TYPE::ITEM:
-		SelectObject(_dc, CCore::GetInst()->GetBlueBRUSH());
-		break;
-	case ETILE_TYPE::LOCKBOX:
-		SelectObject(_dc, CCore::GetInst()->GetBlueBRUSH());
-		break;
-	case ETILE_TYPE::UNDEAD:
+	case ETILE_TYPE::OBSTACLE:
 		SelectObject(_dc, CCore::GetInst()->GetGreenBRUSH());
 		break;
-	case ETILE_TYPE::NONE:
+	case ETILE_TYPE::START:
+		SelectObject(_dc, CCore::GetInst()->GetBlueBRUSH());
+		break;
+	default:
 		SelectObject(_dc, hBrush);
 		break;
 	}
