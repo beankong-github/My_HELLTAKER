@@ -3,6 +3,7 @@
 
 #include "CCore.h"
 #include "CResMgr.h"
+#include "CKeyMgr.h"
 
 #include "CTexture.h"
 #include "CBackGround.h"
@@ -47,15 +48,14 @@ void CStage_Puzzle::Init()
 	pTileMap->Load(L"stage\\" + GetStageName() + L".tilemap");
 	//pTileMap->CreateTile(m_vTileCount, m_vTileStartPos);
 	//pTileMap->Save(L"stage\\");
+	m_pTileMap = pTileMap;
 	AddObject(pTileMap, EOBJ_TYPE::TILEMAP);
 
 
 	// hero Ãß°¡
-	CObj* pHero = new CHero;
-	if (nullptr != pTileMap->GetStartTile())
-		pHero->SetPos(pTileMap->GetStartTile()->GetCenterPos());
-	else
-		pHero->SetPos(Vec(ptResolution.x / 2.f, ptResolution.y / 2.f));
+	CHero* pHero = new CHero;
+	pHero->SetCurTile(pTileMap->GetStartTile());
+	pHero->SetPos(pTileMap->GetStartTile()->GetCenterPos());
 	pHero->SetScale(Vec(100, 100));
 	AddObject(pHero, EOBJ_TYPE::PLAYER);
 }
@@ -63,13 +63,16 @@ void CStage_Puzzle::Init()
 void CStage_Puzzle::Update()
 {
 	CStage::Update();
-
-
 }
 
 void CStage_Puzzle::Render(HDC _dc)
 {
 	CStage::Render(_dc);
+
+#ifdef _DEBUG
+	TextOut(_dc, 10, 10, GetStageName().c_str(), (int)GetStageName().size());
+#endif // _DEBUG
+
 }
 
 void CStage_Puzzle::Enter()

@@ -170,7 +170,7 @@ void CTileMap::Save(const wstring& _strRelativeFolderPath)
 		
 			fwprintf_s(pFile, L"[Tile_%d,%d]\n", i, j);
 			fwprintf_s(pFile, L"[Tile_Type]\n");
-			fwprintf_s(pFile, L"%d\n", (int)tile->GetTileType());
+			fwprintf_s(pFile, L"%d\n", (int)tile->GetType());
 		}
 	}
 
@@ -246,6 +246,7 @@ void CTileMap::Load(const wstring& _strRelativeFilePath)
 		for (UINT i = 0; i < m_vSize.x; ++i)
 		{
 			CTile* tile = FindTile(i, j);
+			tile->SetIndex(i, j);
 
 			fwscanf_s(pFile, L"%s", szBuff, 256);
 			fwscanf_s(pFile, L"%s", szBuff, 256);

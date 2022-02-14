@@ -1,6 +1,8 @@
 #pragma once
 #include "Cstage.h"
 
+class CTileMap;
+
 class CStage_Puzzle :
     public CStage
 {
@@ -13,6 +15,8 @@ private:
     UINT        m_iInitMoveCount;
     UINT        m_iCurMoveCount;
 
+    CTileMap*   m_pTileMap;
+
 public:
     void    SetvTileCount(Vec _vCount)      { m_vTileCount = _vCount; }
     void    SetvTileStartPos(Vec _vPos)     { m_vTileStartPos = _vPos; }
@@ -22,7 +26,7 @@ public:
     Vec         GetTileCount()              { return m_vTileCount; }
     UINT        GetInitMoveCount()          { return m_iInitMoveCount; }
     UINT        GetCurMoveCount()           { return m_iCurMoveCount; }
-
+    CTileMap*   GetTileMap()                { return m_pTileMap; }
 public:
     void Init() override;
     void Update() override;

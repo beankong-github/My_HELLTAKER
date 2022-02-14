@@ -63,9 +63,7 @@ void CStage_Play01::Update()
 
 void CStage_Play01::Render(HDC _dc)
 {
-	CStage::Render(_dc);
-
-	TextOut(_dc, 10, 10, L"Here is Play01 Stage",(int)wcslen(L"Here is Play01 Stage"));
+	CStage::Render(_dc);;
 }
 
 
