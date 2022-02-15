@@ -29,7 +29,7 @@ CAnimation::~CAnimation()
 void CAnimation::Update()
 {
 	if (m_bFinish)
-		true;
+		return;
 
 	m_fAddTime += DS;
 

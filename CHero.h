@@ -19,8 +19,9 @@ private:
     EPLAYER_STATE   m_eCurState;
     CTile*          m_pCurTile;
     CTile*          m_pNextTile;
-    float           m_fSpeed;
    
+    float           m_fSpeed;
+    EDIRECTION      m_eMovDir;
 public:
     void SetState(EPLAYER_STATE _eState) { m_eCurState = _eState; }
     void SetSpeed(float _fSpeed) { m_fSpeed = _fSpeed; }
@@ -30,9 +31,9 @@ public:
     void Update();
     void Render(HDC _dc);
 
-    void TryMove(EDIRECTION _eDir);
+    void TryMove();
 
-private: 
+private:
     void Move();
 
 public:

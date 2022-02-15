@@ -2,7 +2,8 @@
 #include "CHero.h"
 
 #include "CKeyMgr.h"
-#include  "CStageMgr.h"
+#include "CStageMgr.h"
+#include "CTimeMgr.h"
 
 #include "CAnimator.h"
 #include "CAnimation.h"
@@ -12,9 +13,10 @@
 #include "CTileMap.h"
 
 CHero::CHero()
-	: m_fSpeed(300.f)
+	: m_fSpeed(600.f)
 	, m_eCurState(EPLAYER_STATE::IDLE)
 	, m_pCurTile(nullptr)
+	, m_eMovDir(EDIRECTION::NONE)
 {
 	// 이름 설정
 	SetName(L"Hero");
@@ -63,44 +65,40 @@ CHero::~CHero()
 
 void CHero::Update()
 {
+
 	if (IS_KEY_TAP(KEY::A)) // VK_LEFT가 이전에 누른 적이 없고 호출 시점에는 눌려있는 상태라면
 	{
-		TryMove(EDIRECTION::LEFT);
+		m_eMovDir = EDIRECTION::LEFT;
+		TryMove();
 	}
-	if (IS_KEY_TAP(KEY::D))
-	{
-		TryMove(EDIRECTION::RIGHT);
+	else if (IS_KEY_TAP(KEY::D))
+	{ 
+		m_eMovDir = EDIRECTION::RIGHT;
+		TryMove();
 	}
-	if (IS_KEY_TAP(KEY::W))
+	else if (IS_KEY_TAP(KEY::W))
 	{
-		TryMove(EDIRECTION::UP);
+		m_eMovDir = EDIRECTION::UP;
+		TryMove(); 
 	}
-	if (IS_KEY_TAP(KEY::S))
+	else if (IS_KEY_TAP(KEY::S))
 	{
-		TryMove(EDIRECTION::DOWN);
+		m_eMovDir = EDIRECTION::DOWN;
+		TryMove();
 	}
 
+	CAnimation* pCurAnim = GetAnimator()->GetCurAnimation();
 	switch (m_eCurState)
 	{
-		CAnimation* pCurAnim = GetAnimator()->GetCurAnimation();
 	case EPLAYER_STATE::IDLE:
 		// Animation Play
-		if (pCurAnim->IsFinished())
+		if (L"idle" != pCurAnim->GetName())
 		{
-			if (L"idle" != pCurAnim->GetName())
-			{
-				GetAnimator()->PlayAnimation(L"idle");
-			}
+			GetAnimator()->PlayAnimation(L"idle");
 		}
 		break;
 	case EPLAYER_STATE::MOVE:
-		// Animation Play
-		if (pCurAnim->IsFinished())
-		{
-			GetAnimator()->PlayAnimation(L"move");
-		}
-		// Move Position
-
+		Move();
 		break;
 	case EPLAYER_STATE::KICK:
 		break;
@@ -116,9 +114,9 @@ void CHero::Render(HDC _dc)
 	Render_Component(_dc);
 }
 
-void CHero::TryMove(EDIRECTION _eDir)
+void CHero::TryMove()
 {
-	// 현재 플레이어의 상태가 idle이고 벽이 아니라면 이동
+	/* 현재 플레이어의 상태가 idle이고 이동할 타일이 벽이 아니라면 이동 */
 
 	// 현재 상태 체크
 	if (EPLAYER_STATE::IDLE != m_eCurState)
@@ -134,12 +132,12 @@ void CHero::TryMove(EDIRECTION _eDir)
 
 	// 현재 플레이어 타일 인덱스 가져오기
 	Vec curIdx = m_pCurTile->GetIndex();
-	
+
 	// 이동할 위치의 타일 가져오기
-	switch (_eDir)
+	switch (m_eMovDir)
 	{
 	case EDIRECTION::UP:
-		m_pNextTile = pTileMap->FindTile((UINT)curIdx.x, (UINT)curIdx.y-1);
+		m_pNextTile = pTileMap->FindTile((UINT)curIdx.x, (UINT)curIdx.y - 1);
 		break;
 
 	case EDIRECTION::DOWN:
@@ -147,11 +145,11 @@ void CHero::TryMove(EDIRECTION _eDir)
 		break;
 
 	case EDIRECTION::RIGHT:
-		m_pNextTile = pTileMap->FindTile((UINT)curIdx.x+1, (UINT)curIdx.y);
+		m_pNextTile = pTileMap->FindTile((UINT)curIdx.x + 1, (UINT)curIdx.y);
 		break;
 
-	case EDIRECTION::LEFT:		
-		m_pNextTile = pTileMap->FindTile((UINT)curIdx.x -1, (UINT)curIdx.y);
+	case EDIRECTION::LEFT:
+		m_pNextTile = pTileMap->FindTile((UINT)curIdx.x - 1, (UINT)curIdx.y);
 		break;
 	}
 
@@ -173,10 +171,47 @@ void CHero::TryMove(EDIRECTION _eDir)
 
 void CHero::Move()
 {
-	//if(GetPos()	 - m_pNextTile->GetCenterPos())
-	//m_eCurState = EPLAYER_STATE::MOVE;
-	//SetPos(m_pNextTile->GetCenterPos() * m_fSpeed * DS);
-	//GetAnimator()->PlayAnimation(L"move");
-	//
+	if (nullptr == m_pNextTile)
+		return;
+
+	CAnimation* pCurAnim = GetAnimator( )->GetCurAnimation();
+	float dif = 0.f;					// 플레이어와 다음 타일 사이의 거리
+
+	dif = sqrt(pow(GetPos().x - m_pNextTile->GetCenterPos().x, 2)
+		+ pow(GetPos().y - m_pNextTile->GetCenterPos().y, 2));
+
+	// 다음 타일과 플레이어의 위치가 거의 일치하다면
+	if (dif <= 0.0001f)
+	{
+		SetPos(m_pNextTile->GetCenterPos());
+		pCurAnim->Reset();
+		m_eMovDir = EDIRECTION::NONE;
+		SetState(EPLAYER_STATE::IDLE);
+		SetCurTile(m_pNextTile);
+		m_pNextTile = nullptr;
+	}
+	else
+	{
+		if( L"move" != pCurAnim->GetName())
+			GetAnimator()->PlayAnimation(L"move", false);
+
+		switch (m_eMovDir)
+		{
+			break;
+		case EDIRECTION::UP:
+			SetPos(Vec{ GetPos().x, GetPos().y + (m_fSpeed * DS * -1)});
+			break;
+		case EDIRECTION::DOWN:
+			SetPos(Vec{ GetPos().x, GetPos().y + (m_fSpeed * DS * 1) });
+			break;
+		case EDIRECTION::RIGHT:
+			SetPos(Vec{ GetPos().x + (m_fSpeed * DS * 1) , GetPos().y});
+			break;
+		case EDIRECTION::LEFT:
+			SetPos(Vec{ GetPos().x + (m_fSpeed * DS * -1) , GetPos().y });
+			break;
+		}
+	}
 }
+
 

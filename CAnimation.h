@@ -29,12 +29,13 @@ public:
 	bool IsFinished() { return m_bFinish; }
 	CObj* GetOwner();
 	
+	void Reset();
+	
 	void Save(const wstring& _strRelativeFolderPath);
 	void Load(const wstring& _strRelativeFilePath);
 
 private:
 	void Create(const wstring& _strAnimName, const wstring& _strRelativePath, float _fDuration, UINT _iFrmCount);
-	void Reset();
 
 public:
 	void Update();
