@@ -30,7 +30,7 @@ public:
     void Update();
     void Render(HDC _dc);
 
-    bool TryMove(EDIRECTION _eDir);
+    void TryMove(EDIRECTION _eDir);
 
 private: 
     void Move();

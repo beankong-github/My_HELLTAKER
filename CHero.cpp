@@ -11,8 +11,6 @@
 #include "CTile.h"
 #include "CTileMap.h"
 
-bool bCanMove = false;
-
 CHero::CHero()
 	: m_fSpeed(300.f)
 	, m_eCurState(EPLAYER_STATE::IDLE)
@@ -67,24 +65,49 @@ void CHero::Update()
 {
 	if (IS_KEY_TAP(KEY::A)) // VK_LEFT가 이전에 누른 적이 없고 호출 시점에는 눌려있는 상태라면
 	{
-		bCanMove = TryMove(EDIRECTION::LEFT);
+		TryMove(EDIRECTION::LEFT);
 	}
 	if (IS_KEY_TAP(KEY::D))
 	{
-		bCanMove = TryMove(EDIRECTION::RIGHT);
+		TryMove(EDIRECTION::RIGHT);
 	}
 	if (IS_KEY_TAP(KEY::W))
 	{
-		bCanMove = TryMove(EDIRECTION::UP);
+		TryMove(EDIRECTION::UP);
 	}
 	if (IS_KEY_TAP(KEY::S))
 	{
-		bCanMove = TryMove(EDIRECTION::DOWN);
+		TryMove(EDIRECTION::DOWN);
 	}
 
-	if (bCanMove)
+	switch (m_eCurState)
 	{
-		Move();
+		CAnimation* pCurAnim = GetAnimator()->GetCurAnimation();
+	case EPLAYER_STATE::IDLE:
+		// Animation Play
+		if (pCurAnim->IsFinished())
+		{
+			if (L"idle" != pCurAnim->GetName())
+			{
+				GetAnimator()->PlayAnimation(L"idle");
+			}
+		}
+		break;
+	case EPLAYER_STATE::MOVE:
+		// Animation Play
+		if (pCurAnim->IsFinished())
+		{
+			GetAnimator()->PlayAnimation(L"move");
+		}
+		// Move Position
+
+		break;
+	case EPLAYER_STATE::KICK:
+		break;
+	case EPLAYER_STATE::SUCCESS:
+		break;
+	case EPLAYER_STATE::DEAD:
+		break;
 	}
 }
 
@@ -93,13 +116,13 @@ void CHero::Render(HDC _dc)
 	Render_Component(_dc);
 }
 
-bool CHero::TryMove(EDIRECTION _eDir)
+void CHero::TryMove(EDIRECTION _eDir)
 {
 	// 현재 플레이어의 상태가 idle이고 벽이 아니라면 이동
 
 	// 현재 상태 체크
 	if (EPLAYER_STATE::IDLE != m_eCurState)
-		return false;
+		return;
 
 	// 현재 퍼즐 스테이지 가져오기
 	CStage_Puzzle* curStage = dynamic_cast<CStage_Puzzle*>(CStageMgr::GetInst()->GetCurStage());
@@ -112,55 +135,40 @@ bool CHero::TryMove(EDIRECTION _eDir)
 	// 현재 플레이어 타일 인덱스 가져오기
 	Vec curIdx = m_pCurTile->GetIndex();
 	
+	// 이동할 위치의 타일 가져오기
 	switch (_eDir)
 	{
 	case EDIRECTION::UP:
 		m_pNextTile = pTileMap->FindTile((UINT)curIdx.x, (UINT)curIdx.y-1);
-		if (nullptr != m_pNextTile)
-		{
-			if (ETILE_TYPE::WALL != m_pNextTile->GetType())
-			{
-				return true;
-			}
-		}
 		break;
 
 	case EDIRECTION::DOWN:
 		m_pNextTile = pTileMap->FindTile((UINT)curIdx.x, (UINT)curIdx.y + 1);
-		if (nullptr != m_pNextTile)
-		{
-			if (ETILE_TYPE::WALL != m_pNextTile->GetType())
-			{
-				return true;
-			}
-		}
 		break;
 
 	case EDIRECTION::RIGHT:
 		m_pNextTile = pTileMap->FindTile((UINT)curIdx.x+1, (UINT)curIdx.y);
-		if (nullptr != m_pNextTile)
-		{
-			if (ETILE_TYPE::WALL != m_pNextTile->GetType())
-			{
-				return true;
-			}
-		}
 		break;
 
 	case EDIRECTION::LEFT:		
 		m_pNextTile = pTileMap->FindTile((UINT)curIdx.x -1, (UINT)curIdx.y);
-		if (nullptr != m_pNextTile)
-		{
-			if (ETILE_TYPE::WALL != m_pNextTile->GetType())
-			{
-				return true;
-			}
-		}
 		break;
 	}
-	
-	return false;
-	 
+
+	if (nullptr != m_pNextTile)
+	{
+		switch (m_pNextTile->GetType())
+		{
+		case ETILE_TYPE::WALL:
+			return;
+		case ETILE_TYPE::OBSTACLE:
+			m_eCurState = EPLAYER_STATE::KICK;
+			break;
+		}
+		m_eCurState = EPLAYER_STATE::MOVE;
+	}
+
+	return;
 }
 
 void CHero::Move()

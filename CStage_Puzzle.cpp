@@ -17,6 +17,7 @@ CStage_Puzzle::CStage_Puzzle(ECHAPTER _chap)
 	, m_vTileStartPos{0, 0}
 	, m_iInitMoveCount(0)
 	, m_iCurMoveCount(0)
+	, m_pTileMap(nullptr)
 {
 	if (ECHAPTER::NONE == _chap || ECHAPTER::END == _chap)
 	{

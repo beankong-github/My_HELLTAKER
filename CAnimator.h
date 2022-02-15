@@ -20,6 +20,7 @@ public:
     void        PlayAnimation(const wstring& _strName, bool _bRepeat = true);
     void        LoadAnimation(const wstring& _strRelativePath);
     CAnimation* FindAnimation(const wstring& _strName);
+    CAnimation* GetCurAnimation() { return m_pCurAnim; }
 
 public:
     CAnimator();
