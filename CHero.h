@@ -32,9 +32,10 @@ public:
     void Render(HDC _dc);
 
     void TryMove();
+    void Move(EDIRECTION _eDir);
 
 private:
-    void Move();
+    void KeyCheck();
 
 public:
     CHero();

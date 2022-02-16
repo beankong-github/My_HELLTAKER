@@ -24,8 +24,10 @@ protected:
 	void SetStageName(wstring _str) { m_wstrStageName = _str; }
 
 public:
-	void AddObject(CObj* _obj, EOBJ_TYPE _objType) { m_arrObj[(UINT)_objType].push_back(_obj);	}
-	const vector<CObj*>& GetObjects(EOBJ_TYPE _eType){ return m_arrObj[(UINT)_eType]; }
+	void					AddObject(CObj* _obj, EOBJ_TYPE _objType)	{ m_arrObj[(UINT)_objType].push_back(_obj);	}
+
+	const vector<CObj*>&	GetObjects(EOBJ_TYPE _eType)				{ return m_arrObj[(UINT)_eType]; }
+	CObj*					GetStageObject(EOBJ_TYPE _eType, const wstring& _strName);
 
 	void Clear(EOBJ_TYPE _type);
 	void Clear();

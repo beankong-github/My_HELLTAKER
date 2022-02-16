@@ -68,6 +68,17 @@ void CStage::Render(HDC _dc)
 	}
 }
 
+CObj* CStage::GetStageObject(EOBJ_TYPE _eType, const wstring& _strName)
+{
+	for (UINT i = 0; i < m_arrObj[(UINT)_eType].size(); i++)
+	{
+		if (_strName == m_arrObj[(UINT)_eType][i]->GetName())
+			return m_arrObj[(UINT)_eType][i];
+	}
+
+	return nullptr;
+}
+
 void CStage::Clear(EOBJ_TYPE _type)
 {
 	vector<CObj*>& vecObj = m_arrObj[(UINT)_type];

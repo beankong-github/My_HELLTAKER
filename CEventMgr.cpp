@@ -1,7 +1,10 @@
 #include "pch.h"
 #include "CEventMgr.h"
+
 #include "CStageMgr.h"
 #include "CStage.h"
+#include "CStage_Puzzle.h"
+
 #include "CObj.h"
 
 CEventMgr::CEventMgr()
@@ -57,6 +60,14 @@ void CEventMgr::Update()
 			// wParam : Nect Stage Chapter
 			CStageMgr::GetInst()->ChangeStage((ESTAGE_TYPE)m_vecEvent[i].lParam, (ECHAPTER)m_vecEvent[i].wParam);
 			bChangeStage = true;
+			break;
+		case EEVENT_TYPE::PLAYER_MOVE:
+			// lParam : Move Direction
+			CStage_Puzzle* puzzleStage = dynamic_cast<CStage_Puzzle*>(CStageMgr::GetInst()->GetCurStage());
+			if (nullptr != puzzleStage)
+			{
+				puzzleStage->PlayerMove((EDIRECTION)m_vecEvent[i].lParam);
+			}
 			break;
 		}	
 

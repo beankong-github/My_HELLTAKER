@@ -27,6 +27,7 @@ public:
     UINT        GetInitMoveCount()          { return m_iInitMoveCount; }
     UINT        GetCurMoveCount()           { return m_iCurMoveCount; }
     CTileMap*   GetTileMap()                { return m_pTileMap; }
+
 public:
     void Init() override;
     void Update() override;
@@ -34,6 +35,9 @@ public:
 
     void Enter() override;
     void Exit() override;
+
+public:
+    void PlayerMove(EDIRECTION _eDir);
 
 public:
     CStage_Puzzle(ECHAPTER _eChap);

@@ -4,6 +4,7 @@
 #include "CKeyMgr.h"
 #include "CStageMgr.h"
 #include "CTimeMgr.h"
+#include "CEventMgr.h"
 
 #include "CAnimator.h"
 #include "CAnimation.h"
@@ -13,7 +14,7 @@
 #include "CTileMap.h"
 
 CHero::CHero()
-	: m_fSpeed(600.f)
+	: m_fSpeed(700.f)
 	, m_eCurState(EPLAYER_STATE::IDLE)
 	, m_pCurTile(nullptr)
 	, m_eMovDir(EDIRECTION::NONE)
@@ -65,27 +66,7 @@ CHero::~CHero()
 
 void CHero::Update()
 {
-
-	if (IS_KEY_TAP(KEY::A)) // VK_LEFT가 이전에 누른 적이 없고 호출 시점에는 눌려있는 상태라면
-	{
-		m_eMovDir = EDIRECTION::LEFT;
-		TryMove();
-	}
-	else if (IS_KEY_TAP(KEY::D))
-	{ 
-		m_eMovDir = EDIRECTION::RIGHT;
-		TryMove();
-	}
-	else if (IS_KEY_TAP(KEY::W))
-	{
-		m_eMovDir = EDIRECTION::UP;
-		TryMove(); 
-	}
-	else if (IS_KEY_TAP(KEY::S))
-	{
-		m_eMovDir = EDIRECTION::DOWN;
-		TryMove();
-	}
+	KeyCheck();
 
 	CAnimation* pCurAnim = GetAnimator()->GetCurAnimation();
 	switch (m_eCurState)
@@ -98,7 +79,11 @@ void CHero::Update()
 		}
 		break;
 	case EPLAYER_STATE::MOVE:
-		Move();
+		// player move event 추가
+		tEventInfo eventInfo;
+		eventInfo.eType = EEVENT_TYPE::PLAYER_MOVE;
+		eventInfo.lParam = (DWORD)m_eMovDir;
+		CEventMgr::GetInst()->AddEvent(eventInfo);
 		break;
 	case EPLAYER_STATE::KICK:
 		break;
@@ -114,13 +99,38 @@ void CHero::Render(HDC _dc)
 	Render_Component(_dc);
 }
 
-void CHero::TryMove()
+void CHero::KeyCheck()
 {
-	/* 현재 플레이어의 상태가 idle이고 이동할 타일이 벽이 아니라면 이동 */
-
-	// 현재 상태 체크
+	// Idle 상태가 아니라면 키 입력은 받지 않는다.
 	if (EPLAYER_STATE::IDLE != m_eCurState)
 		return;
+
+	if (IS_KEY_TAP(KEY::A)) // VK_LEFT가 이전에 누른 적이 없고 호출 시점에는 눌려있는 상태라면
+	{
+		m_eMovDir = EDIRECTION::LEFT;
+		TryMove();
+	}
+	else if (IS_KEY_TAP(KEY::D))
+	{
+		m_eMovDir = EDIRECTION::RIGHT;
+		TryMove();
+	}
+	else if (IS_KEY_TAP(KEY::W))
+	{
+		m_eMovDir = EDIRECTION::UP;
+		TryMove();
+	}
+	else if (IS_KEY_TAP(KEY::S))
+	{
+		m_eMovDir = EDIRECTION::DOWN;
+		TryMove();
+	}
+}
+
+
+void CHero::TryMove()
+{
+	/* 이동할 타일이 벽이 아니라면 이동 */
 
 	// 현재 퍼즐 스테이지 가져오기
 	CStage_Puzzle* curStage = dynamic_cast<CStage_Puzzle*>(CStageMgr::GetInst()->GetCurStage());
@@ -153,6 +163,7 @@ void CHero::TryMove()
 		break;
 	}
 
+	// 이동할 위치에 타일이 있다면
 	if (nullptr != m_pNextTile)
 	{
 		switch (m_pNextTile->GetType())
@@ -169,9 +180,9 @@ void CHero::TryMove()
 	return;
 }
 
-void CHero::Move()
+void CHero::Move(EDIRECTION _eDir)
 {
-	if (nullptr == m_pNextTile)
+	if (nullptr == m_pNextTile || EDIRECTION::NONE == _eDir)
 		return;
 
 	CAnimation* pCurAnim = GetAnimator( )->GetCurAnimation();
@@ -181,7 +192,7 @@ void CHero::Move()
 		+ pow(GetPos().y - m_pNextTile->GetCenterPos().y, 2));
 
 	// 다음 타일과 플레이어의 위치가 거의 일치하다면
-	if (dif <= 0.0001f)
+	if (dif <= 10.f)
 	{
 		SetPos(m_pNextTile->GetCenterPos());
 		pCurAnim->Reset();
@@ -194,7 +205,7 @@ void CHero::Move()
 	{
 		if( L"move" != pCurAnim->GetName())
 			GetAnimator()->PlayAnimation(L"move", false);
-
+ 
 		switch (m_eMovDir)
 		{
 			break;

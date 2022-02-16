@@ -52,13 +52,15 @@ void CStage_Puzzle::Init()
 	m_pTileMap = pTileMap;
 	AddObject(pTileMap, EOBJ_TYPE::TILEMAP);
 
-
 	// hero 추가
 	CHero* pHero = new CHero;
 	pHero->SetCurTile(pTileMap->GetStartTile());
 	pHero->SetPos(pTileMap->GetStartTile()->GetCenterPos());
 	pHero->SetScale(Vec(100, 100));
 	AddObject(pHero, EOBJ_TYPE::PLAYER);
+
+	// 움직임 횟수 Load
+
 }
 
 void CStage_Puzzle::Update()
@@ -84,5 +86,18 @@ void CStage_Puzzle::Enter()
 void CStage_Puzzle::Exit()
 {
 	CStage::Clear();
+}
+
+void CStage_Puzzle::PlayerMove(EDIRECTION _eDir)
+{
+	CHero* pHero = dynamic_cast<CHero*>(GetStageObject(EOBJ_TYPE::PLAYER, L"Hero"));
+
+	if (nullptr != pHero)
+	{
+		// 플레이어 이동
+		pHero->Move(_eDir);
+		// 이동 횟수 감소
+
+	}
 }
 

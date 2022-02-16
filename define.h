@@ -73,6 +73,7 @@ enum class EEVENT_TYPE
 	CREATE_OBJ,		// lParam : Object Adress		wParam : Object Type
 	DELETE_OBJ,		// lParam : Object Adress
 	STAGE_CHANGE,	// lParam : Next Stage Enum
+	PLAYER_MOVE,
 	END
 };
 
