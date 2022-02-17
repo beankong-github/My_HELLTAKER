@@ -23,14 +23,20 @@ private:
 	int					m_iCuridx;
 	float				m_fAddTime;
 	bool				m_bFinish;
+	bool				m_bFlip;	// Flip image horizontally
 
 public:
-	const wstring& GetName() { return m_strName; }
+	const wstring&	GetName() { return m_strName; }
+	CObj*			GetOwner();
+
 	bool IsFinished() { return m_bFinish; }
-	CObj* GetOwner();
-	
+	bool IsFlip() { return m_bFlip; }
+
+	void Filp(bool _bFlip) { m_bFlip = _bFlip; }
+
+public:
 	void Reset();
-	
+
 	void Save(const wstring& _strRelativeFolderPath);
 	void Load(const wstring& _strRelativeFilePath);
 

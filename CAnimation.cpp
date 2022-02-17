@@ -18,7 +18,8 @@ CAnimation::CAnimation()
 	, m_vecFrm(0)
 	, m_iCuridx(0)
 	, m_fAddTime(0)
-	, m_bFinish(0)
+	, m_bFinish(false)
+	, m_bFlip(false)
 {
 }
 
@@ -50,16 +51,54 @@ void CAnimation::Render(HDC _dc)
 {
 	Vec vRenderPos = CCamera::GetInst()->GetRenderPos(GetOwner()->GetPos());
 
-	TransparentBlt(_dc
-		, int(vRenderPos.x - m_vecFrm[m_iCuridx].vSize.x / 2.f)	// x
-		, int(vRenderPos.y - m_vecFrm[m_iCuridx].vSize.y / 2.f)	// y
-		, int(m_vecFrm[m_iCuridx].vSize.x)	// width
-		, int(m_vecFrm[m_iCuridx].vSize.y)	// height
-		, m_vecFrm[m_iCuridx].pTex->GetDC()	// Src's HDC
-		, 0, 0
-		, int(m_vecFrm[m_iCuridx].vSize.x)		// width in atlas
-		, int(m_vecFrm[m_iCuridx].vSize.y)		// height int atlas
-		, RGB(112, 12, 41));
+	if (m_bFlip)	// 이미지 좌우 반전
+	{
+		// 이미지 좌우 반전을 위해 DC 생성
+		HDC reverseDC = CreateCompatibleDC(_dc);
+		HBITMAP buffer = CreateCompatibleBitmap(m_vecFrm[m_iCuridx].pTex->GetDC(), (int)m_vecFrm[m_iCuridx].vSize.x, (int)m_vecFrm[m_iCuridx].vSize.y);
+		HGDIOBJ oldObj = SelectObject(reverseDC, buffer);
+
+		StretchBlt(reverseDC
+			, int(m_vecFrm[m_iCuridx].vSize.x)	// x
+			, 0	// y
+			, int(-(m_vecFrm[m_iCuridx].vSize.x + 1))
+			, int(m_vecFrm[m_iCuridx].vSize.y)
+			, m_vecFrm[m_iCuridx].pTex->GetDC()
+			, 0, 0
+			, int(m_vecFrm[m_iCuridx].vSize.x)		// width in atlas
+			, int(m_vecFrm[m_iCuridx].vSize.y)		// height int atlas
+			, SRCCOPY
+		);
+
+		TransparentBlt(_dc
+			, int(vRenderPos.x - m_vecFrm[m_iCuridx].vSize.x / 2.f)	// x
+			, int(vRenderPos.y - m_vecFrm[m_iCuridx].vSize.y / 2.f)	// y
+			, int(m_vecFrm[m_iCuridx].vSize.x)	// width
+			, int(m_vecFrm[m_iCuridx].vSize.y)	// height
+			, reverseDC	// Src's HDC
+			, 0, 0
+			, int(m_vecFrm[m_iCuridx].vSize.x)		// width in atlas
+			, int(m_vecFrm[m_iCuridx].vSize.y)		// height int atlas
+			, RGB(112, 12, 41));
+
+		DeleteObject(reverseDC);
+		DeleteObject(buffer);
+		DeleteObject(oldObj);
+	}
+
+	else
+	{
+		TransparentBlt(_dc
+			, int(vRenderPos.x - m_vecFrm[m_iCuridx].vSize.x / 2.f)	// x
+			, int(vRenderPos.y - m_vecFrm[m_iCuridx].vSize.y / 2.f)	// y
+			, int(m_vecFrm[m_iCuridx].vSize.x)	// width
+			, int(m_vecFrm[m_iCuridx].vSize.y)	// height
+			, m_vecFrm[m_iCuridx].pTex->GetDC()	// Src's HDC
+			, 0, 0
+			, int(m_vecFrm[m_iCuridx].vSize.x)		// width in atlas
+			, int(m_vecFrm[m_iCuridx].vSize.y)		// height int atlas
+			, RGB(112, 12, 41));
+	}
 }
 
 void CAnimation::Create(const wstring& _strAnimName, const wstring& _strRelativePath, float _fDuration, UINT _iFrmCount)

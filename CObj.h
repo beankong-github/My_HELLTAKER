@@ -15,21 +15,25 @@ private:
 	CComponent* m_arrCom[(UINT)ECOM_TYPE::END];
 
 	bool		m_bDead;
+	bool        m_bFlip;        // Filp image horizontally (T: left F:right)
 
 public:
-	void SetName(wstring _name)					{ m_strName = _name; }
-	void SetPos(Vec _point)						{ m_vPos = _point; }
-	void SetScale(Vec _point)					{ m_vScale = _point; }
+	void SetName(wstring _name)			{ m_strName = _name; }
+	void SetPos(Vec _point)				{ m_vPos = _point; }
+	void SetScale(Vec _point)			{ m_vScale = _point; }
+	void SetFlip(bool _bFlip)			{ m_bFlip = _bFlip; }
 
-	const wstring& GetName()					{ return m_strName; }
-	Vec GetPos()								{ return m_vPos; }
-	Vec GetScale()								{ return m_vScale; }
-
-	void AddComponent(CComponent* _pCom);
-	CComponent* GetComponent(ECOM_TYPE _eType)	{ return m_arrCom[(UINT)_eType];}
-	CCollider* GetCollider()					{ return (CCollider*)m_arrCom[(UINT)ECOM_TYPE::COLLIDER]; }
-	CAnimator* GetAnimator()					{ return (CAnimator*)m_arrCom[(UINT)ECOM_TYPE::ANIMATOR]; }
-	CFSM* GetFSM()								{ return (CFSM*)m_arrCom[(UINT)ECOM_TYPE::FSM]; }
+	const wstring&	GetName()			{ return m_strName; }
+	Vec				GetPos()			{ return m_vPos; }
+	Vec				GetScale()			{ return m_vScale; }
+	bool			IsFlip()			{ return m_bFlip; }
+	
+public:
+	void		AddComponent(CComponent* _pCom);
+	CComponent* GetComponent(ECOM_TYPE _eType)		{ return m_arrCom[(UINT)_eType];}
+	CCollider*	GetCollider()						{ return (CCollider*)m_arrCom[(UINT)ECOM_TYPE::COLLIDER]; }
+	CAnimator*	GetAnimator()						{ return (CAnimator*)m_arrCom[(UINT)ECOM_TYPE::ANIMATOR]; }
+	CFSM*		GetFSM()							{ return (CFSM*)m_arrCom[(UINT)ECOM_TYPE::FSM]; }
 
 	bool IsDead()								{ return m_bDead; }
 

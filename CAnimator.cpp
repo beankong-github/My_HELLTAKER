@@ -2,6 +2,8 @@
 #include "CAnimator.h"
 #include "CAnimation.h"
 
+#include "CObj.h"
+
 CAnimator::CAnimator()
 	: CComponent(ECOM_TYPE::ANIMATOR)
 	, m_pCurAnim(nullptr)
@@ -64,6 +66,8 @@ CAnimation* CAnimator::FindAnimation(const wstring& _strName)
 void CAnimator::PlayAnimation(const wstring& _strName, bool _bRepeat)
 {
 	m_pCurAnim =  FindAnimation(_strName);
+	m_pCurAnim->Filp(m_pCurAnim->GetOwner()->IsFlip());
+
 	assert(m_pCurAnim);
 
 	m_bRepeat = _bRepeat;

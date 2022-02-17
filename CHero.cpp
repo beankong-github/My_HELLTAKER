@@ -156,10 +156,12 @@ void CHero::TryMove()
 
 	case EDIRECTION::RIGHT:
 		m_pNextTile = pTileMap->FindTile((UINT)curIdx.x + 1, (UINT)curIdx.y);
+		SetFlip(false);
 		break;
 
 	case EDIRECTION::LEFT:
 		m_pNextTile = pTileMap->FindTile((UINT)curIdx.x - 1, (UINT)curIdx.y);
+		SetFlip(true);
 		break;
 	}
 
@@ -186,7 +188,7 @@ void CHero::Move(EDIRECTION _eDir)
 		return;
 
 	CAnimation* pCurAnim = GetAnimator( )->GetCurAnimation();
-	float dif = 0.f;					// 플레이어와 다음 타일 사이의 거리
+	double dif = 0.f;					// 플레이어와 다음 타일 사이의 거리
 
 	dif = sqrt(pow(GetPos().x - m_pNextTile->GetCenterPos().x, 2)
 		+ pow(GetPos().y - m_pNextTile->GetCenterPos().y, 2));
