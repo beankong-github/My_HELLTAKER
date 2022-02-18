@@ -16,6 +16,7 @@ CObj::CObj()
 	, m_vScale{}
 	, m_bDead(false)
 	, m_arrCom{}
+	, m_bFlip(false)
 {
 }
 

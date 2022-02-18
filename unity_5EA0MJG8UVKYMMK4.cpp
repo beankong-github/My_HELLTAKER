@@ -39,6 +39,9 @@
 #include "C:\Users\bueon\source\repos\My_HELLTAKER\CTimeMgr.cpp"
 
 
+#include "C:\Users\bueon\source\repos\My_HELLTAKER\CTransition.cpp"
+
+
 #include "C:\Users\bueon\source\repos\My_HELLTAKER\func.cpp"
 
 

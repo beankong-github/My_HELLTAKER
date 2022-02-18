@@ -260,7 +260,7 @@ void CTileMap::Load(const wstring& _strRelativeFilePath)
 				m_pStartTile = tile;
 			}
 		}
-	}
+	}	
 
 	// ===============
 	//	  ÆÄÀÏ ´Ý±â

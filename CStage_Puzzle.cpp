@@ -5,11 +5,18 @@
 #include "CResMgr.h"
 #include "CKeyMgr.h"
 
+
+#include "CAnimation.h"
+#include "CAnimator.h"
+
 #include "CTexture.h"
 #include "CBackGround.h"
 #include "CTile.h"
 #include "CTileMap.h"
 #include "CHero.h"
+#include "CNPC.h"
+#include "CTransition.h"
+
 
 CStage_Puzzle::CStage_Puzzle(ECHAPTER _chap)
 	: m_eChapter(_chap)
@@ -25,11 +32,18 @@ CStage_Puzzle::CStage_Puzzle(ECHAPTER _chap)
 	}
 
 	SetStageName(L"CHAP_" + std::to_wstring((UINT)_chap));
+
+	SetNPCName(m_eChapter);
 }
 
-CStage_Puzzle::~CStage_Puzzle()
+void CStage_Puzzle::Enter()
 {
+	// 트랜지션 생성	
+	m_pTransition = new CTransition;
+	m_pTransition->SetPos(Vec{ CCore::GetInst()->GetResolution().x / 2.f, CCore::GetInst()->GetResolution().y / 2.f });
+	AddObject(m_pTransition, EOBJ_TYPE::DEFAULT);
 }
+
 
 void CStage_Puzzle::Init()
 {
@@ -52,13 +66,28 @@ void CStage_Puzzle::Init()
 	m_pTileMap = pTileMap;
 	AddObject(pTileMap, EOBJ_TYPE::TILEMAP);
 
-	// hero 추가
+	//hero 추가
 	CHero* pHero = new CHero;
 	pHero->SetCurTile(pTileMap->GetStartTile());
 	pHero->SetPos(pTileMap->GetStartTile()->GetCenterPos());
 	pHero->SetScale(Vec(100, 100));
 	AddObject(pHero, EOBJ_TYPE::PLAYER);
 
+	//npc 추가
+	map<Vec, CTile*>::iterator iter = pTileMap->GetTileMap()->begin();
+	for (; iter != pTileMap->GetTileMap()->end(); ++iter)
+	{
+		if (ETILE_TYPE::NPC == iter->second->GetType())
+		{
+			if (!m_strNPCName.empty())
+			{
+				CNPC* pNPC = new CNPC(m_strNPCName);
+				pNPC->SetPos(iter->second->GetCenterPos() + Vec{0, -30});
+				pNPC->SetScale(Vec(100, 100));
+				AddObject(pNPC, EOBJ_TYPE::NPC);
+			}
+		}
+	}
 	// 움직임 횟수 Load
 
 }
@@ -66,6 +95,18 @@ void CStage_Puzzle::Init()
 void CStage_Puzzle::Update()
 {
 	CStage::Update();
+
+	// 트렌지션이 종료된 이후에 화면에 Object들을 로드한다.
+	if (nullptr != m_pTransition)
+	{
+		CAnimation* pAnimation = m_pTransition->GetAnimator()->GetCurAnimation();
+		if (pAnimation->IsFinished())
+		{
+			DeleteObject(m_pTransition);
+			m_pTransition = nullptr;
+			Init();
+		}
+	}
 }
 
 void CStage_Puzzle::Render(HDC _dc)
@@ -78,14 +119,36 @@ void CStage_Puzzle::Render(HDC _dc)
 
 }
 
-void CStage_Puzzle::Enter()
+void CStage_Puzzle::SetNPCName(ECHAPTER _eChap)
 {
-	Init();
-}
-
-void CStage_Puzzle::Exit()
-{
-	CStage::Clear();
+	// 스테이지에 따라 NPC의 이름을 붙여준다.
+	switch (_eChap)
+	{
+	case ECHAPTER::CHAP_1:
+		m_strNPCName = L"pandemonica";
+		break;
+	case ECHAPTER::CHAP_2:
+		m_strNPCName = L"modeus";
+		break;
+	case ECHAPTER::CHAP_3:
+		m_strNPCName = L"cerberus";
+		break;
+	case ECHAPTER::CHAP_4:
+		m_strNPCName = L"malina";
+		break;
+	case ECHAPTER::CHAP_5:
+		m_strNPCName = L"zdrada"; 
+		break;
+	case ECHAPTER::CHAP_6:
+		m_strNPCName = L"azazel"; 
+		break;
+	case ECHAPTER::CHAP_7:
+		m_strNPCName = L"justice";
+		break;
+	case ECHAPTER::CHAP_8:
+		m_strNPCName = L"lucy";
+		break;
+	}
 }
 
 void CStage_Puzzle::PlayerMove(EDIRECTION _eDir)
@@ -101,3 +164,11 @@ void CStage_Puzzle::PlayerMove(EDIRECTION _eDir)
 	}
 }
 
+void CStage_Puzzle::Exit()
+{
+	CStage::Clear();
+}
+
+CStage_Puzzle::~CStage_Puzzle()
+{
+}

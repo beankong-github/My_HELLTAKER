@@ -5,8 +5,9 @@ enum class ETILE_TYPE
 {
     NONE,               // 길
     WALL,               // 벽: 흰색
-    OBSTACLE,           // 방해물 : 초록색
+    NPC,                // NPC 캐릭터 위치 : 초록색
     START,              // 시작 위치 : 파란색
+    CLEAR,              // 성공 위치 : 빨간색
     END
 };
 
@@ -26,10 +27,6 @@ public:
 public:
     void Update() override;
     void Render(HDC _dc) override;
-
-    //void OnCollisionEnter(CObj* _pOther) override;
-    //void OnCollision(CObj* _pOther) override;
-    //void OnCollisionExit(CObj* _pOther) override;
 
 public:
     Vec GetCenterPos()

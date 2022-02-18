@@ -172,9 +172,9 @@ void CHero::TryMove()
 		{
 		case ETILE_TYPE::WALL:
 			return;
-		case ETILE_TYPE::OBSTACLE:
-			m_eCurState = EPLAYER_STATE::KICK;
-			break;
+		//case ETILE_TYPE::OBSTACLE:
+		//	m_eCurState = EPLAYER_STATE::KICK;
+		//	break;
 		}
 		m_eCurState = EPLAYER_STATE::MOVE;
 	}

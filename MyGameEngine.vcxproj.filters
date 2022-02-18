@@ -113,6 +113,12 @@
     <Filter Include="GAME\04. Object\Hero">
       <UniqueIdentifier>{5732b87f-4aa8-4216-9704-99ee335b44d4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GAME\04. Object\NPC">
+      <UniqueIdentifier>{9007d194-aa5b-4b97-8d76-b1354d0230d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GAME\04. Object\Transition">
+      <UniqueIdentifier>{12a2434f-ab6f-4a8f-a0c7-0a1fc1a2ccd6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -225,6 +231,12 @@
     </ClInclude>
     <ClInclude Include="CHero.h">
       <Filter>GAME\04. Object\Hero</Filter>
+    </ClInclude>
+    <ClInclude Include="CNPC.h">
+      <Filter>GAME\04. Object\NPC</Filter>
+    </ClInclude>
+    <ClInclude Include="CTransition.h">
+      <Filter>GAME\04. Object\Transition</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -347,6 +359,12 @@
     </ClCompile>
     <ClCompile Include="CHero.cpp">
       <Filter>GAME\04. Object\Hero</Filter>
+    </ClCompile>
+    <ClCompile Include="CNPC.cpp">
+      <Filter>GAME\04. Object\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="CTransition.cpp">
+      <Filter>GAME\04. Object\Transition</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

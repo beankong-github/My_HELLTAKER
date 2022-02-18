@@ -12,13 +12,16 @@ private:
     Vec     m_vPos;      // Å¸ÀÏ¸Ê À§Ä¡
 
 public:
+    CTile* GetStartTile() { return m_pStartTile; }
+    map<Vec, CTile*>* GetTileMap() { return &m_mTileMap; }
+
+public:
     void CreateTile(UINT _iCol, UINT _iRow, Vec _vPos);
     void CreateTile(Vec _vLoc, Vec _vPos);
     
     CTile* FindTile(UINT _iCol, UINT _iRow);
     void ClearTileMap();
     
-    CTile* GetStartTile() { return m_pStartTile; }
 
     void Save(const wstring& _strRelativeFolderPath);
     void Load(const wstring& _strRelativeFilePath);

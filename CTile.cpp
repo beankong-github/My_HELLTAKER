@@ -12,12 +12,6 @@ CTile::CTile()
 {
 	// 이름 설정
 	SetName(L"Tile");
-
-	//// 충돌체 생성
-	//CCollider* pCol = new CCollider;
-	//pCol->SetOffsetPos(Vec {(TILE_SIZE/2), (TILE_SIZE / 2) });
-	//pCol->SetScale(Vec(TILE_SIZE, TILE_SIZE));
-	//AddComponent(pCol);
 }
 
 CTile::~CTile()
@@ -30,7 +24,7 @@ void CTile::Update()
 	// 디버그 모드에서 타일을 클릭하면 타입이 바뀐다.
 	if (IS_KEY_TAP(KEY::LBTN))
 	{
-		Vec mousePos = CKeyMgr::GetInst()->GetMousePos();
+ 		Vec mousePos = CKeyMgr::GetInst()->GetMousePos();
 
 		if (mousePos.x >= GetPos().x
 		&&  mousePos.x <= GetPos().x + GetScale().x
@@ -38,7 +32,7 @@ void CTile::Update()
 		&&  mousePos.y <= GetPos().y + GetScale().y)
 		{
 			ETILE_TYPE type = (ETILE_TYPE)((UINT)m_eType + 1);
-			if (type == ETILE_TYPE::END)
+			if (type >= ETILE_TYPE::END)
 				type = ETILE_TYPE::NONE;
 
 			m_eType = type;
@@ -58,11 +52,14 @@ void CTile::Render(HDC _dc)
 	case ETILE_TYPE::WALL:
 		SelectObject(_dc, CCore::GetInst()->GetWhiteBRUSH());
 		break;
-	case ETILE_TYPE::OBSTACLE:
+	case ETILE_TYPE::NPC:
 		SelectObject(_dc, CCore::GetInst()->GetGreenBRUSH());
 		break;
 	case ETILE_TYPE::START:
 		SelectObject(_dc, CCore::GetInst()->GetBlueBRUSH());
+		break;
+	case ETILE_TYPE::CLEAR:
+		SelectObject(_dc, CCore::GetInst()->GetRedBRUSH());
 		break;
 	default:
 		SelectObject(_dc, hBrush);
@@ -74,16 +71,3 @@ void CTile::Render(HDC _dc)
 
 	Render_Component(_dc);
 }
-
-//void CTile::OnCollisionEnter(CObj* _pOther)
-//{
-//}
-//
-//void CTile::OnCollision(CObj* _pOther)
-//{
-//}
-//
-//void CTile::OnCollisionExit(CObj* _pOther)
-//{
-//}
-

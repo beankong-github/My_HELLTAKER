@@ -42,6 +42,9 @@
 #include "C:\Users\bueon\source\repos\My_HELLTAKER\CMonster.cpp"
 
 
+#include "C:\Users\bueon\source\repos\My_HELLTAKER\CNPC.cpp"
+
+
 #include "C:\Users\bueon\source\repos\My_HELLTAKER\CObj.cpp"
 
 
