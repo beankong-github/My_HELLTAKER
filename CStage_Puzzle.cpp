@@ -4,7 +4,7 @@
 #include "CCore.h"
 #include "CResMgr.h"
 #include "CKeyMgr.h"
-
+#include "CCamera.h"
 
 #include "CAnimation.h"
 #include "CAnimator.h"
@@ -38,10 +38,7 @@ CStage_Puzzle::CStage_Puzzle(ECHAPTER _chap)
 
 void CStage_Puzzle::Enter()
 {
-	// 트랜지션 생성	
-	m_pTransition = new CTransition;
-	m_pTransition->SetPos(Vec{ CCore::GetInst()->GetResolution().x / 2.f, CCore::GetInst()->GetResolution().y / 2.f });
-	AddObject(m_pTransition, EOBJ_TYPE::DEFAULT);
+	Init();
 }
 
 
@@ -50,16 +47,16 @@ void CStage_Puzzle::Init()
 	// 해상도 구하기
 	POINT ptResolution = CCore::GetInst()->GetResolution();
 
+	// 트랜지션 생성	
+	m_pTransition = new CTransition;
+	AddObject(m_pTransition, EOBJ_TYPE::TRANSITION);
+
 	// BG 생성
-	vector<CObj*> bg_check = GetObjects(EOBJ_TYPE::BG);
-	if (bg_check.empty())
-	{
-		CBackGround* pBG = new CBackGround(m_eChapter);
-		AddObject(pBG, EOBJ_TYPE::BG);
-	}
+	CBackGround* pBG = new CBackGround(m_eChapter);
+	AddObject(pBG, EOBJ_TYPE::BG);
 	 
 	// 타일맵 생성
-	CTileMap* pTileMap = new CTileMap;
+	CTileMap* pTileMap = new CTileMap; 
 	pTileMap->Load(L"stage\\" + GetStageName() + L".tilemap");
 	//pTileMap->CreateTile(m_vTileCount, m_vTileStartPos);
 	//pTileMap->Save(L"stage\\");
@@ -88,6 +85,7 @@ void CStage_Puzzle::Init()
 			}
 		}
 	}
+
 	// 움직임 횟수 Load
 
 }
@@ -96,7 +94,7 @@ void CStage_Puzzle::Update()
 {
 	CStage::Update();
 
-	// 트렌지션이 종료된 이후에 화면에 Object들을 로드한다.
+	// 트렌지션이 종료된 이후 transition을 삭제한다.
 	if (nullptr != m_pTransition)
 	{
 		CAnimation* pAnimation = m_pTransition->GetAnimator()->GetCurAnimation();
@@ -104,7 +102,6 @@ void CStage_Puzzle::Update()
 		{
 			DeleteObject(m_pTransition);
 			m_pTransition = nullptr;
-			Init();
 		}
 	}
 }

@@ -25,11 +25,12 @@ void CTile::Update()
 	if (IS_KEY_TAP(KEY::LBTN))
 	{
  		Vec mousePos = CKeyMgr::GetInst()->GetMousePos();
+		Vec renderPos = CCamera::GetInst()->GetRenderPos(GetPos());
 
-		if (mousePos.x >= GetPos().x
-		&&  mousePos.x <= GetPos().x + GetScale().x
-		&&	mousePos.y >= GetPos().y
-		&&  mousePos.y <= GetPos().y + GetScale().y)
+		if (mousePos.x >= renderPos.x
+		&&  mousePos.x <= renderPos.x + GetScale().x
+		&&	mousePos.y >= renderPos.y
+		&&  mousePos.y <= renderPos.y + GetScale().y)
 		{
 			ETILE_TYPE type = (ETILE_TYPE)((UINT)m_eType + 1);
 			if (type >= ETILE_TYPE::END)
@@ -65,8 +66,14 @@ void CTile::Render(HDC _dc)
 		SelectObject(_dc, hBrush);
 		break;
 	}
+	
+	Vec vRenderPos = CCamera::GetInst()->GetRenderPos(GetPos());
 
-	Rectangle(_dc, (int)GetPos().x, (int)GetPos().y, (int)GetPos().x + TILE_SIZE, (int)GetPos().y + TILE_SIZE);
+	Rectangle(_dc
+			, (int)vRenderPos.x
+			, (int)vRenderPos.y
+			, (int)vRenderPos.x + TILE_SIZE
+			, (int)vRenderPos.y + TILE_SIZE);
 #endif // _DEBUG
 
 	Render_Component(_dc);

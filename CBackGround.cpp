@@ -2,10 +2,11 @@
 #include "CBackGround.h"
 
 #include "CStageMgr.h"
-#include "CStage_Puzzle.h"
-
 #include "CResMgr.h"
+#include "CCamera.h"
+
 #include "CTexture.h"
+#include "CStage_Puzzle.h"
 
 CBackGround::CBackGround(ECHAPTER _chap)
 	: m_eChap(_chap)
@@ -31,13 +32,14 @@ void CBackGround::Update()
 
 void CBackGround::Render(HDC _dc)
 {	
-	Vec vRenderPos = Vec{ 0.f, 0.f}; // CCamera::GetInst()->GetRenderPos(GetPos());	// 카메라 위치에 따른 플래이어 최종 랜더링 위치 구하기
+	Vec vRenderPos = CCamera::GetInst()->GetRenderPos(GetPos());	// 카메라 위치에 따른 플래이어 최종 랜더링 위치 구하기
 
 	UINT iWidth = m_pTex->Width();
 	UINT iHeight = m_pTex->Height();
 	
-	TransparentBlt( _dc,
-					0,0,
+	TransparentBlt( _dc
+					, (int)vRenderPos.x
+					, (int)vRenderPos.y,
 					iWidth, iHeight,
 					m_pTex->GetDC(),
 					0,0,

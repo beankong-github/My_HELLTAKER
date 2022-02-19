@@ -20,11 +20,6 @@ void CStage_Start::Init()
 void CStage_Start::Update()
 {
 	CStage::Update();
-
-	if (IS_KEY_TAP(KEY::ENTER))
-	{
-		ChangeStage(ESTAGE_TYPE::PLAY_01);
-	}
 }
 
 void CStage_Start::Render(HDC _dc)

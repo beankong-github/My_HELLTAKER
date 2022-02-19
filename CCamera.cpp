@@ -5,7 +5,7 @@
 #include "CKeyMgr.h"
 #include "CTimeMgr.h"
 #include "CResMgr.h"
-
+#include "CStageMgr.h"
 #include "CTexture.h"
 
 int iVibSwitch = 1;

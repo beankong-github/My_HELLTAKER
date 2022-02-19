@@ -14,9 +14,9 @@ CNPC::CNPC(const wstring& _strName)
 
 	// animation 积己
 	CAnimator* pAnimator = new CAnimator;
-	//pAnimator->CreateAnimation(_strName, L"texture\\animation\\npc\\" + _strName + L"\\", 0.05f, 12);
+	//pAnimator->CreateAnimation(_strName, L"texture\\animation\\npc\\" +_strName + L"\\", 0.06f, 12);
 
-	// animation 历厘
+	//animation 历厘
 	//CAnimation* pSaveAnim = nullptr;
 	//pSaveAnim = pAnimator->FindAnimation(_strName);
 	//pSaveAnim->Save(L"animation\\npc\\");

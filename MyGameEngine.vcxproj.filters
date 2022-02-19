@@ -32,14 +32,8 @@
     <Filter Include="GAME\04. Object">
       <UniqueIdentifier>{f64bff04-4b62-4b0a-972a-bb77dc1257b9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GAME\04. Object\Player">
-      <UniqueIdentifier>{25dd3292-a88b-4ebb-8e37-0ec8d310e09a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GAME\03. Manager\KeyMgr">
       <UniqueIdentifier>{4e2125a6-e585-4536-9487-e8902080d654}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GAME\04. Object\Bullet">
-      <UniqueIdentifier>{e6de6181-57b5-4e00-ac26-9b599d08012c}</UniqueIdentifier>
     </Filter>
     <Filter Include="GAME\06. Resource">
       <UniqueIdentifier>{dedba650-bc07-4ced-8ccf-cc377fbfe7df}</UniqueIdentifier>
@@ -55,9 +49,6 @@
     </Filter>
     <Filter Include="GAME\07. Stage\Start">
       <UniqueIdentifier>{dfed5261-a216-43c2-93c9-b75a7ca4fd52}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GAME\07. Stage\Play01">
-      <UniqueIdentifier>{ec73e4d6-bcaa-4064-a729-01dad3338eef}</UniqueIdentifier>
     </Filter>
     <Filter Include="GAME\06. Resource\Texture">
       <UniqueIdentifier>{d4494569-1050-46b6-baa8-485e6c58065d}</UniqueIdentifier>
@@ -82,9 +73,6 @@
     </Filter>
     <Filter Include="GAME\05. Component\5-03. AI">
       <UniqueIdentifier>{c06fb1d5-8a94-4cad-b3dc-a233bd85a09d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GAME\04. Object\Monster">
-      <UniqueIdentifier>{0a7f4e6f-1280-48d3-ab03-38aac3c2dd32}</UniqueIdentifier>
     </Filter>
     <Filter Include="GAME\03. Manager\CollisionMgr">
       <UniqueIdentifier>{28c284b4-248d-45fa-a75c-d6f4521e7195}</UniqueIdentifier>
@@ -119,6 +107,15 @@
     <Filter Include="GAME\04. Object\Transition">
       <UniqueIdentifier>{12a2434f-ab6f-4a8f-a0c7-0a1fc1a2ccd6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GAME\04. Object\Obstacle">
+      <UniqueIdentifier>{cbc48b78-2aab-49ae-88b3-6b06e9b8654f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GAME\04. Object\Obstacle\Rock">
+      <UniqueIdentifier>{d3bba5e8-dbad-4401-b6c0-d721f023ea68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GAME\04. Object\Obstacle\Undead">
+      <UniqueIdentifier>{6f11e3a2-e4b2-4f12-af39-6989fa48846f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -132,9 +129,6 @@
     </ClInclude>
     <ClInclude Include="MyGameEngine.h">
       <Filter>Main</Filter>
-    </ClInclude>
-    <ClInclude Include="CPlayer.h">
-      <Filter>GAME\04. Object\Player</Filter>
     </ClInclude>
     <ClInclude Include="CCore.h">
       <Filter>GAME\02. Core</Filter>
@@ -157,9 +151,6 @@
     <ClInclude Include="CObj.h">
       <Filter>GAME\04. Object</Filter>
     </ClInclude>
-    <ClInclude Include="CBullet.h">
-      <Filter>GAME\04. Object\Bullet</Filter>
-    </ClInclude>
     <ClInclude Include="CStageMgr.h">
       <Filter>GAME\03. Manager\StageMgr</Filter>
     </ClInclude>
@@ -168,9 +159,6 @@
     </ClInclude>
     <ClInclude Include="CStage.h">
       <Filter>GAME\07. Stage</Filter>
-    </ClInclude>
-    <ClInclude Include="CStage_Play01.h">
-      <Filter>GAME\07. Stage\Play01</Filter>
     </ClInclude>
     <ClInclude Include="CResource.h">
       <Filter>GAME\06. Resource</Filter>
@@ -201,9 +189,6 @@
     </ClInclude>
     <ClInclude Include="CFSM.h">
       <Filter>GAME\05. Component\5-03. AI</Filter>
-    </ClInclude>
-    <ClInclude Include="CMonster.h">
-      <Filter>GAME\04. Object\Monster</Filter>
     </ClInclude>
     <ClInclude Include="CCollisionMgr.h">
       <Filter>GAME\03. Manager\CollisionMgr</Filter>
@@ -267,9 +252,6 @@
     <ClCompile Include="MyGameEngine.cpp">
       <Filter>Main</Filter>
     </ClCompile>
-    <ClCompile Include="CPlayer.cpp">
-      <Filter>GAME\04. Object\Player</Filter>
-    </ClCompile>
     <ClCompile Include="CCore.cpp">
       <Filter>GAME\02. Core</Filter>
     </ClCompile>
@@ -282,9 +264,6 @@
     <ClCompile Include="CObj.cpp">
       <Filter>GAME\04. Object</Filter>
     </ClCompile>
-    <ClCompile Include="CBullet.cpp">
-      <Filter>GAME\04. Object\Bullet</Filter>
-    </ClCompile>
     <ClCompile Include="CStageMgr.cpp">
       <Filter>GAME\03. Manager\StageMgr</Filter>
     </ClCompile>
@@ -293,9 +272,6 @@
     </ClCompile>
     <ClCompile Include="CStage.cpp">
       <Filter>GAME\07. Stage</Filter>
-    </ClCompile>
-    <ClCompile Include="CStage_Play01.cpp">
-      <Filter>GAME\07. Stage\Play01</Filter>
     </ClCompile>
     <ClCompile Include="CResource.cpp">
       <Filter>GAME\06. Resource</Filter>
@@ -326,9 +302,6 @@
     </ClCompile>
     <ClCompile Include="CFSM.cpp">
       <Filter>GAME\05. Component\5-03. AI</Filter>
-    </ClCompile>
-    <ClCompile Include="CMonster.cpp">
-      <Filter>GAME\04. Object\Monster</Filter>
     </ClCompile>
     <ClCompile Include="CCollisionMgr.cpp">
       <Filter>GAME\03. Manager\CollisionMgr</Filter>

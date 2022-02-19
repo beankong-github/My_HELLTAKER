@@ -49,7 +49,7 @@ public:
 
 public:
 	Vec GetRenderPos(Vec _vPos) { return _vPos - m_vDiff; }
-
+	Vec GetOriginalPos(Vec _vPos) { return m_vLookAt + _vPos; }
 public:
 	void FadeIn(float _fTime)
 	{

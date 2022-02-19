@@ -6,10 +6,10 @@
 
 #include "CStage.h"
 #include "CStage_Start.h"
-#include "CStage_Play01.h"
 #include "CStage_Tool.h"
 #include "CStage_Puzzle.h"
 #include "CStage_Transition.h"
+
 //#include "CStage_Exit.h"
 
 CStageMgr::CStageMgr()
@@ -39,7 +39,6 @@ void CStageMgr::Init()
 	// 모든 스테이지 생성
 	m_arrStage[(UINT)ESTAGE_TYPE::TOOL][0] = new CStage_Tool;
 	m_arrStage[(UINT)ESTAGE_TYPE::START][0] = new CStage_Start;
-	m_arrStage[(UINT)ESTAGE_TYPE::PLAY_01][0] = new CStage_Play01;
 
 	for (UINT i = 1; i < (UINT)ECHAPTER::END; i++)
 	{
