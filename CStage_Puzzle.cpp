@@ -4,6 +4,7 @@
 #include "CCore.h"
 #include "CResMgr.h"
 #include "CKeyMgr.h"
+#include "CPathMgr.h"
 #include "CCamera.h"
 
 #include "CAnimation.h"
@@ -11,6 +12,7 @@
 
 #include "CTexture.h"
 #include "CBackGround.h"
+#include "CUI_Counter.h"
 #include "CTile.h"
 #include "CTileMap.h"
 #include "CHero.h"
@@ -32,8 +34,10 @@ CStage_Puzzle::CStage_Puzzle(ECHAPTER _chap)
 	}
 
 	SetStageName(L"CHAP_" + std::to_wstring((UINT)_chap));
-
 	SetNPCName(m_eChapter);
+	
+	//Save(L"stage\\puzzle\\");
+	Load(L"stage\\puzzle\\" + GetStageName() + L".stage");
 }
 
 void CStage_Puzzle::Enter()
@@ -44,20 +48,21 @@ void CStage_Puzzle::Enter()
 
 void CStage_Puzzle::Init()
 {
-	// 해상도 구하기
-	POINT ptResolution = CCore::GetInst()->GetResolution();
-
 	// 트랜지션 생성	
 	m_pTransition = new CTransition;
 	AddObject(m_pTransition, EOBJ_TYPE::TRANSITION);
 
+	// UI 생성
+	CUI_Counter* pUI = new CUI_Counter();
+	AddObject(pUI, EOBJ_TYPE::UI);
+
 	// BG 생성
 	CBackGround* pBG = new CBackGround(m_eChapter);
 	AddObject(pBG, EOBJ_TYPE::BG);
-	 
+
 	// 타일맵 생성
 	CTileMap* pTileMap = new CTileMap; 
-	pTileMap->Load(L"stage\\" + GetStageName() + L".tilemap");
+	pTileMap->Load(L"stage\\tilemap\\" + GetStageName() + L".tilemap");
 	//pTileMap->CreateTile(m_vTileCount, m_vTileStartPos);
 	//pTileMap->Save(L"stage\\");
 	m_pTileMap = pTileMap;
@@ -161,9 +166,102 @@ void CStage_Puzzle::PlayerMove(EDIRECTION _eDir)
 	}
 }
 
+void CStage_Puzzle::StageClear()
+{
+}
+
 void CStage_Puzzle::Exit()
 {
 	CStage::Clear();
+}
+
+void CStage_Puzzle::Save(const wstring& _strRelativeFolderPath)
+{
+	// ===============
+	//	파일 경로 찾기
+	// ===============
+	wstring strFilePath = CPathMgr::GetInst()->GetContentPath();
+
+	strFilePath += _strRelativeFolderPath;
+	strFilePath += GetStageName();
+	strFilePath += L".stage";
+
+	// ===============
+	//	  파일 열기
+	// ===============
+	FILE* pFile = nullptr;
+	_wfopen_s(&pFile, strFilePath.c_str(), L"wb");	// 파일 포인터 변수의 주소값을 받아가서 파일의 주소를 저장해준다.
+	if (nullptr == pFile)
+	{
+		wchar_t szErr[256] = {};
+		errno_t err = GetLastError();
+		wsprintf(szErr, L"에러 발생, 에러코드: %d", err);
+		MessageBox(CCore::GetInst()->GetMainWndHWND(), szErr, L"타일 맵 저장 오류", MB_OK);
+
+		return;
+	}
+
+	// =======================
+	//  스테이지 데이터 저장하기
+	// =======================
+	// 스테이지 이름
+	fwprintf_s(pFile, L"[TileMap_Stage_Name]\n");
+	fwprintf_s(pFile, GetStageName().c_str());
+	fwprintf_s(pFile, L"\n\n");
+
+	// 움직임 갯수
+	fwprintf_s(pFile, L"[Move_Count]\n");
+	fwprintf_s(pFile, std::to_wstring(m_iInitMoveCount).c_str());
+	fwprintf_s(pFile, L"\n\n");	
+	
+	// ===============
+	//	  파일 닫기
+	// ===============
+	fclose(pFile);
+}
+
+void CStage_Puzzle::Load(const wstring& _strRelativeFilePath)
+{
+	// ===============
+	//	절대 경로 찾기
+	// ===============
+	wstring strFilePath = CPathMgr::GetInst()->GetContentPath();
+	strFilePath += _strRelativeFilePath;
+
+
+	// ===============
+	//	  파일 열기
+	// ===============
+	FILE* pFile = nullptr;
+	_wfopen_s(&pFile, strFilePath.c_str(), L"rb");	// 해당 경로의 파일을 읽기 모드로 열어 파일 포인터 변수의 주소값에 파일의 주소를 저장해준다.
+
+	if (nullptr == pFile)
+	{
+		wchar_t szErr[256] = {};
+		errno_t err = GetLastError();
+		wsprintf(szErr, L"에러 발생, 에러코드: %d", err);
+		MessageBox(CCore::GetInst()->GetMainWndHWND(), szErr, L"타일맵 로딩 오류", MB_OK);
+
+		return;
+	}
+	// =======================
+	//  스테이지 데이터 로드하기
+	// =======================	
+	wchar_t szBuff[256] = L"";
+
+	fwscanf_s(pFile, L"%s", szBuff, 256);
+	fwscanf_s(pFile, L"%s", szBuff, 256);
+	SetStageName(szBuff);
+
+	fwscanf_s(pFile, L"%s", szBuff, 256);
+	fwscanf_s(pFile, L"%s", szBuff, 256);
+	m_iInitMoveCount = (UINT)_wtoi(szBuff);
+	
+	// ===============
+	//	  파일 닫기
+	// ===============
+	fclose(pFile);
+
 }
 
 CStage_Puzzle::~CStage_Puzzle()

@@ -36,8 +36,9 @@ public:
 
 public:
     void PlayerMove(EDIRECTION _eDir);
+    void StageClear();
 
-
+    //void SaveCurrentStage();
 public:
     void Init() override;
     void Update() override;
@@ -45,6 +46,10 @@ public:
 
     void Enter() override;
     void Exit() override;
+    
+    void Save(const wstring& _strRelativeFolderPath);
+    void Load(const wstring& _strRelativeFilePath);
+
 public:
     CStage_Puzzle(ECHAPTER _eChap);
     ~CStage_Puzzle();

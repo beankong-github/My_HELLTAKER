@@ -6,6 +6,7 @@
 
 #include "CStageMgr.h"
 #include "CStage.h"
+#include "CStage_Puzzle.h"
 
 #include "CTile.h"
 
@@ -17,7 +18,7 @@ CTileMap::CTileMap()
 CTileMap::~CTileMap()
 {
 #ifdef _DEBUG
-	Save(L"stage\\");
+	Save(L"stage\\tilemap\\");
 #endif // _DEBUG
 
 	ClearTileMap();
@@ -208,7 +209,7 @@ void CTileMap::Load(const wstring& _strRelativeFilePath)
 	}
 
 	// =======================
-	// 타일맵 데이터 읽어오기
+	//	타일맵 데이터 읽어오기
 	// =======================
 
 	// 타일 맵 이름

@@ -194,7 +194,7 @@ void CHero::Move(EDIRECTION _eDir)
 		+ pow(GetPos().y - m_pNextTile->GetCenterPos().y, 2));
 
 	// 다음 타일과 플레이어의 위치가 거의 일치하다면
-	if (dif <= 10.f)
+	if (dif <= 15.f)
 	{
 		SetPos(m_pNextTile->GetCenterPos());
 		pCurAnim->Reset();

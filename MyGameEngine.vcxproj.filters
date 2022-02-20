@@ -116,6 +116,12 @@
     <Filter Include="GAME\04. Object\Obstacle\Undead">
       <UniqueIdentifier>{6f11e3a2-e4b2-4f12-af39-6989fa48846f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GAME\04. Object\Obstacle\Spike">
+      <UniqueIdentifier>{8770595e-5fac-4f90-bc27-edf834fbd24a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GAME\04. Object\UI">
+      <UniqueIdentifier>{f13710c5-56f0-4e5e-bed1-e6f870f4ec28}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -223,6 +229,7 @@
     <ClInclude Include="CTransition.h">
       <Filter>GAME\04. Object\Transition</Filter>
     </ClInclude>
+    <ClInclude Include="CUI_Counter.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MyGameEngine.rc">
@@ -339,5 +346,6 @@
     <ClCompile Include="CTransition.cpp">
       <Filter>GAME\04. Object\Transition</Filter>
     </ClCompile>
+    <ClCompile Include="CUI_Counter.cpp" />
   </ItemGroup>
 </Project>

@@ -139,7 +139,7 @@ void CAnimation::Save(const wstring& _strRelativeFolderPath)
 	strFilePath += _strRelativeFolderPath;
 	strFilePath += m_strName;
 	strFilePath += L".anim";
-	
+
 	// ===============
 	//	  파일 열기
 	// ===============
@@ -201,7 +201,7 @@ void CAnimation::Load(const wstring& _strRelativeFilePath)
 	// ===============
 	wstring strFilePath = CPathMgr::GetInst()->GetContentPath();
 	strFilePath += _strRelativeFilePath;
-	
+
 
 	// ===============
 	//	  파일 열기
@@ -222,7 +222,7 @@ void CAnimation::Load(const wstring& _strRelativeFilePath)
 	// =======================
 	// 애니메이션 데이터 읽어오기
 	// =======================
-	
+
 
 	// 애니메이션 이름
 	wchar_t szBuff[256] = L"";
@@ -233,7 +233,7 @@ void CAnimation::Load(const wstring& _strRelativeFilePath)
 	// 각 프레임 정보
 	fwscanf_s(pFile, L"%s", szBuff, 256);
 	fwscanf_s(pFile, L"%s", szBuff, 256);
-	
+
 	int iFrmCount = 0;
 	fwscanf_s(pFile, L"%d", &iFrmCount);
 
@@ -250,7 +250,7 @@ void CAnimation::Load(const wstring& _strRelativeFilePath)
 		fwscanf_s(pFile, L"%s", szBuff, 256);
 		fwscanf_s(pFile, L"%s", szBuff, 256);
 		frm.strRelativeTexPath = szBuff;
-		
+
 		// 프레임 텍스처
 		frm.pTex = CResMgr::GetInst()->LoadTexture(frm.strName, frm.strRelativeTexPath.c_str());
 
