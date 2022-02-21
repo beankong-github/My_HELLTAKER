@@ -229,7 +229,9 @@
     <ClInclude Include="CTransition.h">
       <Filter>GAME\04. Object\Transition</Filter>
     </ClInclude>
-    <ClInclude Include="CUI_Counter.h" />
+    <ClInclude Include="CUI_Counter.h">
+      <Filter>GAME\04. Object\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MyGameEngine.rc">
@@ -346,6 +348,8 @@
     <ClCompile Include="CTransition.cpp">
       <Filter>GAME\04. Object\Transition</Filter>
     </ClCompile>
-    <ClCompile Include="CUI_Counter.cpp" />
+    <ClCompile Include="CUI_Counter.cpp">
+      <Filter>GAME\04. Object\UI</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

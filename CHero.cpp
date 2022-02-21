@@ -22,6 +22,9 @@ CHero::CHero()
 	// 이름 설정
 	SetName(L"Hero");
 
+	// 현재 스테이지 설정
+	m_pCurStage = dynamic_cast<CStage_Puzzle*>(CStageMgr::GetInst()->GetCurStage());
+
 	// 애니메이션 생성
 	CAnimator* pAnimator = new CAnimator;
 	//pAnimator->CreateAnimation(L"idle", L"texture\\animation\\hero\\idle\\", 0.05f, 12);
@@ -90,6 +93,15 @@ void CHero::Update()
 	case EPLAYER_STATE::SUCCESS:
 		break;
 	case EPLAYER_STATE::DEAD:
+		GetAnimator()->PlayAnimation(L"dead", false);
+		if (GetAnimator()->GetCurAnimation()->IsFinished())
+		{
+			tEventInfo eventInfo;
+			eventInfo.eType = EEVENT_TYPE::STAGE_CHANGE;
+			eventInfo.lParam = (DWORD)ESTAGE_TYPE::PUZZLE;
+			eventInfo.wParam = (DWORD)m_pCurStage->GetChapter();
+			CEventMgr::GetInst()->AddEvent(eventInfo);
+		}
 		break;
 	}
 }
@@ -133,12 +145,11 @@ void CHero::TryMove()
 	/* 이동할 타일이 벽이 아니라면 이동 */
 
 	// 현재 퍼즐 스테이지 가져오기
-	CStage_Puzzle* curStage = dynamic_cast<CStage_Puzzle*>(CStageMgr::GetInst()->GetCurStage());
-	if (nullptr == curStage)
+	if (nullptr == m_pCurStage)
 		assert(nullptr);
 
 	// 스테이지의 타일맵 가져오기
-	CTileMap* pTileMap = curStage->GetTileMap();
+	CTileMap* pTileMap = m_pCurStage->GetTileMap();
 
 	// 현재 플레이어 타일 인덱스 가져오기
 	Vec curIdx = m_pCurTile->GetIndex();
@@ -188,19 +199,39 @@ void CHero::Move(EDIRECTION _eDir)
 		return;
 
 	CAnimation* pCurAnim = GetAnimator( )->GetCurAnimation();
-	double dif = 0.f;					// 플레이어와 다음 타일 사이의 거리
 
-	dif = sqrt(pow(GetPos().x - m_pNextTile->GetCenterPos().x, 2)
+	// 플레이어와 다음 타일 사이의 거리
+	double dif = sqrt(pow(GetPos().x - m_pNextTile->GetCenterPos().x, 2)
 		+ pow(GetPos().y - m_pNextTile->GetCenterPos().y, 2));
 
 	// 다음 타일과 플레이어의 위치가 거의 일치하다면
 	if (dif <= 15.f)
 	{
+		// 플레이어 위치 보정
 		SetPos(m_pNextTile->GetCenterPos());
+		
+		// Move Animation 초기화
 		pCurAnim->Reset();
+
+		// 남은 이동 횟수 설정 
+		// 남은 이동 횟수가 0이라면 Dead
+		m_pCurStage->SetCurMoveCount(m_pCurStage->GetCurMoveCount() - 1);
+		if (m_pCurStage->GetCurMoveCount() == 0)
+		{
+			SetPos(GetPos() + Vec{ 0, -300 });
+			m_pCurStage->PlayerDead();
+			SetState(EPLAYER_STATE::DEAD);
+		}
+		else
+			SetState(EPLAYER_STATE::IDLE);
+		
+		// 이동 방향 초기화
 		m_eMovDir = EDIRECTION::NONE;
-		SetState(EPLAYER_STATE::IDLE);
+		
+		// 목적지 타일을 현재 타일로 설정
 		SetCurTile(m_pNextTile);
+
+		// 목적지 타일 초기화
 		m_pNextTile = nullptr;
 	}
 	else

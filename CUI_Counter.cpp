@@ -5,11 +5,19 @@
 #include "CCamera.h"
 #include "CResMgr.h"
 #include "CTexture.h"
+#include "CStageMgr.h"
+#include "CStage_Puzzle.h"
+#include "CPathMgr.h"
 
 CUI_Counter::CUI_Counter()
 {
+	// 텍스처 로드
 	m_pFrontUITex = CResMgr::GetInst()->LoadTexture(L"ui_1", L"texture\\ui\\main_ui\\ui_1_test.bmp");
 	m_pBackUITex = CResMgr::GetInst()->LoadTexture(L"ui_2", L"texture\\ui\\main_ui\\ui_2.bmp");
+
+	// 폰트 추가
+	CreateFont();
+
 }
 
 void CUI_Counter::Update()
@@ -64,15 +72,15 @@ void CUI_Counter::Render(HDC _dc)
 	HBITMAP buffer1 = CreateCompatibleBitmap(m_pBackUITex->GetDC(), (int)vBackUI_Size.x, (int)vBackUI_Size.y);
 	HGDIOBJ oldObj1 = SelectObject(reverseBackUIDC, buffer1);
 
-	StretchBlt(reverseBackUIDC					// 출력 대상 HDC
+	StretchBlt(reverseBackUIDC				// 출력 대상 HDC
 		, (int)vBackUI_Size.x				// 출력을 시작할 x 좌표
 		, 0									// 출력을 시작할 y 좌표
 		, (int)-(vBackUI_Size.x + 1)		// 출력을 종료할 x 좌료
 		, (int)vBackUI_Size.y				// 출력을 종료할 y 좌표
 		, m_pBackUITex->GetDC()				// Src's HDC
 		, 0, 0								// src image start position
-		, (int)vBackUI_Size.x					// image width
-		, (int)vBackUI_Size.y					// image height
+		, (int)vBackUI_Size.x				// image width
+		, (int)vBackUI_Size.y				// image height
 		, SRCCOPY							// copy 방법
 	);
 
@@ -104,8 +112,8 @@ void CUI_Counter::Render(HDC _dc)
 		, (int)vFrontUI_Size.y				// 출력을 종료할 y 좌표
 		, m_pFrontUITex->GetDC()			// Src's HDC
 		, 0, 0								// src image start position
-		, (int)vFrontUI_Size.x					// image width
-		, (int)vFrontUI_Size.y					// image height
+		, (int)vFrontUI_Size.x				// image width
+		, (int)vFrontUI_Size.y				// image height
 		, SRCCOPY							// copy 방법
 	);
 
@@ -126,10 +134,52 @@ void CUI_Counter::Render(HDC _dc)
 	DeleteObject(buffer2);
 	DeleteObject(oldObj2);
 
+	// Counter 글씨 출력
+	CStage_Puzzle* curStage = dynamic_cast<CStage_Puzzle*>(CStageMgr::GetInst()->GetCurStage());
+	if (nullptr != curStage)
+	{
+		Vec vResolution = CCore::GetInst()->GetResolution();
+		wstring curCount = std::to_wstring(curStage->GetCurMoveCount());
+		wstring curChap = std::to_wstring((UINT)curStage->GetChapter());
+
+		SetBkMode(_dc, 1);
+		SetTextColor(_dc, RGB(255, 255, 255)); 
+		SetTextAlign(_dc, TA_CENTER);
+		HFONT OldFont = (HFONT)SelectObject(_dc, m_hFont); 
+		TextOut(_dc, 200, 730, curCount.c_str(), curCount.length());
+		TextOut(_dc, vResolution.x - 190, 730, curChap.c_str(), curCount.length());
+		DeleteObject(OldFont);
+	}
+
 
 }
 
+void CUI_Counter::CreateFont()
+{
+	wstring path = wstring(CPathMgr::GetInst()->GetContentPath());
+	int a = AddFontResource((path + L"font\\HeirofLightRegular.ttf").c_str());
+
+	LOGFONT lf = LOGFONT{};
+	lf.lfHeight = 180;			// 폰트 크기
+	lf.lfWeight = 0;
+	lf.lfEscapement = 0;
+	lf.lfOrientation = 0;
+	lf.lfWeight = 0;
+	lf.lfItalic = 0;
+	lf.lfUnderline = 0;
+	lf.lfStrikeOut = 0;
+	lf.lfCharSet = HANGEUL_CHARSET;
+	lf.lfOutPrecision = 0;
+	lf.lfClipPrecision = 0;
+	lf.lfQuality = 0;
+	lf.lfPitchAndFamily = FIXED_PITCH;
+	lstrcpy(lf.lfFaceName, TEXT("빛의 계승자 Regular"));
+
+	m_hFont = CreateFontIndirect(&lf);
+}
 
 CUI_Counter::~CUI_Counter()
 {
+	RemoveFontResource(L"HeirofLightRegular.ttf");
+	DeleteObject(m_hFont);
 }

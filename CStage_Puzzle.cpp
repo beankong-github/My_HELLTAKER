@@ -35,13 +35,14 @@ CStage_Puzzle::CStage_Puzzle(ECHAPTER _chap)
 
 	SetStageName(L"CHAP_" + std::to_wstring((UINT)_chap));
 	SetNPCName(m_eChapter);
-	
-	//Save(L"stage\\puzzle\\");
-	Load(L"stage\\puzzle\\" + GetStageName() + L".stage");
 }
 
 void CStage_Puzzle::Enter()
 {
+
+	//Save(L"stage\\puzzle\\");
+	Load(L"stage\\puzzle\\" + GetStageName() + L".stage");
+
 	Init();
 }
 
@@ -161,8 +162,16 @@ void CStage_Puzzle::PlayerMove(EDIRECTION _eDir)
 	{
 		// 플레이어 이동
 		pHero->Move(_eDir);
-		// 이동 횟수 감소
+	}
+}
 
+void CStage_Puzzle::PlayerDead()
+{
+	for (UINT i = 0; i < (UINT)EOBJ_TYPE::END; i++)
+	{
+		if ((EOBJ_TYPE)i == EOBJ_TYPE::PLAYER)
+			continue;
+		CStage::Clear((EOBJ_TYPE)i);	
 	}
 }
 
@@ -256,7 +265,7 @@ void CStage_Puzzle::Load(const wstring& _strRelativeFilePath)
 	fwscanf_s(pFile, L"%s", szBuff, 256);
 	fwscanf_s(pFile, L"%s", szBuff, 256);
 	m_iInitMoveCount = (UINT)_wtoi(szBuff);
-	
+	m_iCurMoveCount = m_iInitMoveCount;
 	// ===============
 	//	  파일 닫기
 	// ===============

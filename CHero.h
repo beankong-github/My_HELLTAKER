@@ -16,6 +16,7 @@ class CHero :
     public CObj
 {
 private:
+    CStage_Puzzle*  m_pCurStage;
     EPLAYER_STATE   m_eCurState;
     CTile*          m_pCurTile;
     CTile*          m_pNextTile;

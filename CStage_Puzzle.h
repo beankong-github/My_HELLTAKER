@@ -25,6 +25,7 @@ public:
     void    SetvTileCount(Vec _vCount)      { m_vTileCount = _vCount; }
     void    SetvTileStartPos(Vec _vPos)     { m_vTileStartPos = _vPos; }
     void    SetInitMoveCount(UINT _iMove)   { m_iInitMoveCount = _iMove; }
+    void    SetCurMoveCount(UINT _iMove)     { m_iCurMoveCount = _iMove; }
     void    SetNPCName(ECHAPTER _eChap);
 
     ECHAPTER        GetChapter()                { return m_eChapter; }
@@ -36,6 +37,7 @@ public:
 
 public:
     void PlayerMove(EDIRECTION _eDir);
+    void PlayerDead();
     void StageClear();
 
     //void SaveCurrentStage();
