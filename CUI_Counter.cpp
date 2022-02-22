@@ -157,7 +157,7 @@ void CUI_Counter::Render(HDC _dc)
 void CUI_Counter::CreateFont()
 {
 	wstring path = wstring(CPathMgr::GetInst()->GetContentPath());
-	int a = AddFontResource((path + L"font\\HeirofLightRegular.ttf").c_str());
+	AddFontResource((path + L"font\\HeirofLightRegular.ttf").c_str());
 
 	LOGFONT lf = LOGFONT{};
 	lf.lfHeight = 180;			// 폰트 크기

@@ -29,7 +29,7 @@ CHero::CHero()
 	CAnimator* pAnimator = new CAnimator;
 	//pAnimator->CreateAnimation(L"idle", L"texture\\animation\\hero\\idle\\", 0.05f, 12);
 	//pAnimator->CreateAnimation(L"move", L"texture\\animation\\hero\\move\\", 0.05f, 6);
-	//pAnimator->CreateAnimation(L"success", L"texture\\animation\\hero\\success\\", 0.05f, 19);
+	//pAnimator->CreateAnimation(L"success", L"texture\\animation\\hero\\success\\", 0.11f, 19);
 	//pAnimator->CreateAnimation(L"kick", L"texture\\animation\\hero\\kick\\", 0.05f, 13);
 	//pAnimator->CreateAnimation(L"dead", L"texture\\animation\\hero\\dead\\", 0.05f, 18);
 
@@ -71,7 +71,10 @@ void CHero::Update()
 {
 	KeyCheck();
 
+	// 현재 애니메이션 얻기
 	CAnimation* pCurAnim = GetAnimator()->GetCurAnimation();
+
+	// 상태에 따른 동작
 	switch (m_eCurState)
 	{
 	case EPLAYER_STATE::IDLE:
@@ -81,6 +84,7 @@ void CHero::Update()
 			GetAnimator()->PlayAnimation(L"idle");
 		}
 		break;
+	
 	case EPLAYER_STATE::MOVE:
 		// player move event 추가
 		tEventInfo eventInfo;
@@ -88,10 +92,31 @@ void CHero::Update()
 		eventInfo.lParam = (DWORD)m_eMovDir;
 		CEventMgr::GetInst()->AddEvent(eventInfo);
 		break;
+	
 	case EPLAYER_STATE::KICK:
 		break;
+	
 	case EPLAYER_STATE::SUCCESS:
+		GetAnimator()->PlayAnimation(L"success", false);
+		if (GetAnimator()->GetCurAnimation()->IsFinished())
+		{
+			// 다음 씬으로 이동
+			tEventInfo eventInfo;
+			eventInfo.eType = EEVENT_TYPE::STAGE_CHANGE;
+			eventInfo.lParam = (DWORD)ESTAGE_TYPE::PUZZLE;
+			
+			ECHAPTER eNextStage = (ECHAPTER)((UINT)m_pCurStage->GetChapter() + 1);
+			if (ECHAPTER::END == eNextStage)
+			{
+				eNextStage = ECHAPTER::CHAP_1;
+			}
+			eventInfo.wParam = (DWORD)eNextStage;
+
+			CEventMgr::GetInst()->AddEvent(eventInfo);
+		}
+
 		break;
+
 	case EPLAYER_STATE::DEAD:
 		GetAnimator()->PlayAnimation(L"dead", false);
 		if (GetAnimator()->GetCurAnimation()->IsFinished())
@@ -103,6 +128,12 @@ void CHero::Update()
 			CEventMgr::GetInst()->AddEvent(eventInfo);
 		}
 		break;
+	}
+	
+	// 현재 타일이 GOAL 타일이라면 성공
+	if (ETILE_TYPE::GOAL == m_pCurTile->GetType())
+	{
+		m_eCurState = EPLAYER_STATE::SUCCESS;
 	}
 }
 
