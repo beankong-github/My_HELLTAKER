@@ -17,15 +17,19 @@ class CHero :
 {
 private:
     CStage_Puzzle*  m_pCurStage;
-    EPLAYER_STATE   m_eCurState;
+    
+    EPLAYER_STATE   m_eState;
+
     CTile*          m_pCurTile;
     CTile*          m_pNextTile;
    
     EDIRECTION      m_eMovDir;
     float           m_fSpeed;
 
+    bool            m_bKey;
+
 public:
-    void SetState(EPLAYER_STATE _eState)    { m_eCurState = _eState; }
+    void SetState(EPLAYER_STATE _eState)    { m_eState = _eState; }
     void SetSpeed(float _fSpeed)            { m_fSpeed = _fSpeed; }
     void SetCurTile(CTile* _pTile)          { m_pCurTile = _pTile; }
 

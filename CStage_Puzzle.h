@@ -19,6 +19,12 @@ private:
     UINT        m_iInitMoveCount;
     UINT        m_iCurMoveCount;
 
+    UINT        m_iOBRockCount;     // 오브젝트 Rock 개수
+    UINT        m_iOBUndeadCount;   // 오브젝트 Undead 개수
+    UINT        m_iOBSSpikeCount;   // 오브젝트 Static Spike 개수
+    UINT        m_iOBDSpikeCount;   // 오브젝트 Dynamic Spike 개수
+
+
     wstring     m_strNPCName;
 
 public:

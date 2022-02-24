@@ -232,6 +232,21 @@
     <ClInclude Include="CUI_Counter.h">
       <Filter>GAME\04. Object\UI</Filter>
     </ClInclude>
+    <ClInclude Include="CObstacle.h">
+      <Filter>GAME\04. Object\Obstacle</Filter>
+    </ClInclude>
+    <ClInclude Include="CRock.h">
+      <Filter>GAME\04. Object\Obstacle\Rock</Filter>
+    </ClInclude>
+    <ClInclude Include="CDynamic_Spike.h">
+      <Filter>GAME\04. Object\Obstacle\Spike</Filter>
+    </ClInclude>
+    <ClInclude Include="CStatic_Spike.h">
+      <Filter>GAME\04. Object\Obstacle\Spike</Filter>
+    </ClInclude>
+    <ClInclude Include="CUndead.h">
+      <Filter>GAME\04. Object\Obstacle\Undead</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MyGameEngine.rc">
@@ -350,6 +365,21 @@
     </ClCompile>
     <ClCompile Include="CUI_Counter.cpp">
       <Filter>GAME\04. Object\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="CObstacle.cpp">
+      <Filter>GAME\04. Object\Obstacle</Filter>
+    </ClCompile>
+    <ClCompile Include="CRock.cpp">
+      <Filter>GAME\04. Object\Obstacle\Rock</Filter>
+    </ClCompile>
+    <ClCompile Include="CDynamic_Spike.cpp">
+      <Filter>GAME\04. Object\Obstacle\Spike</Filter>
+    </ClCompile>
+    <ClCompile Include="CStatic_Spike.cpp">
+      <Filter>GAME\04. Object\Obstacle\Spike</Filter>
+    </ClCompile>
+    <ClCompile Include="CUndead.cpp">
+      <Filter>GAME\04. Object\Obstacle\Undead</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

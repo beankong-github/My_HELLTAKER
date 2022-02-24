@@ -146,8 +146,8 @@ void CUI_Counter::Render(HDC _dc)
 		SetTextColor(_dc, RGB(255, 255, 255)); 
 		SetTextAlign(_dc, TA_CENTER);
 		HFONT OldFont = (HFONT)SelectObject(_dc, m_hFont); 
-		TextOut(_dc, 200, 730, curCount.c_str(), curCount.length());
-		TextOut(_dc, vResolution.x - 190, 730, curChap.c_str(), curCount.length());
+		TextOut(_dc, 200, 730, curCount.c_str(), (int)curCount.length());
+		TextOut(_dc, int(vResolution.x - 190), 730, curChap.c_str(), (int)curCount.length());
 		DeleteObject(OldFont);
 	}
 

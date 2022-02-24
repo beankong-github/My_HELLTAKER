@@ -15,7 +15,7 @@
 
 CHero::CHero()
 	: m_fSpeed(700.f)
-	, m_eCurState(EPLAYER_STATE::IDLE)
+	, m_eState(EPLAYER_STATE::IDLE)
 	, m_pCurTile(nullptr)
 	, m_eMovDir(EDIRECTION::NONE)
 {
@@ -75,7 +75,7 @@ void CHero::Update()
 	CAnimation* pCurAnim = GetAnimator()->GetCurAnimation();
 
 	// 상태에 따른 동작
-	switch (m_eCurState)
+	switch (m_eState)
 	{
 	case EPLAYER_STATE::IDLE:
 		// Animation Play
@@ -133,7 +133,7 @@ void CHero::Update()
 	// 현재 타일이 GOAL 타일이라면 성공
 	if (ETILE_TYPE::GOAL == m_pCurTile->GetType())
 	{
-		m_eCurState = EPLAYER_STATE::SUCCESS;
+		m_eState = EPLAYER_STATE::SUCCESS;
 	}
 }
 
@@ -145,7 +145,7 @@ void CHero::Render(HDC _dc)
 void CHero::KeyCheck()
 {
 	// Idle 상태가 아니라면 키 입력은 받지 않는다.
-	if (EPLAYER_STATE::IDLE != m_eCurState)
+	if (EPLAYER_STATE::IDLE != m_eState)
 		return;
 
 	if (IS_KEY_TAP(KEY::A)) // VK_LEFT가 이전에 누른 적이 없고 호출 시점에는 눌려있는 상태라면
@@ -218,7 +218,7 @@ void CHero::TryMove()
 		//	m_eCurState = EPLAYER_STATE::KICK;
 		//	break;
 		}
-		m_eCurState = EPLAYER_STATE::MOVE;
+		m_eState = EPLAYER_STATE::MOVE;
 	}
 
 	return;

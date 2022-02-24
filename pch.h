@@ -19,6 +19,9 @@ using std::make_pair;
 using std::string;
 using std::wstring;
 
+#include <random>
+
+
 #include <assert.h>
 
 

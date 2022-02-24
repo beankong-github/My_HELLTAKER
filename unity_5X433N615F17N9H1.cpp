@@ -12,6 +12,9 @@
 #include "C:\Users\bueon\source\repos\My_HELLTAKER\CCollisionMgr.cpp"
 
 
+#include "C:\Users\bueon\source\repos\My_HELLTAKER\CDynamic_Spike.cpp"
+
+
 #include "C:\Users\bueon\source\repos\My_HELLTAKER\CFSM.cpp"
 
 
@@ -42,5 +45,11 @@
 #include "C:\Users\bueon\source\repos\My_HELLTAKER\CObj.cpp"
 
 
+#include "C:\Users\bueon\source\repos\My_HELLTAKER\CObstacle.cpp"
+
+
 #include "C:\Users\bueon\source\repos\My_HELLTAKER\CPathMgr.cpp"
+
+
+#include "C:\Users\bueon\source\repos\My_HELLTAKER\CResMgr.cpp"
 

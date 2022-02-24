@@ -11,18 +11,42 @@ enum class ETILE_TYPE
     END
 };
 
+class CObstacle;
+
 class CTile :
     public CObj
 {
 private:
-    ETILE_TYPE  m_eType;
-    Vec         m_vIndex;
+    ETILE_TYPE          m_eType;
+    Vec                 m_vIndex;
+    list<CObstacle*>  m_listObstcles;
+
 public:
     void        SetTileType(ETILE_TYPE _eType)      { m_eType = _eType; }
     void        SetIndex(UINT _iCol, UINT _iRow)    { m_vIndex = Vec{_iCol, _iRow}; }
 
-    ETILE_TYPE  GetType()               { return m_eType; }
-    Vec         GetIndex()                   { return m_vIndex; }
+    ETILE_TYPE          GetType()           { return m_eType; }
+    Vec                 GetIndex()          { return m_vIndex; }
+    list<CObstacle*>* GetObstacles()        { return &m_listObstcles; }
+
+public:
+    void        AddObstacle(CObstacle* _pObs)       { m_listObstcles.push_back(_pObs); }
+    void        DeleteObstacle(CObstacle* _pObs)    
+    { 
+        list<CObstacle*>::iterator iter = m_listObstcles.begin();
+        for (; iter != m_listObstcles.end();)
+        {
+            if (_pObs == *iter)
+            {
+                m_listObstcles.erase(iter);
+            }
+            else
+            {
+                ++iter;
+            }
+        }
+    }
+    void        ClearObstacles() { m_listObstcles.clear(); }
 
 public:
     void Update() override;

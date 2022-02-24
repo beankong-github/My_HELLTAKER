@@ -6,6 +6,7 @@
 #include "CKeyMgr.h"
 
 #include "CCollider.h"
+#include "CObstacle.h"
 
 CTile::CTile()
 	:m_eType(ETILE_TYPE::NONE)
@@ -59,7 +60,7 @@ void CTile::Render(HDC _dc)
 	case ETILE_TYPE::START:
 		SelectObject(_dc, CCore::GetInst()->GetBlueBRUSH());
 		break;
-	case ETILE_TYPE::CLEAR:
+	case ETILE_TYPE::GOAL:
 		SelectObject(_dc, CCore::GetInst()->GetRedBRUSH());
 		break;
 	default:

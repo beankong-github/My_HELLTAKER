@@ -18,6 +18,7 @@
 #include "CHero.h"
 #include "CNPC.h"
 #include "CTransition.h"
+#include "CRock.h"
 
 
 CStage_Puzzle::CStage_Puzzle(ECHAPTER _chap)
@@ -40,7 +41,6 @@ CStage_Puzzle::CStage_Puzzle(ECHAPTER _chap)
 void CStage_Puzzle::Enter()
 {
 
-	//Save(L"stage\\puzzle\\");
 	Load(L"stage\\puzzle\\" + GetStageName() + L".stage");
 
 	Init();
@@ -91,6 +91,11 @@ void CStage_Puzzle::Init()
 			}
 		}
 	}
+
+	// Object 추가
+	CRock* pRock = new CRock(pTileMap->GetStartTile());
+	AddObject(pRock, EOBJ_TYPE::OBSTACLE);
+
 
 	// 움직임 횟수 Load
 
@@ -223,6 +228,30 @@ void CStage_Puzzle::Save(const wstring& _strRelativeFolderPath)
 	fwprintf_s(pFile, std::to_wstring(m_iInitMoveCount).c_str());
 	fwprintf_s(pFile, L"\n\n");	
 	
+	// 바위 정보
+	fwprintf_s(pFile, L"[Rock_Inform]\n");
+	fwprintf_s(pFile, L"[Rock_Count]\n");
+	fwprintf_s(pFile, std::to_wstring(m_iOBRockCount).c_str());
+	fwprintf_s(pFile, L"\n\n");
+
+	fwprintf_s(pFile, L"[Rock_Position]\n");
+	vector<CObj*> vecObs = GetObjects(EOBJ_TYPE::OBSTACLE);
+	for (size_t i = 0; i < vecObs.size(); i++)
+	{
+		fwprintf_s(pFile, (L"[Rock_" + std::to_wstring(i) + L"]\n").c_str());
+		CRock* pRock = dynamic_cast<CRock*>(vecObs[i]);
+		if (nullptr != pRock)
+		{
+			Vec pos = pRock->GetCurTile()->GetIndex();
+
+			fwprintf_s(pFile, std::to_wstring(pos.x).c_str());
+			fwprintf_s(pFile, std::to_wstring(pos.y).c_str());
+			fwprintf_s(pFile, L"\n");
+		}
+	}
+
+
+
 	// ===============
 	//	  파일 닫기
 	// ===============
@@ -275,4 +304,5 @@ void CStage_Puzzle::Load(const wstring& _strRelativeFilePath)
 
 CStage_Puzzle::~CStage_Puzzle()
 {
+	Save(L"stage\\puzzle\\");
 }
