@@ -40,9 +40,6 @@ CStage_Puzzle::CStage_Puzzle(ECHAPTER _chap)
 
 void CStage_Puzzle::Enter()
 {
-
-	Load(L"stage\\puzzle\\" + GetStageName() + L".stage");
-
 	Init();
 }
 
@@ -92,13 +89,10 @@ void CStage_Puzzle::Init()
 		}
 	}
 
-	// Object 추가
-	CRock* pRock = new CRock(pTileMap->GetStartTile());
-	AddObject(pRock, EOBJ_TYPE::OBSTACLE);
-
-
-	// 움직임 횟수 Load
-
+	// 스테이지 정보 로드
+	// moveCount
+	// 각종 object들
+	Load(L"stage\\puzzle\\" + GetStageName() + L".stage");
 }
 
 void CStage_Puzzle::Update()
@@ -229,26 +223,27 @@ void CStage_Puzzle::Save(const wstring& _strRelativeFolderPath)
 	fwprintf_s(pFile, L"\n\n");	
 	
 	// 바위 정보
-	fwprintf_s(pFile, L"[Rock_Inform]\n");
-	fwprintf_s(pFile, L"[Rock_Count]\n");
-	fwprintf_s(pFile, std::to_wstring(m_iOBRockCount).c_str());
-	fwprintf_s(pFile, L"\n\n");
+	//fwprintf_s(pFile, L"[Rock_Inform]\n");
+	//fwprintf_s(pFile, L"[Rock_Count]\n");
+	//fwprintf_s(pFile, std::to_wstring(m_iOBRockCount).c_str());
+	//fwprintf_s(pFile, L"\n\n");
 
-	fwprintf_s(pFile, L"[Rock_Position]\n");
-	vector<CObj*> vecObs = GetObjects(EOBJ_TYPE::OBSTACLE);
-	for (size_t i = 0; i < vecObs.size(); i++)
-	{
-		fwprintf_s(pFile, (L"[Rock_" + std::to_wstring(i) + L"]\n").c_str());
-		CRock* pRock = dynamic_cast<CRock*>(vecObs[i]);
-		if (nullptr != pRock)
-		{
-			Vec pos = pRock->GetCurTile()->GetIndex();
+	//fwprintf_s(pFile, L"[Rock_Position]\n");
+	//vector<CObj*> vecObs = GetObjects(EOBJ_TYPE::OBSTACLE);
+	//for (size_t i = 0; i < vecObs.size(); i++)
+	//{
+	//	fwprintf_s(pFile, (L"[Rock_" + std::to_wstring(i) + L"]\n").c_str());
+	//	CRock* pRock = dynamic_cast<CRock*>(vecObs[i]);
+	//	if (nullptr != pRock)
+	//	{
+	//		Vec pos = pRock->GetCurTile()->GetIndex();
 
-			fwprintf_s(pFile, std::to_wstring(pos.x).c_str());
-			fwprintf_s(pFile, std::to_wstring(pos.y).c_str());
-			fwprintf_s(pFile, L"\n");
-		}
-	}
+	//		fwprintf_s(pFile, std::to_wstring(pos.x).c_str());
+	//		fwprintf_s(pFile, L"\n");	
+	//		fwprintf_s(pFile, std::to_wstring(pos.y).c_str());
+	//		fwprintf_s(pFile, L"\n\n");
+	//	}
+	//}
 
 
 
@@ -291,18 +286,46 @@ void CStage_Puzzle::Load(const wstring& _strRelativeFilePath)
 	fwscanf_s(pFile, L"%s", szBuff, 256);
 	SetStageName(szBuff);
 
+	// 이동 횟수 로드
 	fwscanf_s(pFile, L"%s", szBuff, 256);
 	fwscanf_s(pFile, L"%s", szBuff, 256);
 	m_iInitMoveCount = (UINT)_wtoi(szBuff);
 	m_iCurMoveCount = m_iInitMoveCount;
+	
+	// 바위 정보 로드
+	fwscanf_s(pFile, L"%s", szBuff, 256);
+	fwscanf_s(pFile, L"%s", szBuff, 256);
+	fwscanf_s(pFile, L"%s", szBuff, 256);
+	m_iOBRockCount = (UINT)_wtoi(szBuff);
+
+	fwscanf_s(pFile, L"%s", szBuff, 256);
+	for (size_t i = 0; i < m_iOBRockCount; i++)
+	{
+		fwscanf_s(pFile, L"%s", szBuff, 256);
+
+		// 바위 좌표 로드
+		Vec vecTilePos = Vec{};
+		fwscanf_s(pFile, L"%s", szBuff, 256);
+		vecTilePos.x = (float)_wtof(szBuff);
+		fwscanf_s(pFile, L"%s", szBuff, 256);
+		vecTilePos.y = (float)_wtof(szBuff);
+
+		// 바위 생성
+		CTile* pTile = m_pTileMap->FindTile(vecTilePos.x, vecTilePos.y);
+		if (nullptr != pTile)
+		{
+			CRock* pRock = new CRock(pTile);
+			pTile->AddObstacle(pRock);
+			AddObject(pRock, EOBJ_TYPE::OBSTACLE);
+		}
+	}
+	
 	// ===============
 	//	  파일 닫기
 	// ===============
 	fclose(pFile);
-
 }
 
 CStage_Puzzle::~CStage_Puzzle()
 {
-	Save(L"stage\\puzzle\\");
 }
