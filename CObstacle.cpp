@@ -11,7 +11,7 @@ CObstacle::CObstacle(CTile* _pTile)
 	, m_pCurTile(_pTile)
 	, m_pNextTile(nullptr)
 	, m_eMoveDir(EDIRECTION::NONE)
-	, m_fSpeed(300.f)
+	, m_fSpeed(500.f)
 {
 }
 

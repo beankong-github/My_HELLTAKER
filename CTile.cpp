@@ -17,6 +17,7 @@ CTile::CTile()
 
 CTile::~CTile()
 {
+	m_listObstcles.clear();
 }
 
 void CTile::Update()

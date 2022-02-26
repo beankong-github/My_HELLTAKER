@@ -13,8 +13,10 @@
 #include "CTile.h"
 #include "CTileMap.h"
 
+#include "CRock.h"
+
 CHero::CHero()
-	: m_fSpeed(700.f)
+	: m_fSpeed(500.f)
 	, m_eState(EPLAYER_STATE::IDLE)
 	, m_pCurTile(nullptr)
 	, m_eMovDir(EDIRECTION::NONE)
@@ -28,9 +30,9 @@ CHero::CHero()
 	// 애니메이션 생성
 	CAnimator* pAnimator = new CAnimator;
 	//pAnimator->CreateAnimation(L"idle", L"texture\\animation\\hero\\idle\\", 0.05f, 12);
-	//pAnimator->CreateAnimation(L"move", L"texture\\animation\\hero\\move\\", 0.05f, 6);
+	pAnimator->CreateAnimation(L"move", L"texture\\animation\\hero\\move\\", 0.07f, 6);
 	//pAnimator->CreateAnimation(L"success", L"texture\\animation\\hero\\success\\", 0.11f, 19);
-	//pAnimator->CreateAnimation(L"kick", L"texture\\animation\\hero\\kick\\", 0.05f, 13);
+	//pAnimator->CreateAnimation(L"kick", L"texture\\animation\\hero\\kick\\", 0.04f, 13);
 	//pAnimator->CreateAnimation(L"dead", L"texture\\animation\\hero\\dead\\", 0.05f, 18);
 
 	// 애니메이션 저장
@@ -70,21 +72,19 @@ CHero::~CHero()
 void CHero::Update()
 {
 	KeyCheck();
+}
 
-	// 현재 애니메이션 얻기
+void CHero::Render(HDC _dc)
+{
 	CAnimation* pCurAnim = GetAnimator()->GetCurAnimation();
-
 	// 상태에 따른 동작
 	switch (m_eState)
 	{
 	case EPLAYER_STATE::IDLE:
 		// Animation Play
-		if (L"idle" != pCurAnim->GetName())
-		{
-			GetAnimator()->PlayAnimation(L"idle");
-		}
+		GetAnimator()->PlayAnimation(L"idle");
 		break;
-	
+
 	case EPLAYER_STATE::MOVE:
 		// player move event 추가
 		tEventInfo eventInfo;
@@ -92,19 +92,32 @@ void CHero::Update()
 		eventInfo.lParam = (DWORD)m_eMovDir;
 		CEventMgr::GetInst()->AddEvent(eventInfo);
 		break;
-	
+
 	case EPLAYER_STATE::KICK:
+		GetAnimator()->PlayAnimation(L"kick", false);
+		if (pCurAnim->IsFinished())
+		{
+			// 애니메이션 리셋
+			GetAnimator()->GetCurAnimation()->Reset();
+			// IDLE로 전환
+			SetState(EPLAYER_STATE::IDLE);
+			GetAnimator()->PlayAnimation(L"idle");
+			// 이동 방향 초기화
+			m_eMovDir = EDIRECTION::NONE;
+			// 다음 타일 초기화
+			m_pNextTile = nullptr;
+		}
 		break;
-	
+
 	case EPLAYER_STATE::SUCCESS:
 		GetAnimator()->PlayAnimation(L"success", false);
-		if (GetAnimator()->GetCurAnimation()->IsFinished())
+		if (pCurAnim->IsFinished())
 		{
 			// 다음 씬으로 이동
 			tEventInfo eventInfo;
 			eventInfo.eType = EEVENT_TYPE::STAGE_CHANGE;
 			eventInfo.lParam = (DWORD)ESTAGE_TYPE::PUZZLE;
-			
+
 			ECHAPTER eNextStage = (ECHAPTER)((UINT)m_pCurStage->GetChapter() + 1);
 			if (ECHAPTER::END == eNextStage)
 			{
@@ -129,16 +142,13 @@ void CHero::Update()
 		}
 		break;
 	}
-	
+
 	// 현재 타일이 GOAL 타일이라면 성공
 	if (ETILE_TYPE::GOAL == m_pCurTile->GetType())
 	{
 		m_eState = EPLAYER_STATE::SUCCESS;
 	}
-}
-
-void CHero::Render(HDC _dc)
-{
+	
 	Render_Component(_dc);
 }
 
@@ -170,14 +180,24 @@ void CHero::KeyCheck()
 	}
 }
 
+void CHero::CountDown()
+{	
+	// 남은 이동 횟수 설정 
+	m_pCurStage->SetCurMoveCount(m_pCurStage->GetCurMoveCount() - 1);
+	
+	// 남은 이동 횟수가 0이라면 Dead
+	if (m_pCurStage->GetCurMoveCount() == 0)
+	{
+		SetPos(GetPos() + Vec{ 0, -300 });
+		m_pCurStage->PlayerDead();
+		SetState(EPLAYER_STATE::DEAD);
+	}
+}
+
 
 void CHero::TryMove()
 {
 	/* 이동할 타일이 벽이 아니라면 이동 */
-
-	// 현재 퍼즐 스테이지 가져오기
-	if (nullptr == m_pCurStage)
-		assert(nullptr);
 
 	// 스테이지의 타일맵 가져오기
 	CTileMap* pTileMap = m_pCurStage->GetTileMap();
@@ -210,24 +230,48 @@ void CHero::TryMove()
 	// 이동할 위치에 타일이 있다면
 	if (nullptr != m_pNextTile)
 	{
-		switch (m_pNextTile->GetType())
+		// 다음에 이동할 타일이 벽이 아닐 때
+		if(ETILE_TYPE::WALL != m_pNextTile->GetType())
 		{
-		case ETILE_TYPE::WALL:
-			return;
-		//case ETILE_TYPE::OBSTACLE:
-		//	m_eCurState = EPLAYER_STATE::KICK;
-		//	break;
-		}
-		m_eState = EPLAYER_STATE::MOVE;
-	}
+			list<CObstacle*>* pObstacleList = m_pNextTile->GetObstacles();
+			
+			// 다음 타일에 Object가 없으면 이동
+			if (pObstacleList->empty())
+			{
+				m_eState = EPLAYER_STATE::MOVE;
+				return;
+			}
+			
+			// Object가 있으면 Object에 따라 행동
+			else
+			{ 
+				// Rock -> Kick
+				CRock* pRock = (CRock*)m_pNextTile->FindObstacle(EOBSTACLE_TYPE::ROCK);
+				if (nullptr != pRock)
+				{
+					// 플레이어 상태 전환
+					m_eState = EPLAYER_STATE::KICK; 
+					// 카운트 다운
+					CountDown();
+					if (EPLAYER_STATE::DEAD == m_eState)
+						return;
+					// 오브젝트 움직임
+					pRock->TryMove(m_eMovDir);
 
-	return;
+					return;
+				}
+				// Undead 일 때
+
+				// Spike 일 때
+			}
+		}
+	}
 }
 
 void CHero::Move(EDIRECTION _eDir)
 {
-	if (nullptr == m_pNextTile || EDIRECTION::NONE == _eDir)
-		return;
+	//if (nullptr == m_pNextTile || EDIRECTION::NONE == _eDir)
+	//	return;
 
 	CAnimation* pCurAnim = GetAnimator( )->GetCurAnimation();
 
@@ -240,28 +284,16 @@ void CHero::Move(EDIRECTION _eDir)
 	{
 		// 플레이어 위치 보정
 		SetPos(m_pNextTile->GetCenterPos());
-		
 		// Move Animation 초기화
 		pCurAnim->Reset();
-
-		// 남은 이동 횟수 설정 
-		// 남은 이동 횟수가 0이라면 Dead
-		m_pCurStage->SetCurMoveCount(m_pCurStage->GetCurMoveCount() - 1);
-		if (m_pCurStage->GetCurMoveCount() == 0)
-		{
-			SetPos(GetPos() + Vec{ 0, -300 });
-			m_pCurStage->PlayerDead();
-			SetState(EPLAYER_STATE::DEAD);
-		}
-		else
-			SetState(EPLAYER_STATE::IDLE);
-		
+		// 현재 상태 Idle
+		m_eState = EPLAYER_STATE::IDLE;
+		// 이동 횟수 감소
+		CountDown();
 		// 이동 방향 초기화
 		m_eMovDir = EDIRECTION::NONE;
-		
 		// 목적지 타일을 현재 타일로 설정
 		SetCurTile(m_pNextTile);
-
 		// 목적지 타일 초기화
 		m_pNextTile = nullptr;
 	}

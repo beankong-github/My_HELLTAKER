@@ -18,6 +18,7 @@
 #include "CHero.h"
 #include "CNPC.h"
 #include "CTransition.h"
+#include "CObstacle.h"
 #include "CRock.h"
 
 
@@ -311,7 +312,7 @@ void CStage_Puzzle::Load(const wstring& _strRelativeFilePath)
 		vecTilePos.y = (float)_wtof(szBuff);
 
 		// 바위 생성
-		CTile* pTile = m_pTileMap->FindTile(vecTilePos.x, vecTilePos.y);
+		CTile* pTile = m_pTileMap->FindTile((UINT)vecTilePos.x, (UINT)vecTilePos.y);
 		if (nullptr != pTile)
 		{
 			CRock* pRock = new CRock(pTile);

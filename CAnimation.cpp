@@ -50,6 +50,7 @@ void CAnimation::Update()
 void CAnimation::Render(HDC _dc)
 {
 	Vec vRenderPos = CCamera::GetInst()->GetRenderPos(GetOwner()->GetPos());
+	m_bFlip = GetOwner()->IsFlip();
 
 	if (m_bFlip)	// 이미지 좌우 반전
 	{
@@ -81,9 +82,9 @@ void CAnimation::Render(HDC _dc)
 			, int(m_vecFrm[m_iCuridx].vSize.y)		// height int atlas
 			, RGB(112, 12, 41));
 
-		DeleteObject(reverseDC);
 		DeleteObject(buffer);
 		DeleteObject(oldObj);
+		DeleteObject(reverseDC);
 	}
 
 	else

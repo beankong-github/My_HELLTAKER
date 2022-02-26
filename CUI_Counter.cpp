@@ -138,7 +138,6 @@ void CUI_Counter::Render(HDC _dc)
 	CStage_Puzzle* curStage = dynamic_cast<CStage_Puzzle*>(CStageMgr::GetInst()->GetCurStage());
 	if (nullptr != curStage)
 	{
-		Vec vResolution = CCore::GetInst()->GetResolution();
 		wstring curCount = std::to_wstring(curStage->GetCurMoveCount());
 		wstring curChap = std::to_wstring((UINT)curStage->GetChapter());
 

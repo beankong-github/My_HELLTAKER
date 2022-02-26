@@ -17,4 +17,3 @@ public:
 		m_vecEvent.push_back(_event);
 	}
 };
-

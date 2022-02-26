@@ -30,15 +30,16 @@ public:
     list<CObstacle*>* GetObstacles()        { return &m_listObstcles; }
 
 public:
-    void        AddObstacle(CObstacle* _pObs)       { m_listObstcles.push_back(_pObs); }
-    void        DeleteObstacle(CObstacle* _pObs)    
+    void        AddObstacle     (CObstacle* _pObs)  { m_listObstcles.push_back(_pObs); }
+    void        DeleteObstacle  (CObstacle* _pObs)      
     { 
         list<CObstacle*>::iterator iter = m_listObstcles.begin();
-        for (; iter != m_listObstcles.end();)
+        list<CObstacle*>::iterator endIter = m_listObstcles.end();
+        for (; iter != endIter;)
         {
             if (_pObs == *iter)
             {
-                m_listObstcles.erase(iter);
+                iter = m_listObstcles.erase(iter);
             }
             else
             {
@@ -46,8 +47,18 @@ public:
             }
         }
     }
-    void        ClearObstacles() { m_listObstcles.clear(); }
-
+    CObstacle*  FindObstacle    (EOBSTACLE_TYPE _eType)   
+    {
+        list<CObstacle*>::iterator iter = m_listObstcles.begin();
+        for (; iter != m_listObstcles.end(); ++iter)
+        {
+            CObstacle* pObs = *iter;
+            if (_eType == pObs->GetType())
+                return *iter;
+        }
+        return nullptr;
+    }
+    void        ClearObstacles  ()                  { m_listObstcles.clear(); }
 public:
     void Update() override;
     void Render(HDC _dc) override;

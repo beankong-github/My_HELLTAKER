@@ -42,6 +42,7 @@ public:
 
 private:
     void KeyCheck();
+    void CountDown();
 
 public:
     CHero();

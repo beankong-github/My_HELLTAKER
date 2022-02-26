@@ -2,14 +2,17 @@
 #include "CObstacle.h"
 
 class CTexture;
+class CStage_Puzzle;
 
 class CRock :
     public CObstacle
 {
 private:
+    CStage_Puzzle*      m_pCurStage;
     vector<CTexture*>   m_vecTextures;
     CTexture*           m_pCurTex;
 
+    Vec                 m_vPos;
     float               m_fEffectTime;
     float               m_fAddTime;
 
@@ -17,8 +20,8 @@ public:
     void Update();
     void Render(HDC _dc);
 
-    void TryMove();
-    void Move(EDIRECTION _eDir);
+    void TryMove(EDIRECTION _eDir);
+    void Move();
 
 private:
     void Shake();
