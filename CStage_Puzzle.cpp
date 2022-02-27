@@ -2,7 +2,6 @@
 #include "CStage_Puzzle.h"
 
 #include "CCore.h"
-#include "CResMgr.h"
 #include "CKeyMgr.h"
 #include "CPathMgr.h"
 #include "CCamera.h"
@@ -10,17 +9,22 @@
 #include "CAnimation.h"
 #include "CAnimator.h"
 
+#include "CResMgr.h"
 #include "CTexture.h"
+
 #include "CBackGround.h"
 #include "CUI_Counter.h"
 #include "CTile.h"
 #include "CTileMap.h"
+
 #include "CHero.h"
 #include "CNPC.h"
 #include "CTransition.h"
+
 #include "CObstacle.h"
 #include "CRock.h"
 #include "CUndead.h"
+#include "CStatic_Spike.h"
 
 
 CStage_Puzzle::CStage_Puzzle(ECHAPTER _chap)
@@ -294,6 +298,34 @@ void CStage_Puzzle::Load(const wstring& _strRelativeFilePath)
 	m_iInitMoveCount = (UINT)_wtoi(szBuff);
 	m_iCurMoveCount = m_iInitMoveCount;
 	
+	// 고정 가시 정보 로드
+	fwscanf_s(pFile, L"%s", szBuff, 256);
+	fwscanf_s(pFile, L"%s", szBuff, 256);
+	fwscanf_s(pFile, L"%s", szBuff, 256);
+	m_iOBSSpikeCount = (UINT)_wtoi(szBuff);
+
+	fwscanf_s(pFile, L"%s", szBuff, 256);
+	for (size_t i = 0; i < m_iOBSSpikeCount; i++)
+	{
+		fwscanf_s(pFile, L"%s", szBuff, 256);
+
+		// 고정 가시 좌표 로드
+		Vec vecTilePos = Vec{};
+		fwscanf_s(pFile, L"%s", szBuff, 256);
+		vecTilePos.x = (float)_wtof(szBuff);
+		fwscanf_s(pFile, L"%s", szBuff, 256);
+		vecTilePos.y = (float)_wtof(szBuff);
+
+		// 고정 가시 생성
+		CTile* pTile = m_pTileMap->FindTile((UINT)vecTilePos.x, (UINT)vecTilePos.y);
+		if (nullptr != pTile)
+		{
+			CStatic_Spike* pSpike = new CStatic_Spike(pTile);
+			pTile->AddObstacle(pSpike);
+			AddObject(pSpike, EOBJ_TYPE::OBSTACLE);
+		}
+	}
+
 	// 바위 정보 로드
 	fwscanf_s(pFile, L"%s", szBuff, 256);
 	fwscanf_s(pFile, L"%s", szBuff, 256);

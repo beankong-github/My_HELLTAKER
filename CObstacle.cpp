@@ -31,6 +31,14 @@ void CObstacle::SetCurTile(CTile* _tile)
 	m_pCurTile->AddObstacle(this);
 }
 
+void CObstacle::TryMove(EDIRECTION _eDir)
+{
+}
+
+void CObstacle::Move()
+{
+}
+
 void CObstacle::Update()
 {
 }

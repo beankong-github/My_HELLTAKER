@@ -190,6 +190,8 @@ void CUndead::Move()
 void CUndead::Dead()
 {
 	// 삭제 이펙트 재생
+	
+
 	// 오브젝트 삭제
 	DeleteObject(this);
 }

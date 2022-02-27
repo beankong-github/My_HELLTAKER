@@ -15,6 +15,7 @@
 
 #include "CRock.h"
 #include "CUndead.h"
+#include "CStatic_Spike.h"
 
 CHero::CHero()
 	: m_fSpeed(600.f)
@@ -87,6 +88,7 @@ void CHero::Render(HDC _dc)
 		break;
 
 	case EPLAYER_STATE::MOVE:
+	case EPLAYER_STATE::DAMAGED:
 		// player move event 추가
 		tEventInfo eventInfo;
 		eventInfo.eType = EEVENT_TYPE::PLAYER_MOVE;
@@ -184,9 +186,23 @@ void CHero::KeyCheck()
 
 void CHero::CountDown()
 {	
+	UINT minus = 0;
+
+	switch (m_eState)
+	{
+	case EPLAYER_STATE::MOVE:
+	case EPLAYER_STATE::KICK:
+		minus = 1;
+		break;
+	case EPLAYER_STATE::DAMAGED:
+		minus = 2;
+		break;
+	}
+
 	// 남은 이동 횟수 설정 
-	m_pCurStage->SetCurMoveCount(m_pCurStage->GetCurMoveCount() - 1);
+	m_pCurStage->SetCurMoveCount(m_pCurStage->GetCurMoveCount() - minus);
 	
+
 	// 남은 이동 횟수가 0이라면 Dead
 	if (0 == m_pCurStage->GetCurMoveCount())
 	{
@@ -198,7 +214,6 @@ void CHero::CountDown()
 		SetState(EPLAYER_STATE::DEAD);
 	}
 }
-
 
 void CHero::TryMove()
 {
@@ -244,7 +259,6 @@ void CHero::TryMove()
 			if (pObstacleList->empty())
 			{
 				m_eState = EPLAYER_STATE::MOVE;
-				return;
 			}
 			
 			// Object가 있으면 Object에 따라 행동
@@ -256,33 +270,38 @@ void CHero::TryMove()
 				{
 					// 플레이어 상태 전환
 					m_eState = EPLAYER_STATE::KICK; 
-					// 카운트 다운
-					CountDown();
 					if (EPLAYER_STATE::DEAD == m_eState)
 						return;
 					// 오브젝트 움직임
 					pRock->TryMove(m_eMovDir);
-
-					return;
 				}
+
 				// Undead 일 때
 				CUndead* pUndead = (CUndead*)m_pNextTile->FindObstacle(EOBSTACLE_TYPE::UNDEAD);
 				if (nullptr != pUndead)
 				{
 					// 플레이어 상태 전환
 					m_eState = EPLAYER_STATE::KICK;
-					// 카운트 다운
-					CountDown();
 					if (EPLAYER_STATE::DEAD == m_eState)
 						return;
 					// 오브젝트 움직임
 					pUndead->TryMove(m_eMovDir);
-
-					return;
 				}
 
-				// Spike 일 때
+				// Static Spike 일 때
+				CStatic_Spike* pSSpike = (CStatic_Spike*)m_pNextTile->FindObstacle(EOBSTACLE_TYPE::STATIC_SPIKE);
+				if (nullptr != pSSpike)
+				{
+					// 플레이어 상태 전환
+					m_eState = EPLAYER_STATE::DAMAGED;
+					if (EPLAYER_STATE::DEAD == m_eState)
+						return;
+			
+				}
 			}
+
+			// 이동 횟수 감소
+			CountDown();
 		}
 	}
 }
@@ -313,8 +332,6 @@ void CHero::Move(EDIRECTION _eDir)
 		SetCurTile(m_pNextTile);
 		// 목적지 타일 초기화
 		m_pNextTile = nullptr;
-		// 이동 횟수 감소
-		CountDown();
 	}
 	else
 	{

@@ -8,6 +8,7 @@ enum class EPLAYER_STATE
     IDLE,
     MOVE,
     KICK,
+    DAMAGED,
     SUCCESS,
     DEAD
 };

@@ -28,7 +28,7 @@ CRock::CRock(CTile* _pTile)
 	// 타입 저장
 	SetType(EOBSTACLE_TYPE::ROCK);
 
-	// 랜덤으로 텍스처 구하기
+	// 랜덤으로 텍스처 로드
 	for (size_t i = 1; i <= 8; i++)
 	{
 		CTexture* pRockTex = CResMgr::GetInst()->LoadTexture(L"rock_" + std::to_wstring(i), L"texture\\object\\rock\\rock_" + std::to_wstring(i) + L".bmp");
@@ -57,6 +57,7 @@ CRock::CRock(CTile* _pTile)
 CRock::~CRock()
 {
 }
+ 
 void CRock::Update()
 {
 	EOBSTACLE_STATE eCurState = GetState();
@@ -148,6 +149,10 @@ void CRock::TryMove(EDIRECTION _eDir)
 			SetState(EOBSTACLE_STATE::KICKED);
 		}
 	}
+	else
+	{
+		SetState(EOBSTACLE_STATE::KICKED);
+	}
 }
 
 void CRock::Move()
@@ -201,7 +206,7 @@ void CRock::Shake()
 {
 	if (m_fEffectTime >= m_fAddTime)
 	{  
-		SetPos(m_vOriginalPos + iPingpong * 2.f);
+		SetPos(m_vOriginalPos + iPingpong * 2.5f);
 		m_fAddTime += DS;
 		iPingpong *= -1;
 	}

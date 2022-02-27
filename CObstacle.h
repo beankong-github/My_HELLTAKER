@@ -50,8 +50,8 @@ public:
     EOBSTACLE_TYPE  GetType()       { return m_eType; }
     EDIRECTION      GetDirection()  { return m_eMoveDir; }
 
-    virtual void TryMove(EDIRECTION _eDir) = 0;
-    virtual void Move() = 0;
+    virtual void TryMove(EDIRECTION _eDir);
+    virtual void Move();
 
 public:
     virtual void Update() = 0;
