@@ -16,11 +16,11 @@ int iPingpong = 1;
 
 CRock::CRock(CTile* _pTile)
 	: CObstacle(_pTile)
-	, m_fEffectTime(0.5f)
+	, m_fEffectTime(0.1f)
 	, m_fAddTime(0.f)
 	, m_pCurTex(nullptr)
 	, m_vecTextures()
-	, m_vPos{}
+	, m_vOriginalPos{}
 {	
 	// 현재 스테이지 설정
 	m_pCurStage = dynamic_cast<CStage_Puzzle*>(CStageMgr::GetInst()->GetCurStage());
@@ -49,9 +49,9 @@ CRock::CRock(CTile* _pTile)
 	m_pCurTex = m_vecTextures[dis(gen)];
 
 	// 현재 위치 설정
-	m_vPos.x = GetCurTile()->GetPos().x;
-	m_vPos.y = GetCurTile()->GetPos().y - 10.f;
-	SetPos(m_vPos);
+	m_vOriginalPos.x = GetCurTile()->GetPos().x;
+	m_vOriginalPos.y = GetCurTile()->GetPos().y - 10.f;
+	SetPos(m_vOriginalPos);
 }
 
 CRock::~CRock()
@@ -63,19 +63,11 @@ void CRock::Update()
 
 	switch (eCurState)
 	{
-	case EOBSTACLE_STATE::IDLE:
-		break;
 	case EOBSTACLE_STATE::MOVE:
 		Move();
 		break;
 	case EOBSTACLE_STATE::KICKED:
 		Shake();
-		break;
-	case EOBSTACLE_STATE::DEAD:
-		break;
-	case EOBSTACLE_STATE::END:
-		break;
-	default:
 		break;
 	}
 }
@@ -166,11 +158,11 @@ void CRock::Move()
 	double dif = sqrt(pow(GetPos().x-nextPos.x,2)+pow(GetPos().y-nextPos.y,2));
 
 	// 다음 타일과 플레이어의 위치가 거의 일치하다면
-	if (dif <= 3.f)
+	if (dif <= 10.f)
 	{
 		// 플레이어 위치 보정
-		m_vPos = nextPos;
-		SetPos(m_vPos);
+		m_vOriginalPos = nextPos;
+		SetPos(m_vOriginalPos);
 
 		// 이동 방향 초기화
 		SetDirection(EDIRECTION::NONE);
@@ -209,7 +201,7 @@ void CRock::Shake()
 {
 	if (m_fEffectTime >= m_fAddTime)
 	{  
-		SetPos(m_vPos + iPingpong * 2.f);
+		SetPos(m_vOriginalPos + iPingpong * 2.f);
 		m_fAddTime += DS;
 		iPingpong *= -1;
 	}
@@ -217,7 +209,7 @@ void CRock::Shake()
 	else
 	{
 		// 원위치
-		SetPos(m_vPos);
+		SetPos(m_vOriginalPos);
 		// AddTime 초기화
 		m_fAddTime = 0.f;
 		// IDLE 상태로 돌아옴

@@ -12,7 +12,7 @@ private:
     vector<CTexture*>   m_vecTextures;
     CTexture*           m_pCurTex;
 
-    Vec                 m_vPos;
+    Vec                 m_vOriginalPos;
     float               m_fEffectTime;
     float               m_fAddTime;
 

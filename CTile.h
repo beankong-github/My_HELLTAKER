@@ -47,6 +47,7 @@ public:
             }
         }
     }
+    void        DeleteDeadObstacle();
     CObstacle*  FindObstacle    (EOBSTACLE_TYPE _eType)   
     {
         list<CObstacle*>::iterator iter = m_listObstcles.begin();
@@ -59,6 +60,7 @@ public:
         return nullptr;
     }
     void        ClearObstacles  ()                  { m_listObstcles.clear(); }
+
 public:
     void Update() override;
     void Render(HDC _dc) override;

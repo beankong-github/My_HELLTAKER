@@ -20,6 +20,7 @@
 #include "CTransition.h"
 #include "CObstacle.h"
 #include "CRock.h"
+#include "CUndead.h"
 
 
 CStage_Puzzle::CStage_Puzzle(ECHAPTER _chap)
@@ -318,6 +319,34 @@ void CStage_Puzzle::Load(const wstring& _strRelativeFilePath)
 			CRock* pRock = new CRock(pTile);
 			pTile->AddObstacle(pRock);
 			AddObject(pRock, EOBJ_TYPE::OBSTACLE);
+		}
+	}
+
+	// 언데드 정보 로드
+	fwscanf_s(pFile, L"%s", szBuff, 256);
+	fwscanf_s(pFile, L"%s", szBuff, 256);
+	fwscanf_s(pFile, L"%s", szBuff, 256);
+	m_iOBUndeadCount = (UINT)_wtoi(szBuff);
+
+	fwscanf_s(pFile, L"%s", szBuff, 256);
+	for (size_t i = 0; i < m_iOBUndeadCount; i++)
+	{
+		fwscanf_s(pFile, L"%s", szBuff, 256);
+
+		// 언데드 좌표 로드
+		Vec vecTilePos = Vec{};
+		fwscanf_s(pFile, L"%s", szBuff, 256);
+		vecTilePos.x = (float)_wtof(szBuff);
+		fwscanf_s(pFile, L"%s", szBuff, 256);
+		vecTilePos.y = (float)_wtof(szBuff);
+
+		// 언데드 생성
+		CTile* pTile = m_pTileMap->FindTile((UINT)vecTilePos.x, (UINT)vecTilePos.y);
+		if (nullptr != pTile)
+		{
+			CUndead* pUndead = new CUndead(pTile);
+			pTile->AddObstacle(pUndead);
+			AddObject(pUndead, EOBJ_TYPE::OBSTACLE);
 		}
 	}
 	

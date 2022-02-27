@@ -14,9 +14,10 @@
 #include "CTileMap.h"
 
 #include "CRock.h"
+#include "CUndead.h"
 
 CHero::CHero()
-	: m_fSpeed(500.f)
+	: m_fSpeed(600.f)
 	, m_eState(EPLAYER_STATE::IDLE)
 	, m_pCurTile(nullptr)
 	, m_eMovDir(EDIRECTION::NONE)
@@ -30,9 +31,9 @@ CHero::CHero()
 	// 애니메이션 생성
 	CAnimator* pAnimator = new CAnimator;
 	//pAnimator->CreateAnimation(L"idle", L"texture\\animation\\hero\\idle\\", 0.05f, 12);
-	pAnimator->CreateAnimation(L"move", L"texture\\animation\\hero\\move\\", 0.07f, 6);
+	//pAnimator->CreateAnimation(L"move", L"texture\\animation\\hero\\move\\", 0.07f, 6);
 	//pAnimator->CreateAnimation(L"success", L"texture\\animation\\hero\\success\\", 0.11f, 19);
-	//pAnimator->CreateAnimation(L"kick", L"texture\\animation\\hero\\kick\\", 0.04f, 13);
+	//pAnimator->CreateAnimation(L"kick", L"texture\\animation\\hero\\kick\\", 0.03f, 10);
 	//pAnimator->CreateAnimation(L"dead", L"texture\\animation\\hero\\dead\\", 0.05f, 18);
 
 	// 애니메이션 저장
@@ -142,13 +143,14 @@ void CHero::Render(HDC _dc)
 		}
 		break;
 	}
+	
 
 	// 현재 타일이 GOAL 타일이라면 성공
 	if (ETILE_TYPE::GOAL == m_pCurTile->GetType())
 	{
 		m_eState = EPLAYER_STATE::SUCCESS;
 	}
-	
+
 	Render_Component(_dc);
 }
 
@@ -186,8 +188,11 @@ void CHero::CountDown()
 	m_pCurStage->SetCurMoveCount(m_pCurStage->GetCurMoveCount() - 1);
 	
 	// 남은 이동 횟수가 0이라면 Dead
-	if (m_pCurStage->GetCurMoveCount() == 0)
+	if (0 == m_pCurStage->GetCurMoveCount())
 	{
+		if (ETILE_TYPE::GOAL == m_pCurTile->GetType())
+			return;
+
 		SetPos(GetPos() + Vec{ 0, -300 });
 		m_pCurStage->PlayerDead();
 		SetState(EPLAYER_STATE::DEAD);
@@ -261,6 +266,20 @@ void CHero::TryMove()
 					return;
 				}
 				// Undead 일 때
+				CUndead* pUndead = (CUndead*)m_pNextTile->FindObstacle(EOBSTACLE_TYPE::UNDEAD);
+				if (nullptr != pUndead)
+				{
+					// 플레이어 상태 전환
+					m_eState = EPLAYER_STATE::KICK;
+					// 카운트 다운
+					CountDown();
+					if (EPLAYER_STATE::DEAD == m_eState)
+						return;
+					// 오브젝트 움직임
+					pUndead->TryMove(m_eMovDir);
+
+					return;
+				}
 
 				// Spike 일 때
 			}
@@ -288,14 +307,14 @@ void CHero::Move(EDIRECTION _eDir)
 		pCurAnim->Reset();
 		// 현재 상태 Idle
 		m_eState = EPLAYER_STATE::IDLE;
-		// 이동 횟수 감소
-		CountDown();
 		// 이동 방향 초기화
 		m_eMovDir = EDIRECTION::NONE;
 		// 목적지 타일을 현재 타일로 설정
 		SetCurTile(m_pNextTile);
 		// 목적지 타일 초기화
 		m_pNextTile = nullptr;
+		// 이동 횟수 감소
+		CountDown();
 	}
 	else
 	{

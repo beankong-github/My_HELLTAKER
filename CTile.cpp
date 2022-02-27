@@ -77,6 +77,24 @@ void CTile::Render(HDC _dc)
 			, (int)vRenderPos.x + TILE_SIZE
 			, (int)vRenderPos.y + TILE_SIZE);
 #endif // _DEBUG
+	
+
+	// 죽은 오브젝트 삭제
+	DeleteDeadObstacle();
 
 	Render_Component(_dc);
+}
+
+void CTile::DeleteDeadObstacle()
+{
+	list<CObstacle*>::iterator iter = m_listObstcles.begin();
+
+	for (; iter != m_listObstcles.end();)
+	{
+		// 오브젝트가 Dead 상태면 오브젝트 배열에서 삭제한다
+		if ((*iter)->IsDead())
+			iter = m_listObstcles.erase(iter);
+		else
+			++iter;
+	}
 }

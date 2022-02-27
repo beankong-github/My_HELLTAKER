@@ -12,15 +12,15 @@ CTransition::CTransition()
 {
 	// 애니메이션 생성
 	CAnimator* pAnimator = new CAnimator;
-	pAnimator->CreateAnimation(L"transition", L"texture\\animation\\transition\\", 0.05f, 29);
+	//pAnimator->CreateAnimation(L"transition", L"texture\\animation\\transition\\", 0.08f, 29);
 	
 	// 애니메이션 저장
-	CAnimation* pSaveAnim = nullptr;
-	pSaveAnim = pAnimator->FindAnimation(L"transition");
-	pSaveAnim->Save(L"animation\\etc\\");
+	//CAnimation* pSaveAnim = nullptr;
+	//pSaveAnim = pAnimator->FindAnimation(L"transition");
+	//pSaveAnim->Save(L"animation\\etc\\");
 
 	// 애니메이션 로드
-	//pAnimator->LoadAnimation(L"animation\\etc\\transition.anim");
+	pAnimator->LoadAnimation(L"animation\\etc\\transition.anim");
 
 	AddComponent(pAnimator);
 
