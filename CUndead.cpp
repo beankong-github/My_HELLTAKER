@@ -11,6 +11,8 @@
 #include "CTile.h"
 #include "CTileMap.h"
 
+#include "CDynamic_Spike.h"
+
 CUndead::CUndead(CTile* _pTile)
 	:CObstacle(_pTile)
 {
@@ -81,6 +83,7 @@ void CUndead::Render(HDC _dc)
 
 void CUndead::TryMove(EDIRECTION _eDir)
 {
+
 	// 스테이지의 타일맵 가져오기
 	CTileMap* pTileMap = m_pCurStage->GetTileMap();
 
@@ -124,9 +127,25 @@ void CUndead::TryMove(EDIRECTION _eDir)
 			// 타일 위에 오브젝트가 있는 경우
 			else
 			{
-				if (GetNextTile()->FindObstacle(EOBSTACLE_TYPE::ROCK))
+				if (GetNextTile()->FindObstacle(EOBSTACLE_TYPE::ROCK)
+					|| GetNextTile()->FindObstacle(EOBSTACLE_TYPE::STATIC_SPIKE))
 				{
 					SetState(EOBSTACLE_STATE::DEAD);
+				}
+				else if (GetNextTile()->FindObstacle(EOBSTACLE_TYPE::DYNAMC_SPIKE))
+				{
+					CDynamic_Spike* nextObject = (CDynamic_Spike*)GetNextTile()->FindObstacle(EOBSTACLE_TYPE::DYNAMC_SPIKE);
+					// Dynamic Spike 활성 체크
+					nextObject->Update();
+
+					if (nextObject->IsActive())
+					{
+						SetState(EOBSTACLE_STATE::DEAD);
+					}
+					else
+					{
+						SetState(EOBSTACLE_STATE::MOVE);
+					}
 				}
 			}
 		}

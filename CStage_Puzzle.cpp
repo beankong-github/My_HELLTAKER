@@ -25,6 +25,7 @@
 #include "CRock.h"
 #include "CUndead.h"
 #include "CStatic_Spike.h"
+#include "CDynamic_Spike.h"
 
 
 CStage_Puzzle::CStage_Puzzle(ECHAPTER _chap)
@@ -321,6 +322,39 @@ void CStage_Puzzle::Load(const wstring& _strRelativeFilePath)
 		if (nullptr != pTile)
 		{
 			CStatic_Spike* pSpike = new CStatic_Spike(pTile);
+			pTile->AddObstacle(pSpike);
+			AddObject(pSpike, EOBJ_TYPE::OBSTACLE);
+		}
+	}
+
+	// 움직이는 가시 정보 로드
+	fwscanf_s(pFile, L"%s", szBuff, 256);
+	fwscanf_s(pFile, L"%s", szBuff, 256);
+	fwscanf_s(pFile, L"%s", szBuff, 256);
+	m_iOBDSpikeCount = (UINT)_wtoi(szBuff);
+
+	fwscanf_s(pFile, L"%s", szBuff, 256);
+	for (size_t i = 0; i < m_iOBDSpikeCount; i++)
+	{
+		fwscanf_s(pFile, L"%s", szBuff, 256);
+
+		// 움직이는 가시 좌표 로드
+		Vec vecTilePos = Vec{};
+		fwscanf_s(pFile, L"%s", szBuff, 256);
+		vecTilePos.x = (float)_wtof(szBuff);
+		fwscanf_s(pFile, L"%s", szBuff, 256);
+		vecTilePos.y = (float)_wtof(szBuff);
+
+		// 가시 on/off 로드
+		fwscanf_s(pFile, L"%s", szBuff, 256);
+		fwscanf_s(pFile, L"%s", szBuff, 256);
+		bool bSpike = (bool)_wtoi(szBuff);
+
+		// 움직이는 가시 생성
+		CTile* pTile = m_pTileMap->FindTile((UINT)vecTilePos.x, (UINT)vecTilePos.y);
+		if (nullptr != pTile)
+		{
+			CDynamic_Spike* pSpike = new CDynamic_Spike(pTile, bSpike);
 			pTile->AddObstacle(pSpike);
 			AddObject(pSpike, EOBJ_TYPE::OBSTACLE);
 		}

@@ -109,7 +109,11 @@ void CAnimation::Create(const wstring& _strAnimName, const wstring& _strRelative
 	tAnimFrm frm = {};
 	for (UINT i = 1; i <= _iFrmCount; i++)
 	{
-		frm.strName = _strAnimName + L"_" + std::to_wstring(i);
+		if (_iFrmCount == 1)
+			frm.strName = _strAnimName;
+		else
+			frm.strName = _strAnimName + L"_" + std::to_wstring(i);
+
 		frm.strRelativeTexPath = _strRelativePath + frm.strName + L".bmp";
 		frm.pTex = CResMgr::GetInst()->LoadTexture(frm.strName, frm.strRelativeTexPath.c_str());
 		frm.fDuration = _fDuration;

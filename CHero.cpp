@@ -16,6 +16,7 @@
 #include "CRock.h"
 #include "CUndead.h"
 #include "CStatic_Spike.h"
+#include "CDynamic_Spike.h"
 
 CHero::CHero()
 	: m_fSpeed(600.f)
@@ -34,7 +35,7 @@ CHero::CHero()
 	//pAnimator->CreateAnimation(L"idle", L"texture\\animation\\hero\\idle\\", 0.05f, 12);
 	//pAnimator->CreateAnimation(L"move", L"texture\\animation\\hero\\move\\", 0.07f, 6);
 	//pAnimator->CreateAnimation(L"success", L"texture\\animation\\hero\\success\\", 0.11f, 19);
-	//pAnimator->CreateAnimation(L"kick", L"texture\\animation\\hero\\kick\\", 0.03f, 10);
+	//pAnimator->CreateAnimation(L"kick", L"texture\\animation\\hero\\kick\\", 0.02f, 7);
 	//pAnimator->CreateAnimation(L"dead", L"texture\\animation\\hero\\dead\\", 0.05f, 18);
 
 	// 애니메이션 저장
@@ -88,7 +89,6 @@ void CHero::Render(HDC _dc)
 		break;
 
 	case EPLAYER_STATE::MOVE:
-	case EPLAYER_STATE::DAMAGED:
 		// player move event 추가
 		tEventInfo eventInfo;
 		eventInfo.eType = EEVENT_TYPE::PLAYER_MOVE;
@@ -184,34 +184,20 @@ void CHero::KeyCheck()
 	}
 }
 
-void CHero::CountDown()
-{	
-	UINT minus = 0;
-
-	switch (m_eState)
-	{
-	case EPLAYER_STATE::MOVE:
-	case EPLAYER_STATE::KICK:
-		minus = 1;
-		break;
-	case EPLAYER_STATE::DAMAGED:
-		minus = 2;
-		break;
-	}
-
+void CHero::CountDown(int _num)
+{
 	// 남은 이동 횟수 설정 
-	m_pCurStage->SetCurMoveCount(m_pCurStage->GetCurMoveCount() - minus);
+	m_pCurStage->SetCurMoveCount(m_pCurStage->GetCurMoveCount() - _num);
 	
-
 	// 남은 이동 횟수가 0이라면 Dead
-	if (0 == m_pCurStage->GetCurMoveCount())
+	if (-1 == m_pCurStage->GetCurMoveCount())
 	{
 		if (ETILE_TYPE::GOAL == m_pCurTile->GetType())
 			return;
 
+		SetState(EPLAYER_STATE::DEAD);
 		SetPos(GetPos() + Vec{ 0, -300 });
 		m_pCurStage->PlayerDead();
-		SetState(EPLAYER_STATE::DEAD);
 	}
 }
 
@@ -255,25 +241,30 @@ void CHero::TryMove()
 		{
 			list<CObstacle*>* pObstacleList = m_pNextTile->GetObstacles();
 			
+			// 이동 횟수 감소
+			CountDown();
+			if (m_eState == EPLAYER_STATE::DEAD)
+				return;
+
 			// 다음 타일에 Object가 없으면 이동
 			if (pObstacleList->empty())
 			{
-				m_eState = EPLAYER_STATE::MOVE;
+				m_eState = EPLAYER_STATE::MOVE;					
+				return;
 			}
 			
 			// Object가 있으면 Object에 따라 행동
 			else
-			{ 
+			{
 				// Rock -> Kick
 				CRock* pRock = (CRock*)m_pNextTile->FindObstacle(EOBSTACLE_TYPE::ROCK);
 				if (nullptr != pRock)
 				{
 					// 플레이어 상태 전환
-					m_eState = EPLAYER_STATE::KICK; 
-					if (EPLAYER_STATE::DEAD == m_eState)
-						return;
+					m_eState = EPLAYER_STATE::KICK;
 					// 오브젝트 움직임
 					pRock->TryMove(m_eMovDir);
+					return;
 				}
 
 				// Undead 일 때
@@ -282,10 +273,9 @@ void CHero::TryMove()
 				{
 					// 플레이어 상태 전환
 					m_eState = EPLAYER_STATE::KICK;
-					if (EPLAYER_STATE::DEAD == m_eState)
-						return;
 					// 오브젝트 움직임
 					pUndead->TryMove(m_eMovDir);
+					return;
 				}
 
 				// Static Spike 일 때
@@ -293,15 +283,30 @@ void CHero::TryMove()
 				if (nullptr != pSSpike)
 				{
 					// 플레이어 상태 전환
-					m_eState = EPLAYER_STATE::DAMAGED;
-					if (EPLAYER_STATE::DEAD == m_eState)
+					m_eState = EPLAYER_STATE::MOVE;
+					GetDamaged(1);
+					return;
+				}
+
+				// Dynamic Spike 일 때
+				CDynamic_Spike* pDSpike = (CDynamic_Spike*)m_pNextTile->FindObstacle(EOBSTACLE_TYPE::DYNAMC_SPIKE);
+				if (nullptr != pDSpike)
+				{
+					if (!pDSpike->IsActive())
+					{
+						// 플레이어 상태 전환
+						m_eState = EPLAYER_STATE::MOVE;
+						GetDamaged(1);
 						return;
-			
+					}
+					else
+					{
+						// 플레이어 상태 전환
+						m_eState = EPLAYER_STATE::MOVE;
+						return;
+					}
 				}
 			}
-
-			// 이동 횟수 감소
-			CountDown();
 		}
 	}
 }
@@ -355,6 +360,11 @@ void CHero::Move(EDIRECTION _eDir)
 			break;
 		}
 	}
+}
+
+void CHero::GetDamaged(int damage)
+{
+	CountDown(damage);
 }
 
 

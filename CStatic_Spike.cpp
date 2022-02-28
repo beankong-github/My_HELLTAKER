@@ -20,7 +20,7 @@ CStatic_Spike::CStatic_Spike(CTile* _pTile)
 	SetType(EOBSTACLE_TYPE::STATIC_SPIKE);
 
 	// 텍스처 로드
-	m_pTexture = CResMgr::GetInst()->LoadTexture(L"spike_3", L"texture\\object\\spike\\spike_3.bmp");
+	m_pTexture = CResMgr::GetInst()->LoadTexture(L"spike_on", L"texture\\object\\spike\\spike_on.bmp");
 
 	// 현재 위치 설정
 	SetPos(_pTile->GetPos());

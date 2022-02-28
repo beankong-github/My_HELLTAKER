@@ -127,7 +127,7 @@ void CRock::TryMove(EDIRECTION _eDir)
 	// 이동할 위치에 타일이 있다면
 	if (nullptr != GetNextTile())
 	{
-		if (ETILE_TYPE::WALL != GetNextTile()->GetType())
+		if (ETILE_TYPE::WALL != GetNextTile()->GetType() || ETILE_TYPE::NPC != GetNextTile()->GetType())
 		{
 			// 타일 위에 오브젝트가 없다면 이동
 			if (GetNextTile()->GetObstacles()->empty())
@@ -138,10 +138,13 @@ void CRock::TryMove(EDIRECTION _eDir)
 			// 타일 위에 오브젝트가 있는 경우
 			else
 			{
-				if(GetNextTile()->FindObstacle(EOBSTACLE_TYPE::ROCK))
+				if(GetNextTile()->FindObstacle(EOBSTACLE_TYPE::ROCK)
+					||GetNextTile()->FindObstacle(EOBSTACLE_TYPE::UNDEAD))
 				{
 					SetState(EOBSTACLE_STATE::KICKED);
 				}
+				else
+					SetState(EOBSTACLE_STATE::MOVE);
 			}
 		}
 		else

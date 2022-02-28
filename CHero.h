@@ -34,16 +34,19 @@ public:
     void SetSpeed(float _fSpeed)            { m_fSpeed = _fSpeed; }
     void SetCurTile(CTile* _pTile)          { m_pCurTile = _pTile; }
 
+    CTile* GetCurTile() { return m_pCurTile; }
+
 public:
     void Update();
     void Render(HDC _dc);
 
     void TryMove();
     void Move(EDIRECTION _eDir);
+    void GetDamaged(int damage);
 
 private:
     void KeyCheck();
-    void CountDown();
+    void CountDown(int _num = 1);
 
 public:
     CHero();
