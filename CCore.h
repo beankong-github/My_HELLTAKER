@@ -22,6 +22,7 @@ private:
 	HBRUSH		m_hRedBrush;
 	HBRUSH		m_hGreenBrush;
 	HBRUSH		m_hBlueBrush;
+	HBRUSH		m_hYellowBrush;
 
 
 
@@ -42,6 +43,7 @@ public:
 	HBRUSH	GetRedBRUSH()		{ return m_hRedBrush; }
 	HBRUSH	GetGreenBRUSH()		{ return m_hGreenBrush; }
 	HBRUSH	GetBlueBRUSH()		{ return m_hBlueBrush; }
+	HBRUSH	GetYellowBRUSH()	{ return m_hYellowBrush; }
 
 
 	void ChangeWindowSize(POINT _ptResolution, bool _bMenu);

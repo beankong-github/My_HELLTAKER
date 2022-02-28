@@ -165,7 +165,9 @@
     <ClInclude Include="CCore.h" />
     <ClInclude Include="CEventMgr.h" />
     <ClInclude Include="CHero.h" />
+    <ClInclude Include="CKey.h" />
     <ClInclude Include="CKeyMgr.h" />
+    <ClInclude Include="CLockBox.h" />
     <ClInclude Include="CNPC.h" />
     <ClInclude Include="CObj.h" />
     <ClInclude Include="CObstacle.h" />
@@ -208,7 +210,9 @@
     <ClCompile Include="CCore.cpp" />
     <ClCompile Include="CEventMgr.cpp" />
     <ClCompile Include="CHero.cpp" />
+    <ClCompile Include="CKey.cpp" />
     <ClCompile Include="CKeyMgr.cpp" />
+    <ClCompile Include="CLockBox.cpp" />
     <ClCompile Include="CNPC.cpp" />
     <ClCompile Include="CObj.cpp" />
     <ClCompile Include="CObstacle.cpp" />

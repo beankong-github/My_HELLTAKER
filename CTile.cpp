@@ -22,26 +22,26 @@ CTile::~CTile()
 
 void CTile::Update()
 {
-//#ifdef _DEBUG
-//	// 디버그 모드에서 타일을 클릭하면 타입이 바뀐다.
-//	if (IS_KEY_TAP(KEY::LBTN))
-//	{
-// 		Vec mousePos = CKeyMgr::GetInst()->GetMousePos();
-//		Vec renderPos = CCamera::GetInst()->GetRenderPos(GetPos());
-//
-//		if (mousePos.x >= renderPos.x
-//		&&  mousePos.x <= renderPos.x + GetScale().x
-//		&&	mousePos.y >= renderPos.y
-//		&&  mousePos.y <= renderPos.y + GetScale().y)
-//		{
-//			ETILE_TYPE type = (ETILE_TYPE)((UINT)m_eType + 1);
-//			if (type >= ETILE_TYPE::END)
-//				type = ETILE_TYPE::NONE;
-//
-//			m_eType = type;
-//		}
-//	}
-//#endif
+#ifdef _DEBUG
+	// 디버그 모드에서 타일을 클릭하면 타입이 바뀐다.
+	if (IS_KEY_TAP(KEY::LBTN))
+	{
+ 		Vec mousePos = CKeyMgr::GetInst()->GetMousePos();
+		Vec renderPos = CCamera::GetInst()->GetRenderPos(GetPos());
+
+		if (mousePos.x >= renderPos.x
+		&&  mousePos.x <= renderPos.x + GetScale().x
+		&&	mousePos.y >= renderPos.y
+		&&  mousePos.y <= renderPos.y + GetScale().y)
+		{
+			ETILE_TYPE type = (ETILE_TYPE)((UINT)m_eType + 1);
+			if (type >= ETILE_TYPE::END)
+				type = ETILE_TYPE::NONE;
+
+			m_eType = type;
+		}
+	}
+#endif
 } 
 
 void CTile::Render(HDC _dc)
@@ -63,6 +63,9 @@ void CTile::Render(HDC _dc)
 		break;
 	case ETILE_TYPE::GOAL:
 		SelectObject(_dc, CCore::GetInst()->GetRedBRUSH());
+		break;
+	case ETILE_TYPE::KEY:
+		SelectObject(_dc, CCore::GetInst()->GetYellowBRUSH());
 		break;
 	default:
 		SelectObject(_dc, hBrush);

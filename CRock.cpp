@@ -127,35 +127,34 @@ void CRock::TryMove(EDIRECTION _eDir)
 	// 이동할 위치에 타일이 있다면
 	if (nullptr != GetNextTile())
 	{
-		if (ETILE_TYPE::WALL != GetNextTile()->GetType() || ETILE_TYPE::NPC != GetNextTile()->GetType())
-		{
-			// 타일 위에 오브젝트가 없다면 이동
-			if (GetNextTile()->GetObstacles()->empty())
-			{
-				SetState(EOBSTACLE_STATE::MOVE);
-			}
-
-			// 타일 위에 오브젝트가 있는 경우
-			else
-			{
-				if(GetNextTile()->FindObstacle(EOBSTACLE_TYPE::ROCK)
-					||GetNextTile()->FindObstacle(EOBSTACLE_TYPE::UNDEAD))
-				{
-					SetState(EOBSTACLE_STATE::KICKED);
-				}
-				else
-					SetState(EOBSTACLE_STATE::MOVE);
-			}
-		}
-		else
+		// 타음 타일의 타입이 벽이거나 NPC이면 KICKED
+		if (ETILE_TYPE::WALL == GetNextTile()->GetType()
+			|| ETILE_TYPE::NPC == GetNextTile()->GetType())
 		{
 			SetState(EOBSTACLE_STATE::KICKED);
+			return;
+		}
+		// 타일 위에 오브젝트가 없다면 이동
+		if (GetNextTile()->GetObstacles()->empty())
+		{
+			SetState(EOBSTACLE_STATE::MOVE);
+			return;
+		}
+
+		// 타일 위에 오브젝트가 있는 경우
+		else
+		{
+			if(GetNextTile()->FindObstacle(EOBSTACLE_TYPE::STATIC_SPIKE)
+				||GetNextTile()->FindObstacle(EOBSTACLE_TYPE::DYNAMC_SPIKE))
+				SetState(EOBSTACLE_STATE::MOVE);
+			else
+				SetState(EOBSTACLE_STATE::KICKED);
+
+			return;
 		}
 	}
-	else
-	{
-		SetState(EOBSTACLE_STATE::KICKED);
-	}
+
+	SetState(EOBSTACLE_STATE::KICKED);
 }
 
 void CRock::Move()

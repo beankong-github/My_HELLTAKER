@@ -7,7 +7,8 @@ enum class ETILE_TYPE
     WALL,               // 벽: 흰색
     NPC,                // NPC 캐릭터 위치 : 초록색
     START,              // 시작 위치 : 파란색
-    GOAL,              // 성공 위치 : 빨간색
+    GOAL,               // 성공 위치 : 빨간색
+    KEY,                // 키 위치 : 노란색
     END
 };
 

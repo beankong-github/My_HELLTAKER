@@ -26,7 +26,7 @@
 #include "CUndead.h"
 #include "CStatic_Spike.h"
 #include "CDynamic_Spike.h"
-
+#include "CKey.h"
 
 CStage_Puzzle::CStage_Puzzle(ECHAPTER _chap)
 	: m_eChapter(_chap)
@@ -93,6 +93,12 @@ void CStage_Puzzle::Init()
 				pNPC->SetScale(Vec(100, 100));
 				AddObject(pNPC, EOBJ_TYPE::NPC);
 			}
+		}
+		if (ETILE_TYPE::KEY == iter->second->GetType())
+		{
+				CKey* pKey = new CKey(iter->second);
+				iter->second->AddObstacle(pKey);
+				AddObject(pKey, EOBJ_TYPE::ITEM);
 		}
 	}
 

@@ -36,7 +36,13 @@
 #include "C:\Users\bueon\source\repos\My_HELLTAKER\CHero.cpp"
 
 
+#include "C:\Users\bueon\source\repos\My_HELLTAKER\CKey.cpp"
+
+
 #include "C:\Users\bueon\source\repos\My_HELLTAKER\CKeyMgr.cpp"
+
+
+#include "C:\Users\bueon\source\repos\My_HELLTAKER\CLockBox.cpp"
 
 
 #include "C:\Users\bueon\source\repos\My_HELLTAKER\CNPC.cpp"
@@ -49,7 +55,4 @@
 
 
 #include "C:\Users\bueon\source\repos\My_HELLTAKER\CPathMgr.cpp"
-
-
-#include "C:\Users\bueon\source\repos\My_HELLTAKER\CResMgr.cpp"
 

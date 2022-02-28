@@ -1,5 +1,8 @@
 #include "pch.h"
 
+#include "C:\Users\bueon\source\repos\My_HELLTAKER\CResMgr.cpp"
+
+
 #include "C:\Users\bueon\source\repos\My_HELLTAKER\CResource.cpp"
 
 

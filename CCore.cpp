@@ -35,6 +35,7 @@ CCore::~CCore()
 	DeleteObject(m_hRedBrush);
 	DeleteObject(m_hGreenBrush);
 	DeleteObject(m_hBlueBrush);
+	DeleteObject(m_hYellowBrush);
 
 
 	// 백 버퍼 해제
@@ -57,6 +58,7 @@ int CCore::Init(HWND _hwnd, POINT _ptResolution)
 	m_hRedBrush = CreateSolidBrush(RGB(255, 0, 0));
 	m_hGreenBrush = CreateSolidBrush(RGB(0, 255, 0));
 	m_hBlueBrush = CreateSolidBrush(RGB(0, 0, 255));
+	m_hYellowBrush = CreateSolidBrush(RGB(255, 255, 0));
 
 	// Device Context 생성
 	m_hDC = GetDC(m_hwnd);	// 메인 window를 목적으로 하는 DC

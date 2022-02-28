@@ -127,26 +127,20 @@ void CUndead::TryMove(EDIRECTION _eDir)
 			// 타일 위에 오브젝트가 있는 경우
 			else
 			{
-				if (GetNextTile()->FindObstacle(EOBSTACLE_TYPE::ROCK)
-					|| GetNextTile()->FindObstacle(EOBSTACLE_TYPE::STATIC_SPIKE))
-				{
-					SetState(EOBSTACLE_STATE::DEAD);
-				}
-				else if (GetNextTile()->FindObstacle(EOBSTACLE_TYPE::DYNAMC_SPIKE))
+				// DYNAMC_SPIKE가 비활성 상태일 경우
+				if (GetNextTile()->FindObstacle(EOBSTACLE_TYPE::DYNAMC_SPIKE))
 				{
 					CDynamic_Spike* nextObject = (CDynamic_Spike*)GetNextTile()->FindObstacle(EOBSTACLE_TYPE::DYNAMC_SPIKE);
 					// Dynamic Spike 활성 체크
 					nextObject->Update();
 
-					if (nextObject->IsActive())
-					{
-						SetState(EOBSTACLE_STATE::DEAD);
-					}
-					else
+					if (!nextObject->IsActive())
 					{
 						SetState(EOBSTACLE_STATE::MOVE);
 					}
 				}
+				else
+					SetState(EOBSTACLE_STATE::DEAD);
 			}
 		}
 		else

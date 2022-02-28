@@ -162,25 +162,33 @@ void CHero::KeyCheck()
 	if (EPLAYER_STATE::IDLE != m_eState)
 		return;
 
-	if (IS_KEY_TAP(KEY::A)) // VK_LEFT가 이전에 누른 적이 없고 호출 시점에는 눌려있는 상태라면
+	if (IS_KEY_PRESSED(KEY::A)) // VK_LEFT가 이전에 누른 적이 없고 호출 시점에는 눌려있는 상태라면
 	{
 		m_eMovDir = EDIRECTION::LEFT;
 		TryMove();
 	}
-	else if (IS_KEY_TAP(KEY::D))
+	else if (IS_KEY_PRESSED(KEY::D))
 	{
 		m_eMovDir = EDIRECTION::RIGHT;
 		TryMove();
 	}
-	else if (IS_KEY_TAP(KEY::W))
+	else if (IS_KEY_PRESSED(KEY::W))
 	{
 		m_eMovDir = EDIRECTION::UP;
 		TryMove();
 	}
-	else if (IS_KEY_TAP(KEY::S))
+	else if (IS_KEY_PRESSED(KEY::S))
 	{
 		m_eMovDir = EDIRECTION::DOWN;
 		TryMove();
+	}
+	else if (IS_KEY_TAP(KEY::R))
+	{
+		tEventInfo eventInfo;
+		eventInfo.eType = EEVENT_TYPE::STAGE_CHANGE;
+		eventInfo.lParam = (DWORD)ESTAGE_TYPE::PUZZLE;
+		eventInfo.wParam = (DWORD)m_pCurStage->GetChapter();
+		CEventMgr::GetInst()->AddEvent(eventInfo);
 	}
 }
 
@@ -245,6 +253,21 @@ void CHero::TryMove()
 			CountDown();
 			if (m_eState == EPLAYER_STATE::DEAD)
 				return;
+
+			// 다음 타일이 키가 있는 타일이면
+			if (ETILE_TYPE::KEY == m_pNextTile->GetType())
+			{
+				// 이펙트
+
+				// 키 삭제
+				DeleteObject(m_pNextTile->FindObstacle(EOBSTACLE_TYPE::KEY));
+
+				// 키 획득 처리
+
+				// 플레이어 이동
+				m_eState = EPLAYER_STATE::MOVE;
+				return;
+			}
 
 			// 다음 타일에 Object가 없으면 이동
 			if (pObstacleList->empty())

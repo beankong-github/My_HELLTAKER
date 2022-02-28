@@ -8,6 +8,8 @@ enum class EOBSTACLE_TYPE
     UNDEAD,
     DYNAMC_SPIKE,
     STATIC_SPIKE,
+    KEY,
+    LOCKBOX,
     END
 };
 enum class EOBSTACLE_STATE

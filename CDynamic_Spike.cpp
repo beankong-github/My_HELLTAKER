@@ -32,30 +32,30 @@ CDynamic_Spike::CDynamic_Spike(CTile* _pTile, bool _bActive)
 
 	// 애니메이션 생성
 	CAnimator* pAnimator = new CAnimator;
-	pAnimator->CreateAnimation(L"spike_up", L"texture\\object\\spike\\up\\", 0.04f, 4);	
-	pAnimator->CreateAnimation(L"spike_down", L"texture\\object\\spike\\down\\", 0.04f, 4);
-	pAnimator->CreateAnimation(L"spike_on", L"texture\\object\\spike\\", 0.05f, 1);
-	pAnimator->CreateAnimation(L"spike_off", L"texture\\object\\spike\\", 0.05f, 1);
+	//pAnimator->CreateAnimation(L"spike_up", L"texture\\object\\spike\\up\\", 0.04f, 4);	
+	//pAnimator->CreateAnimation(L"spike_down", L"texture\\object\\spike\\down\\", 0.04f, 4);
+	//pAnimator->CreateAnimation(L"spike_on", L"texture\\object\\spike\\", 0.05f, 1);
+	//pAnimator->CreateAnimation(L"spike_off", L"texture\\object\\spike\\", 0.05f, 1);
 
 	// 애니메이션 저장
-	CAnimation* pSaveAnim = nullptr;
-	pSaveAnim = pAnimator->FindAnimation(L"spike_up");
-	pSaveAnim->Save(L"animation\\spike\\");		
-	
-	pSaveAnim = pAnimator->FindAnimation(L"spike_down");
-	pSaveAnim->Save(L"animation\\spike\\");		
-	
-	pSaveAnim = pAnimator->FindAnimation(L"spike_on");
-	pSaveAnim->Save(L"animation\\spike\\");		
-	
-	pSaveAnim = pAnimator->FindAnimation(L"spike_off");
-	pSaveAnim->Save(L"animation\\spike\\");	
+	//CAnimation* pSaveAnim = nullptr;
+	//pSaveAnim = pAnimator->FindAnimation(L"spike_up");
+	//pSaveAnim->Save(L"animation\\spike\\");		
+	//
+	//pSaveAnim = pAnimator->FindAnimation(L"spike_down");
+	//pSaveAnim->Save(L"animation\\spike\\");		
+	//
+	//pSaveAnim = pAnimator->FindAnimation(L"spike_on");
+	//pSaveAnim->Save(L"animation\\spike\\");		
+	//
+	//pSaveAnim = pAnimator->FindAnimation(L"spike_off");
+	//pSaveAnim->Save(L"animation\\spike\\");	
 
 	// 애니메이션 로드
-	//pAnimator->LoadAnimation(L"animation\\spike\\spike_up.anim");
-	//pAnimator->LoadAnimation(L"animation\\spike\\spike_down.anim");
-	//pAnimator->LoadAnimation(L"animation\\spike\\spike_on.anim");
-	//pAnimator->LoadAnimation(L"animation\\spike\\spike_off.anim");
+	pAnimator->LoadAnimation(L"animation\\spike\\spike_up.anim");
+	pAnimator->LoadAnimation(L"animation\\spike\\spike_down.anim");
+	pAnimator->LoadAnimation(L"animation\\spike\\spike_on.anim");
+	pAnimator->LoadAnimation(L"animation\\spike\\spike_off.anim");
 
 	AddComponent(pAnimator);
 
