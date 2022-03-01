@@ -17,9 +17,11 @@
 #include "CUndead.h"
 #include "CStatic_Spike.h"
 #include "CDynamic_Spike.h"
+#include "CLockBox.h"
+#include "CKey.h"
 
 CHero::CHero()
-	: m_fSpeed(600.f)
+	: m_fSpeed(666.f)
 	, m_eState(EPLAYER_STATE::IDLE)
 	, m_pCurTile(nullptr)
 	, m_eMovDir(EDIRECTION::NONE)
@@ -33,7 +35,7 @@ CHero::CHero()
 	// 애니메이션 생성
 	CAnimator* pAnimator = new CAnimator;
 	//pAnimator->CreateAnimation(L"idle", L"texture\\animation\\hero\\idle\\", 0.05f, 12);
-	//pAnimator->CreateAnimation(L"move", L"texture\\animation\\hero\\move\\", 0.07f, 6);
+	//pAnimator->CreateAnimation(L"move", L"texture\\animation\\hero\\move\\", 0.05f, 6);
 	//pAnimator->CreateAnimation(L"success", L"texture\\animation\\hero\\success\\", 0.11f, 19);
 	//pAnimator->CreateAnimation(L"kick", L"texture\\animation\\hero\\kick\\", 0.02f, 7);
 	//pAnimator->CreateAnimation(L"dead", L"texture\\animation\\hero\\dead\\", 0.05f, 18);
@@ -254,21 +256,6 @@ void CHero::TryMove()
 			if (m_eState == EPLAYER_STATE::DEAD)
 				return;
 
-			// 다음 타일이 키가 있는 타일이면
-			if (ETILE_TYPE::KEY == m_pNextTile->GetType())
-			{
-				// 이펙트
-
-				// 키 삭제
-				DeleteObject(m_pNextTile->FindObstacle(EOBSTACLE_TYPE::KEY));
-
-				// 키 획득 처리
-
-				// 플레이어 이동
-				m_eState = EPLAYER_STATE::MOVE;
-				return;
-			}
-
 			// 다음 타일에 Object가 없으면 이동
 			if (pObstacleList->empty())
 			{
@@ -287,6 +274,46 @@ void CHero::TryMove()
 					m_eState = EPLAYER_STATE::KICK;
 					// 오브젝트 움직임
 					pRock->TryMove(m_eMovDir);
+					return;
+				}
+
+				// LockBox -> Kick
+				CLockBox* pBox = (CLockBox*)m_pNextTile->FindObstacle(EOBSTACLE_TYPE::LOCKBOX);
+				if (nullptr != pBox)
+				{
+					if (m_bKey)
+					{
+						// 이펙트
+
+						// 상자 삭제
+						DeleteObject(pBox);
+
+						// 플레이어 상태 전환
+						m_eState = EPLAYER_STATE::MOVE;
+					}
+					else
+					{
+						// 플레이어 상태 전환
+						m_eState = EPLAYER_STATE::KICK;
+						// 오브젝트 움직임
+						pBox->SetState(EOBSTACLE_STATE::KICKED);
+						return;
+					}
+				}
+
+				CKey* pKey = (CKey*)m_pNextTile->FindObstacle(EOBSTACLE_TYPE::KEY);
+				// 다음 타일이 키가 있는 타일이면
+				if (nullptr != pKey)
+				{
+					// 이펙트
+
+					// 키 삭제
+					DeleteObject(pKey);
+
+					// 플레이어 이동
+					m_eState = EPLAYER_STATE::MOVE;
+					// 키 획득 처리
+					m_bKey = true;
 					return;
 				}
 

@@ -134,26 +134,36 @@ void CRock::TryMove(EDIRECTION _eDir)
 			SetState(EOBSTACLE_STATE::KICKED);
 			return;
 		}
-		// 타일 위에 오브젝트가 없다면 이동
-		if (GetNextTile()->GetObstacles()->empty())
+		// 타음 타일의 타입이 키면 Move
+		else if (ETILE_TYPE::KEY == GetNextTile()->GetType())
 		{
 			SetState(EOBSTACLE_STATE::MOVE);
 			return;
-		}
 
-		// 타일 위에 오브젝트가 있는 경우
+		}
+		// 그 외의 타입인 경우
 		else
 		{
+			// 타일 위에 오브젝트가 없다면 이동
+			if (GetNextTile()->GetObstacles()->empty())
+			{
+				SetState(EOBSTACLE_STATE::MOVE);
+				return;
+			}
+
+			// STATIC_SPIKE, DYNAMC_SPIKE 일 경우 이동
 			if(GetNextTile()->FindObstacle(EOBSTACLE_TYPE::STATIC_SPIKE)
 				||GetNextTile()->FindObstacle(EOBSTACLE_TYPE::DYNAMC_SPIKE))
 				SetState(EOBSTACLE_STATE::MOVE);
-			else
-				SetState(EOBSTACLE_STATE::KICKED);
+
+			// 그 외의 오브젝트가 있을 경우
+			else SetState(EOBSTACLE_STATE::KICKED);
 
 			return;
 		}
 	}
 
+	// 타일이 없는 경우
 	SetState(EOBSTACLE_STATE::KICKED);
 }
 

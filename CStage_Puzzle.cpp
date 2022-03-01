@@ -27,6 +27,7 @@
 #include "CStatic_Spike.h"
 #include "CDynamic_Spike.h"
 #include "CKey.h"
+#include "CLockBox.h"
 
 CStage_Puzzle::CStage_Puzzle(ECHAPTER _chap)
 	: m_eChapter(_chap)
@@ -391,6 +392,33 @@ void CStage_Puzzle::Load(const wstring& _strRelativeFilePath)
 			CRock* pRock = new CRock(pTile);
 			pTile->AddObstacle(pRock);
 			AddObject(pRock, EOBJ_TYPE::OBSTACLE);
+		}
+	}
+
+	// 잠금 상자 정보 로드
+	fwscanf_s(pFile, L"%s", szBuff, 256);
+	fwscanf_s(pFile, L"%s", szBuff, 256);
+	fwscanf_s(pFile, L"%s", szBuff, 256);
+	bool existence = (bool)_wtoi(szBuff);
+
+	if(existence)
+	{
+		fwscanf_s(pFile, L"%s", szBuff, 256);
+
+		// 잠금 상자 좌표 로드
+		Vec vecTilePos = Vec{};
+		fwscanf_s(pFile, L"%s", szBuff, 256);
+		vecTilePos.x = (float)_wtof(szBuff);
+		fwscanf_s(pFile, L"%s", szBuff, 256);
+		vecTilePos.y = (float)_wtof(szBuff);
+
+		// 잠금 상자 생성
+		CTile* pTile = m_pTileMap->FindTile((UINT)vecTilePos.x, (UINT)vecTilePos.y);
+		if (nullptr != pTile)
+		{
+			CLockBox* pBox = new CLockBox(pTile);
+			pTile->AddObstacle(pBox);
+			AddObject(pBox, EOBJ_TYPE::OBSTACLE);
 		}
 	}
 
