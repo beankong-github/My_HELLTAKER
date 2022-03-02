@@ -99,19 +99,35 @@ void CHero::Render(HDC _dc)
 		break;
 
 	case EPLAYER_STATE::KICK:
-		GetAnimator()->PlayAnimation(L"kick", false);
-		if (pCurAnim->IsFinished())
+		if (L"kick" != GetAnimator()->GetCurAnimation()->GetName())
 		{
-			// 애니메이션 리셋
-			GetAnimator()->GetCurAnimation()->Reset();
-			// IDLE로 전환
-			SetState(EPLAYER_STATE::IDLE);
-			GetAnimator()->PlayAnimation(L"idle");
-			// 이동 방향 초기화
-			m_eMovDir = EDIRECTION::NONE;
-			// 다음 타일 초기화
-			m_pNextTile = nullptr;
+			// 애니메이션 재생
+			GetAnimator()->PlayAnimation(L"kick", false);
+
+			// 만약 바닥에 가시가 있으면 데미지
+			if (nullptr != GetCurTile()->FindObstacle(EOBSTACLE_TYPE::STATIC_SPIKE))
+			{
+				GetDamaged(1);
+			}
+			else if (nullptr != GetCurTile()->FindObstacle(EOBSTACLE_TYPE::DYNAMC_SPIKE))
+			{
+				CDynamic_Spike* dspike = (CDynamic_Spike*)m_pCurTile->FindObstacle(EOBSTACLE_TYPE::DYNAMC_SPIKE);
+				if (!dspike->IsActive())
+					GetDamaged(1);
+			}
 		}
+			if (pCurAnim->IsFinished())
+			{
+				// 애니메이션 리셋
+				GetAnimator()->GetCurAnimation()->Reset();
+				// IDLE로 전환
+				SetState(EPLAYER_STATE::IDLE);
+				GetAnimator()->PlayAnimation(L"idle");
+				// 이동 방향 초기화
+				m_eMovDir = EDIRECTION::NONE;
+				// 다음 타일 초기화
+				m_pNextTile = nullptr;
+			}
 		break;
 
 	case EPLAYER_STATE::SUCCESS:
