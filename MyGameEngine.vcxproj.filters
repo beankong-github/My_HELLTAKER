@@ -128,6 +128,9 @@
     <Filter Include="GAME\04. Object\Obstacle\LockBox">
       <UniqueIdentifier>{e245877e-f507-4a57-a9a0-1581baf8f47d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GAME\04. Object\Effect">
+      <UniqueIdentifier>{a9674ee2-f0a4-4aff-8c54-c9e4093dde30}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -258,6 +261,9 @@
     </ClInclude>
     <ClInclude Include="CLockBox.h">
       <Filter>GAME\04. Object\Obstacle\LockBox</Filter>
+    </ClInclude>
+    <ClInclude Include="CEffect.h">
+      <Filter>GAME\04. Object\Effect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -398,6 +404,9 @@
     </ClCompile>
     <ClCompile Include="CLockBox.cpp">
       <Filter>GAME\04. Object\Obstacle\LockBox</Filter>
+    </ClCompile>
+    <ClCompile Include="CEffect.cpp">
+      <Filter>GAME\04. Object\Effect</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
