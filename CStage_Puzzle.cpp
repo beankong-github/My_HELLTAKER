@@ -20,6 +20,7 @@
 #include "CHero.h"
 #include "CNPC.h"
 #include "CTransition.h"
+#include "CEffect.h"
 
 #include "CObstacle.h"
 #include "CRock.h"
@@ -80,6 +81,13 @@ void CStage_Puzzle::Init()
 	pHero->SetPos(pTileMap->GetStartTile()->GetCenterPos());
 	pHero->SetScale(Vec(100, 100));
 	AddObject(pHero, EOBJ_TYPE::PLAYER);
+
+	// Effect 추가(5개)
+	for (size_t i = 0; i < 5; ++i)
+	{
+		m_pEffects[i] = new CEffect;
+		AddObject(m_pEffects[i], EOBJ_TYPE::EFFECT);
+	}
 
 	//npc 추가
 	map<Vec, CTile*>::iterator iter = pTileMap->GetTileMap()->begin();
@@ -167,14 +175,14 @@ void CStage_Puzzle::SetNPCName(ECHAPTER _eChap)
 	}
 }
 
-void CStage_Puzzle::PlayerMove(EDIRECTION _eDir)
+CEffect* CStage_Puzzle::GetEffect()
 {
-	CHero* pHero = dynamic_cast<CHero*>(GetStageObject(EOBJ_TYPE::PLAYER, L"Hero"));
-
-	if (nullptr != pHero)
+	for (size_t i = 0; i < 5; ++i)
 	{
-		// 플레이어 이동
-		pHero->Move(_eDir);
+		if (m_pEffects[i]->GetCurEffect().empty())
+		{
+			return m_pEffects[i];
+		}
 	}
 }
 

@@ -5,9 +5,15 @@
 #include "CStageMgr.h"
 #include "CTimeMgr.h"
 #include "CEventMgr.h"
+#include "CCamera.h"
+
+#include "CResMgr.h"
+#include "CTexture.h"
 
 #include "CAnimator.h"
 #include "CAnimation.h"
+
+#include "CEffect.h"
 
 #include "CStage_Puzzle.h"
 #include "CTile.h"
@@ -32,21 +38,32 @@ CHero::CHero()
 	// 현재 스테이지 설정
 	m_pCurStage = dynamic_cast<CStage_Puzzle*>(CStageMgr::GetInst()->GetCurStage());
 
+	// 알파 블랜딩을 위한 텍스처 생성
+	m_pRedTex = CResMgr::GetInst()->CreateTexture(L"red_blender", 100, 100);
+	for (UINT i = 0; i < 100; i++)
+	{
+		for (UINT j = 0; j < 100; j++)
+		{
+			// veil 텍스처의 모든 픽셀을 검은색으로 칠한다.
+			SetPixel(m_pRedTex->GetDC(), j, i, RGB(255, 0, 0));
+		}
+	}
+
 	// 애니메이션 생성
 	CAnimator* pAnimator = new CAnimator;
 	//pAnimator->CreateAnimation(L"idle", L"texture\\animation\\hero\\idle\\", 0.05f, 12);
-	//pAnimator->CreateAnimation(L"move", L"texture\\animation\\hero\\move\\", 0.05f, 6);
+	pAnimator->CreateAnimation(L"move", L"texture\\animation\\hero\\move\\", 0.01f, 6);
 	//pAnimator->CreateAnimation(L"success", L"texture\\animation\\hero\\success\\", 0.11f, 19);
 	//pAnimator->CreateAnimation(L"kick", L"texture\\animation\\hero\\kick\\", 0.02f, 7);
 	//pAnimator->CreateAnimation(L"dead", L"texture\\animation\\hero\\dead\\", 0.05f, 18);
 
 	// 애니메이션 저장
-	//CAnimation* pSaveAnim = nullptr;
+	CAnimation* pSaveAnim = nullptr;
 	//pSaveAnim = pAnimator->FindAnimation(L"idle");
 	//pSaveAnim->Save(L"animation\\hero\\");	
 	//
-	//pSaveAnim = pAnimator->FindAnimation(L"move");
-	//pSaveAnim->Save(L"animation\\hero\\");	
+	pSaveAnim = pAnimator->FindAnimation(L"move");
+	pSaveAnim->Save(L"animation\\hero\\");	
 	//
 	//pSaveAnim = pAnimator->FindAnimation(L"success");
 	//pSaveAnim->Save(L"animation\\hero\\");	
@@ -59,7 +76,7 @@ CHero::CHero()
 
 	// 애니메이션 로드
 	pAnimator->LoadAnimation(L"animation\\hero\\idle.anim");
-	pAnimator->LoadAnimation(L"animation\\hero\\move.anim");
+	//pAnimator->LoadAnimation(L"animation\\hero\\move.anim");
 	pAnimator->LoadAnimation(L"animation\\hero\\success.anim");
 	pAnimator->LoadAnimation(L"animation\\hero\\kick.anim");
 	pAnimator->LoadAnimation(L"animation\\hero\\dead.anim");
@@ -81,7 +98,6 @@ void CHero::Update()
 
 void CHero::Render(HDC _dc)
 {
-	CAnimation* pCurAnim = GetAnimator()->GetCurAnimation();
 	// 상태에 따른 동작
 	switch (m_eState)
 	{
@@ -91,64 +107,15 @@ void CHero::Render(HDC _dc)
 		break;
 
 	case EPLAYER_STATE::MOVE:
-		// player move event 추가
-		tEventInfo eventInfo;
-		eventInfo.eType = EEVENT_TYPE::PLAYER_MOVE;
-		eventInfo.lParam = (DWORD)m_eMovDir;
-		CEventMgr::GetInst()->AddEvent(eventInfo);
+		Move();
 		break;
 
 	case EPLAYER_STATE::KICK:
-		if (L"kick" != GetAnimator()->GetCurAnimation()->GetName())
-		{
-			// 애니메이션 재생
-			GetAnimator()->PlayAnimation(L"kick", false);
-
-			// 만약 바닥에 가시가 있으면 데미지
-			if (nullptr != GetCurTile()->FindObstacle(EOBSTACLE_TYPE::STATIC_SPIKE))
-			{
-				GetDamaged(1);
-			}
-			else if (nullptr != GetCurTile()->FindObstacle(EOBSTACLE_TYPE::DYNAMC_SPIKE))
-			{
-				CDynamic_Spike* dspike = (CDynamic_Spike*)m_pCurTile->FindObstacle(EOBSTACLE_TYPE::DYNAMC_SPIKE);
-				if (!dspike->IsActive())
-					GetDamaged(1);
-			}
-		}
-			if (pCurAnim->IsFinished())
-			{
-				// 애니메이션 리셋
-				GetAnimator()->GetCurAnimation()->Reset();
-				// IDLE로 전환
-				SetState(EPLAYER_STATE::IDLE);
-				GetAnimator()->PlayAnimation(L"idle");
-				// 이동 방향 초기화
-				m_eMovDir = EDIRECTION::NONE;
-				// 다음 타일 초기화
-				m_pNextTile = nullptr;
-			}
+		Kick();
 		break;
 
 	case EPLAYER_STATE::SUCCESS:
-		GetAnimator()->PlayAnimation(L"success", false);
-		if (pCurAnim->IsFinished())
-		{
-			// 다음 씬으로 이동
-			tEventInfo eventInfo;
-			eventInfo.eType = EEVENT_TYPE::STAGE_CHANGE;
-			eventInfo.lParam = (DWORD)ESTAGE_TYPE::PUZZLE;
-
-			ECHAPTER eNextStage = (ECHAPTER)((UINT)m_pCurStage->GetChapter() + 1);
-			if (ECHAPTER::END == eNextStage)
-			{
-				eNextStage = ECHAPTER::CHAP_1;
-			}
-			eventInfo.wParam = (DWORD)eNextStage;
-
-			CEventMgr::GetInst()->AddEvent(eventInfo);
-		}
-
+		StageClear();
 		break;
 
 	case EPLAYER_STATE::DEAD:
@@ -163,7 +130,7 @@ void CHero::Render(HDC _dc)
 		}
 		break;
 	}
-	
+
 
 	// 현재 타일이 GOAL 타일이라면 성공
 	if (ETILE_TYPE::GOAL == m_pCurTile->GetType())
@@ -214,9 +181,14 @@ void CHero::CountDown(int _num)
 {
 	// 남은 이동 횟수 설정 
 	m_pCurStage->SetCurMoveCount(m_pCurStage->GetCurMoveCount() - _num);
-	
+}
+
+void CHero::TryMove()
+{
+	/* 이동할 타일이 벽이 아니라면 이동 */
+
 	// 남은 이동 횟수가 0이라면 Dead
-	if (-1 == m_pCurStage->GetCurMoveCount())
+	if (0 == m_pCurStage->GetCurMoveCount())
 	{
 		if (ETILE_TYPE::GOAL == m_pCurTile->GetType())
 			return;
@@ -224,12 +196,8 @@ void CHero::CountDown(int _num)
 		SetState(EPLAYER_STATE::DEAD);
 		SetPos(GetPos() + Vec{ 0, -300 });
 		m_pCurStage->PlayerDead();
+		return;
 	}
-}
-
-void CHero::TryMove()
-{
-	/* 이동할 타일이 벽이 아니라면 이동 */
 
 	// 스테이지의 타일맵 가져오기
 	CTileMap* pTileMap = m_pCurStage->GetTileMap();
@@ -266,11 +234,6 @@ void CHero::TryMove()
 		if(ETILE_TYPE::WALL != m_pNextTile->GetType())
 		{
 			list<CObstacle*>* pObstacleList = m_pNextTile->GetObstacles();
-			
-			// 이동 횟수 감소
-			CountDown();
-			if (m_eState == EPLAYER_STATE::DEAD)
-				return;
 
 			// 다음 타일에 Object가 없으면 이동
 			if (pObstacleList->empty())
@@ -282,7 +245,7 @@ void CHero::TryMove()
 			// Object가 있으면 Object에 따라 행동
 			else
 			{
-				// Rock -> Kick
+				// Rock 일 때
 				CRock* pRock = (CRock*)m_pNextTile->FindObstacle(EOBSTACLE_TYPE::ROCK);
 				if (nullptr != pRock)
 				{
@@ -293,7 +256,7 @@ void CHero::TryMove()
 					return;
 				}
 
-				// LockBox -> Kick
+				// LockBox 일 때
 				CLockBox* pBox = (CLockBox*)m_pNextTile->FindObstacle(EOBSTACLE_TYPE::LOCKBOX);
 				if (nullptr != pBox)
 				{
@@ -303,7 +266,6 @@ void CHero::TryMove()
 
 						// 상자 삭제
 						DeleteObject(pBox);
-
 						// 플레이어 상태 전환
 						m_eState = EPLAYER_STATE::MOVE;
 					}
@@ -317,6 +279,7 @@ void CHero::TryMove()
 					}
 				}
 
+				// Key일 때
 				CKey* pKey = (CKey*)m_pNextTile->FindObstacle(EOBSTACLE_TYPE::KEY);
 				// 다음 타일이 키가 있는 타일이면
 				if (nullptr != pKey)
@@ -350,7 +313,6 @@ void CHero::TryMove()
 				{
 					// 플레이어 상태 전환
 					m_eState = EPLAYER_STATE::MOVE;
-					GetDamaged(1);
 					return;
 				}
 
@@ -358,79 +320,149 @@ void CHero::TryMove()
 				CDynamic_Spike* pDSpike = (CDynamic_Spike*)m_pNextTile->FindObstacle(EOBSTACLE_TYPE::DYNAMC_SPIKE);
 				if (nullptr != pDSpike)
 				{
-					if (!pDSpike->IsActive())
-					{
-						// 플레이어 상태 전환
-						m_eState = EPLAYER_STATE::MOVE;
-						GetDamaged(1);
-						return;
-					}
-					else
-					{
-						// 플레이어 상태 전환
+					// 플레이어 상태 전환
 						m_eState = EPLAYER_STATE::MOVE;
 						return;
-					}
 				}
 			}
 		}
 	}
 }
 
-void CHero::Move(EDIRECTION _eDir)
+void CHero::Move()
 {
-	//if (nullptr == m_pNextTile || EDIRECTION::NONE == _eDir)
-	//	return;
-
 	CAnimation* pCurAnim = GetAnimator( )->GetCurAnimation();
-
-	// 플레이어와 다음 타일 사이의 거리
-	double dif = sqrt(pow(GetPos().x - m_pNextTile->GetCenterPos().x, 2)
-		+ pow(GetPos().y - m_pNextTile->GetCenterPos().y, 2));
-
-	// 다음 타일과 플레이어의 위치가 거의 일치하다면
-	if (dif <= 15.f)
+	if (L"move" != pCurAnim->GetName())
 	{
-		// 플레이어 위치 보정
-		SetPos(m_pNextTile->GetCenterPos());
-		// Move Animation 초기화
-		pCurAnim->Reset();
-		// 현재 상태 Idle
-		m_eState = EPLAYER_STATE::IDLE;
-		// 이동 방향 초기화
-		m_eMovDir = EDIRECTION::NONE;
-		// 목적지 타일을 현재 타일로 설정
-		SetCurTile(m_pNextTile);
-		// 목적지 타일 초기화
-		m_pNextTile = nullptr;
+		// 애니메이션 재생
+		GetAnimator()->PlayAnimation(L"move", false);
+
+		// 만약 바닥에 가시가 있으면 데미지 없으면 카운트
+		if (m_pNextTile->IsContainObstacle(EOBSTACLE_TYPE::STATIC_SPIKE))
+		{
+			GetDamaged(2, m_pNextTile->GetCenterPos());
+		}
+		else if (m_pNextTile->IsContainObstacle(EOBSTACLE_TYPE::DYNAMC_SPIKE))
+		{
+			CDynamic_Spike* dspike = (CDynamic_Spike*)m_pCurTile->FindObstacle(EOBSTACLE_TYPE::DYNAMC_SPIKE);
+			if (!dspike->IsActive())
+				GetDamaged(2, m_pNextTile->GetCenterPos());
+		}
+		else
+			CountDown();
 	}
 	else
 	{
-		if( L"move" != pCurAnim->GetName())
-			GetAnimator()->PlayAnimation(L"move", false);
- 
-		switch (m_eMovDir)
+		if (pCurAnim->IsFinished())
 		{
-			break;
-		case EDIRECTION::UP:
-			SetPos(Vec{ GetPos().x, GetPos().y + (m_fSpeed * DS * -1)});
-			break;
-		case EDIRECTION::DOWN:
-			SetPos(Vec{ GetPos().x, GetPos().y + (m_fSpeed * DS * 1) });
-			break;
-		case EDIRECTION::RIGHT:
-			SetPos(Vec{ GetPos().x + (m_fSpeed * DS * 1) , GetPos().y});
-			break;
-		case EDIRECTION::LEFT:
-			SetPos(Vec{ GetPos().x + (m_fSpeed * DS * -1) , GetPos().y });
-			break;
+
+			// 플레이어 위치 보정
+			SetPos(m_pNextTile->GetCenterPos());
+			// Move Animation 초기화
+			pCurAnim->Reset();
+			// 현재 상태 Idle
+			m_eState = EPLAYER_STATE::IDLE;
+			// 이동 방향 초기화
+			m_eMovDir = EDIRECTION::NONE;
+			// 목적지 타일을 현재 타일로 설정
+			SetCurTile(m_pNextTile);
+			// 목적지 타일 초기화
+			m_pNextTile = nullptr;
+		}
+		else
+		{
+			// 플레이어 이동
+			switch (m_eMovDir)
+			{
+				break;
+			case EDIRECTION::UP:
+				SetPos(Vec{ GetPos().x, GetPos().y + (m_fSpeed * DS * -1) });
+				break;
+			case EDIRECTION::DOWN:
+				SetPos(Vec{ GetPos().x, GetPos().y + (m_fSpeed * DS * 1) });
+				break;
+			case EDIRECTION::RIGHT:
+				SetPos(Vec{ GetPos().x + (m_fSpeed * DS * 1) , GetPos().y });
+				break;
+			case EDIRECTION::LEFT:
+				SetPos(Vec{ GetPos().x + (m_fSpeed * DS * -1) , GetPos().y });
+				break;
+			}
 		}
 	}
 }
 
-void CHero::GetDamaged(int damage)
+void CHero::Kick()
 {
+	CAnimation* pCurAnim = GetAnimator()->GetCurAnimation();
+
+	if (L"kick" != pCurAnim->GetName())
+	{
+		// 애니메이션 재생
+		GetAnimator()->PlayAnimation(L"kick", false);
+
+		// 만약 바닥에 가시가 있으면 데미지
+		if (m_pCurTile->IsContainObstacle(EOBSTACLE_TYPE::STATIC_SPIKE))
+		{
+			GetDamaged(2, m_pCurTile->GetCenterPos());
+		}
+		else if (m_pCurTile->IsContainObstacle(EOBSTACLE_TYPE::DYNAMC_SPIKE))
+		{
+			CDynamic_Spike* dspike = (CDynamic_Spike*)m_pCurTile->FindObstacle(EOBSTACLE_TYPE::DYNAMC_SPIKE);
+			if (!dspike->IsActive())
+				GetDamaged(2, m_pCurTile->GetCenterPos());
+		}
+		else
+			CountDown();
+	}
+	else if (pCurAnim->IsFinished())
+	{
+
+		// 애니메이션 리셋
+		GetAnimator()->GetCurAnimation()->Reset();
+		// IDLE로 전환
+		SetState(EPLAYER_STATE::IDLE);
+		GetAnimator()->PlayAnimation(L"idle");
+		// 이동 방향 초기화
+		m_eMovDir = EDIRECTION::NONE;
+		// 다음 타일 초기화
+		m_pNextTile = nullptr;
+	}
+}
+
+void CHero::StageClear()
+{
+	CAnimation* pCurAnim = GetAnimator()->GetCurAnimation();
+
+	GetAnimator()->PlayAnimation(L"success", false);
+	if (pCurAnim->IsFinished())
+	{
+		// 다음 씬으로 이동 이벤트 추가
+		tEventInfo eventInfo;
+		eventInfo.eType = EEVENT_TYPE::STAGE_CHANGE;
+		eventInfo.lParam = (DWORD)ESTAGE_TYPE::PUZZLE;
+
+		ECHAPTER eNextStage = (ECHAPTER)((UINT)m_pCurStage->GetChapter() + 1);
+		if (ECHAPTER::END == eNextStage)
+		{
+			eNextStage = ECHAPTER::CHAP_1;
+		}
+		eventInfo.wParam = (DWORD)eNextStage;
+
+		CEventMgr::GetInst()->AddEvent(eventInfo);
+	}
+}
+
+void CHero::GetDamaged(int damage, Vec pos)
+{
+	// 카운트 다운
 	CountDown(damage);
+
+	// 데미지 이펙트
+	m_pCurStage->GetEffect()->PlayEffect(L"blood", pos);
+
+	// 카메라 진동
+	CCamera::GetInst()->Vibration(1.5, 0.3f, 200, EDIRECTION::HORIZIONTAL);
 }
 
 

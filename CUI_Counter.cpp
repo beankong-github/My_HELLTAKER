@@ -32,7 +32,7 @@ void CUI_Counter::Render(HDC _dc)
 	Vec vFrontUI_RenderPos = Vec{ 0.f, vResolution.y - m_pFrontUITex->Height() };
 	Vec vFrontUI_Size = Vec{ m_pFrontUITex->Width(), m_pFrontUITex->Height() };
 
-	Vec vBackUI_RenderPos = Vec{ 0.f, 0.f };
+	Vec vBackUI_RenderPos = CCamera::GetInst()->GetRenderPos(Vec{ 0.f, 0.f });
 	Vec vBackUI_Size = Vec{ m_pBackUITex->Width(), m_pBackUITex->Height() };
 
 	BitBlt(
@@ -64,7 +64,7 @@ void CUI_Counter::Render(HDC _dc)
 	vFrontUI_RenderPos = Vec{ vResolution.x - m_pFrontUITex->Width(),vResolution.y - m_pFrontUITex->Height() };
 	vFrontUI_Size = Vec{ m_pFrontUITex->Width(), m_pFrontUITex->Height() };
 
-	vBackUI_RenderPos = Vec{ vResolution.x - m_pFrontUITex->Width() + 170,0.f};
+	vBackUI_RenderPos = CCamera::GetInst()->GetRenderPos(Vec{ vResolution.x - m_pFrontUITex->Width() + 170,0.f});
 	vBackUI_Size = Vec{ m_pBackUITex->Width(), m_pBackUITex->Height() };
 
 	// Back

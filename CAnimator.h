@@ -16,6 +16,8 @@ public:
     void Render(HDC _dc) override;
 
 public:
+    void        InitAnimator() { m_pCurAnim = nullptr; }
+
     void        CreateAnimation(const wstring& _strAnimName, const wstring& _strRelativePath, float _fDuration, UINT _iFrmCount);
     void        PlayAnimation(const wstring& _strName, bool _bRepeat = true);
     void        LoadAnimation(const wstring& _strRelativePath);

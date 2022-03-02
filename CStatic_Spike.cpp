@@ -6,6 +6,7 @@
 
 #include "CResMgr.h"
 #include "CTexture.h"
+#include "CCamera.h"
 
 #include "CTile.h"
 #include "CTileMap.h"
@@ -36,9 +37,11 @@ void CStatic_Spike::Update()
 
 void CStatic_Spike::Render(HDC _dc)
 {
+	Vec vRenderPos = CCamera::GetInst()->GetRenderPos(GetPos());
+
 	TransparentBlt(_dc
-		, (int)GetPos().x
-		, (int)GetPos().y
+		, (int)vRenderPos.x
+		, (int)vRenderPos.y
 		, m_pTexture->Width()
 		, m_pTexture->Height()
 		, m_pTexture->GetDC()

@@ -5,7 +5,7 @@
 #include "CAnimation.h"
 
 CEffect::CEffect() 
-	: m_strCurEffect(nullptr)
+	: m_wstrCurEffect()
 {
 	// 애니메이션 생성
 	CAnimator* pAnimator = new CAnimator;
@@ -103,20 +103,33 @@ void CEffect::PlayEffect(wstring _wstrName, Vec _vPos)
 	{	
 		// 1 부터 3까지 균등하게 나타나는 난수열을 생성하기 위해 균등 분포 정의.
 		std::uniform_int_distribution<int> dis(1, 3);
-		m_strCurEffect = _wstrName + L"_" + std::to_wstring(dis(gen));
+		m_wstrCurEffect = _wstrName + L"_" + std::to_wstring(dis(gen));
 	}
 	else if (L"small_vfx" == _wstrName || L"vfx" == _wstrName)
 	{
 		// 1 부터 2까지 균등하게 나타나는 난수열을 생성하기 위해 균등 분포 정의.
 		std::uniform_int_distribution<int> dis(1, 2);
-		m_strCurEffect = _wstrName + L"_" + std::to_wstring(dis(gen));
+		m_wstrCurEffect = _wstrName + L"_" + std::to_wstring(dis(gen));
 	}
 
-	GetAnimator()->PlayAnimation(m_strCurEffect, false);
+	GetAnimator()->PlayAnimation(m_wstrCurEffect, false);
 }
 
 void CEffect::Update()
 {
+	CAnimation* curAnim = GetAnimator()->GetCurAnimation();
+	if (curAnim != nullptr && !m_wstrCurEffect.empty())
+	{
+		if (m_wstrCurEffect == curAnim->GetName())
+		{
+			if (curAnim->IsFinished())
+			{
+				curAnim->Reset();
+				GetAnimator()->InitAnimator();
+				m_wstrCurEffect = L"";
+			}
+		}
+	}
 }
 
 void CEffect::Render(HDC _dc)

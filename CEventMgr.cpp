@@ -61,14 +61,6 @@ void CEventMgr::Update()
 			CStageMgr::GetInst()->ChangeStage((ESTAGE_TYPE)m_vecEvent[i].lParam, (ECHAPTER)m_vecEvent[i].wParam);
 			bChangeStage = true;
 			break;
-		case EEVENT_TYPE::PLAYER_MOVE:
-			// lParam : Move Direction
-			CStage_Puzzle* puzzleStage = dynamic_cast<CStage_Puzzle*>(CStageMgr::GetInst()->GetCurStage());
-			if (nullptr != puzzleStage)
-			{
-				puzzleStage->PlayerMove((EDIRECTION)m_vecEvent[i].lParam);
-			}
-			break;
 		}	
 
 		// 이벤트 중에 Stage 변경 이벤트가 있었다면,

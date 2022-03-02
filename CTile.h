@@ -60,6 +60,17 @@ public:
         }
         return nullptr;
     }
+    bool        IsContainObstacle(EOBSTACLE_TYPE _eType)
+    {
+        list<CObstacle*>::iterator iter = m_listObstcles.begin();
+        for (; iter != m_listObstcles.end(); ++iter)
+        {
+            CObstacle* pObs = *iter;
+            if (_eType == pObs->GetType())
+                return true;
+        }
+        return false;
+    }
     void        ClearObstacles  ()                  { m_listObstcles.clear(); }
 
 public:

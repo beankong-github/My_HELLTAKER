@@ -8,6 +8,8 @@
 #include "CTexture.h"
 
 #include "CTimeMgr.h"
+#include "CCamera.h"
+#include "CEffect.h"
 
 #include "CTile.h"
 #include "CTileMap.h"
@@ -75,11 +77,13 @@ void CRock::Update()
 
 void CRock::Render(HDC _dc)
 {
+	Vec vRenderPos = CCamera::GetInst()->GetRenderPos(GetPos());
+
 	if (nullptr != m_pCurTex)
 	{
 		TransparentBlt(_dc
-			, (int)GetPos().x
-			, (int)GetPos().y
+			, (int)vRenderPos.x
+			, (int)vRenderPos.y
 			, m_pCurTex->Width()
 			, m_pCurTex->Height()
 			, m_pCurTex->GetDC()
@@ -101,6 +105,13 @@ void CRock::TryMove(EDIRECTION _eDir)
 
 	// 이동 방향 설정
 	SetDirection(_eDir);
+
+	// 랜덤
+	// 시드값을 얻기 위한 random_device 생성.
+	std::random_device rd;
+	// random_device 를 통해 난수 생성 엔진을 초기화 한다.
+	std::mt19937 gen(rd());;
+	std::uniform_int_distribution<int> dis(-15, 15);
 
 	// 이동할 위치의 타일 가져오기
 	switch (_eDir)
@@ -131,12 +142,17 @@ void CRock::TryMove(EDIRECTION _eDir)
 		if (ETILE_TYPE::WALL == GetNextTile()->GetType()
 			|| ETILE_TYPE::NPC == GetNextTile()->GetType())
 		{
+			// 이펙트
+			m_pCurStage->GetEffect()->PlayEffect(L"small_vfx", GetCurTile()-> GetCenterPos() + Vec{ dis(gen), dis(gen) });
 			SetState(EOBSTACLE_STATE::KICKED);
 			return;
 		}
 		// 타음 타일의 타입이 키면 Move
 		else if (ETILE_TYPE::KEY == GetNextTile()->GetType())
 		{
+			// 이펙트
+			m_pCurStage->GetEffect()->PlayEffect(L"vfx", GetCurTile()->GetCenterPos() + Vec{ dis(gen), dis(gen) });
+
 			SetState(EOBSTACLE_STATE::MOVE);
 			return;
 
@@ -146,24 +162,41 @@ void CRock::TryMove(EDIRECTION _eDir)
 		{
 			// 타일 위에 오브젝트가 없다면 이동
 			if (GetNextTile()->GetObstacles()->empty())
-			{
+			{			
+				// 이펙트
+				m_pCurStage->GetEffect()->PlayEffect(L"vfx", GetCurTile()->GetCenterPos() + Vec{ dis(gen), dis(gen) });
+
 				SetState(EOBSTACLE_STATE::MOVE);
 				return;
 			}
 
 			// STATIC_SPIKE, DYNAMC_SPIKE 일 경우 이동
-			if(GetNextTile()->FindObstacle(EOBSTACLE_TYPE::STATIC_SPIKE)
-				||GetNextTile()->FindObstacle(EOBSTACLE_TYPE::DYNAMC_SPIKE))
-				SetState(EOBSTACLE_STATE::MOVE);
+			if (GetNextTile()->FindObstacle(EOBSTACLE_TYPE::STATIC_SPIKE)
+				|| GetNextTile()->FindObstacle(EOBSTACLE_TYPE::DYNAMC_SPIKE))
+			{
+				// 이펙트
+				m_pCurStage->GetEffect()->PlayEffect(L"vfx", GetCurTile()->GetCenterPos() + Vec{ dis(gen), dis(gen) });
 
+				SetState(EOBSTACLE_STATE::MOVE);
+			}
 			// 그 외의 오브젝트가 있을 경우
-			else SetState(EOBSTACLE_STATE::KICKED);
+			else
+			{	
+				// 이펙트
+				m_pCurStage->GetEffect()->PlayEffect(L"small_vfx", GetCurTile()->GetCenterPos() + Vec{ dis(gen), dis(gen) });
+				
+				
+				SetState(EOBSTACLE_STATE::KICKED);
+			}
 
 			return;
 		}
 	}
 
 	// 타일이 없는 경우
+	// 이펙트
+	m_pCurStage->GetEffect()->PlayEffect(L"small_vfx", GetCurTile()->GetCenterPos() + Vec{ dis(gen), dis(gen) });
+
 	SetState(EOBSTACLE_STATE::KICKED);
 }
 

@@ -18,7 +18,8 @@ class CHero :
 {
 private:
     CStage_Puzzle*  m_pCurStage;
-    
+    CTexture*       m_pRedTex;
+
     EPLAYER_STATE   m_eState;
 
     CTile*          m_pCurTile;
@@ -41,8 +42,10 @@ public:
     void Render(HDC _dc);
 
     void TryMove();
-    void Move(EDIRECTION _eDir);
-    void GetDamaged(int damage);
+    void Move();
+    void Kick();
+    void StageClear();
+    void GetDamaged(int _damage, Vec _pos);
 
 private:
     void KeyCheck();

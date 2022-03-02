@@ -25,6 +25,9 @@ private:
 	bool				m_bFinish;
 	bool				m_bFlip;	// Flip image horizontally
 
+	float           m_fEffectTime;
+	float           m_fEffectAddTime;
+
 public:
 	const wstring&	GetName() { return m_strName; }
 	CObj*			GetOwner();
@@ -33,6 +36,7 @@ public:
 	bool IsFlip() { return m_bFlip; }
 
 	void Filp(bool _bFlip) { m_bFlip = _bFlip; }
+	void StartEffect(float _time);
 
 public:
 	void Reset();

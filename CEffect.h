@@ -5,7 +5,10 @@ class CEffect :
     public CObj
 {
 private:
-    wstring m_strCurEffect;
+    wstring m_wstrCurEffect;
+
+public:
+    wstring GetCurEffect() { return m_wstrCurEffect; }
 
 public:
     void PlayEffect(wstring _wstrName, Vec _vPos);

@@ -8,6 +8,7 @@
 #include "CTexture.h"
 
 #include "CTimeMgr.h"
+#include "CCamera.h"
 
 #include "CTile.h"
 #include "CTileMap.h"
@@ -49,11 +50,13 @@ void CLockBox::Update()
 
 void CLockBox::Render(HDC _dc)
 {
+	Vec vRenderPos = CCamera::GetInst()->GetRenderPos(GetPos());
+
 	if (nullptr != m_pCurTex)
 	{
 		TransparentBlt(_dc
-			, (int)GetPos().x
-			, (int)GetPos().y
+			, (int)vRenderPos.x
+			, (int)vRenderPos.y
 			, m_pCurTex->Width()
 			, m_pCurTex->Height()
 			, m_pCurTex->GetDC()

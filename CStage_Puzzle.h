@@ -3,6 +3,7 @@
 
 class CTileMap;
 class CTransition;
+class CEffect;
 
 class CStage_Puzzle :
     public CStage
@@ -10,7 +11,8 @@ class CStage_Puzzle :
 private:
     ECHAPTER    m_eChapter;
 
-    CTransition* m_pTransition;
+    CTransition*    m_pTransition;
+    CEffect*        m_pEffects[5];
 
     CTileMap*   m_pTileMap;
     Vec         m_vTileStartPos;
@@ -23,7 +25,6 @@ private:
     UINT        m_iOBUndeadCount;   // 오브젝트 Undead 개수
     UINT        m_iOBSSpikeCount;   // 오브젝트 Static Spike 개수
     UINT        m_iOBDSpikeCount;   // 오브젝트 Dynamic Spike 개수
-
 
     wstring     m_strNPCName;
 
@@ -40,9 +41,9 @@ public:
     UINT            GetCurMoveCount()           { return m_iCurMoveCount; }
     CTileMap*       GetTileMap()                { return m_pTileMap; }
     const wstring&  GetNPCName()                { return m_strNPCName; }
+    CEffect*        GetEffect();
 
 public:
-    void PlayerMove(EDIRECTION _eDir);
     void PlayerDead();
     void StageClear();
 
