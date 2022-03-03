@@ -7,6 +7,7 @@
 
 #include "CAnimation.h"
 #include "CAnimator.h"
+#include "CEffect.h"
 
 #include "CTile.h"
 #include "CTileMap.h"
@@ -92,6 +93,13 @@ void CUndead::TryMove(EDIRECTION _eDir)
 
 	// 이동 방향 설정
 	SetDirection(_eDir);
+		
+	// 랜덤
+	// 시드값을 얻기 위한 random_device 생성.
+	std::random_device rd;
+	// random_device 를 통해 난수 생성 엔진을 초기화 한다.
+	std::mt19937 gen(rd());;
+	std::uniform_int_distribution<int> dis(-15, 15);
 
 	// 이동할 위치의 타일 가져오기
 	switch (_eDir)
@@ -134,9 +142,13 @@ void CUndead::TryMove(EDIRECTION _eDir)
 					// Dynamic Spike 활성 체크
 					nextObject->Update();
 
-					if (!nextObject->IsActive())
+					if (nextObject->IsActive())
 					{
 						SetState(EOBSTACLE_STATE::MOVE);
+					}
+					else
+					{
+						SetState(EOBSTACLE_STATE::DEAD);
 					}
 				}
 				else
@@ -147,6 +159,10 @@ void CUndead::TryMove(EDIRECTION _eDir)
 		{
 			SetState(EOBSTACLE_STATE::DEAD);
 		}
+
+		if (EOBSTACLE_STATE::MOVE == GetState())
+			// 이펙트
+			m_pCurStage->GetEffect()->PlayEffect(L"vfx", GetCurTile()->GetCenterPos() + Vec{ dis(gen), dis(gen) });
 	}
 }
 

@@ -184,6 +184,7 @@ CEffect* CStage_Puzzle::GetEffect()
 			return m_pEffects[i];
 		}
 	}
+	return nullptr;
 }
 
 void CStage_Puzzle::PlayerDead()

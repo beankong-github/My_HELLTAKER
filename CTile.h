@@ -72,6 +72,7 @@ public:
         return false;
     }
     void        ClearObstacles  ()                  { m_listObstcles.clear(); }
+    size_t      NumberofObstacles() { return m_listObstcles.size(); }
 
 public:
     void Update() override;

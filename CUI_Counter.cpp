@@ -14,7 +14,6 @@ CUI_Counter::CUI_Counter()
 	// 텍스처 로드
 	m_pFrontUITex = CResMgr::GetInst()->LoadTexture(L"ui_1", L"texture\\ui\\main_ui\\ui_1_test.bmp");
 	m_pBackUITex = CResMgr::GetInst()->LoadTexture(L"ui_2", L"texture\\ui\\main_ui\\ui_2.bmp");
-
 	// 폰트 추가
 	CreateFont();
 
@@ -138,8 +137,13 @@ void CUI_Counter::Render(HDC _dc)
 	CStage_Puzzle* curStage = dynamic_cast<CStage_Puzzle*>(CStageMgr::GetInst()->GetCurStage());
 	if (nullptr != curStage)
 	{
-		wstring curCount = std::to_wstring(curStage->GetCurMoveCount());
-		wstring curChap = std::to_wstring((UINT)curStage->GetChapter());
+		wstring curCount;
+		if (0 >= curStage->GetCurMoveCount())
+			curCount = L"X";
+		else
+		 curCount = std::to_wstring(curStage->GetCurMoveCount());
+
+		wstring curChap = m_StageName[(UINT)curStage->GetChapter()-1];
 
 		SetBkMode(_dc, 1);
 		SetTextColor(_dc, RGB(255, 255, 255)); 

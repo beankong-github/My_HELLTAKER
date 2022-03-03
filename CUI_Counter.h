@@ -8,6 +8,8 @@ private:
     CTexture*   m_pBackUITex;
     HFONT      m_hFont;
 
+    wstring  m_StageName[9] = {L"グ", L"ケ", L"ゲ", L"コ", L"ゴ", L"サ", L"ザ", L"シ", L"ジ"};
+
 public:
     void Update();
     void Render(HDC _dc);

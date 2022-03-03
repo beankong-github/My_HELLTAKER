@@ -147,22 +147,22 @@ void CHero::KeyCheck()
 	if (EPLAYER_STATE::IDLE != m_eState)
 		return;
 
-	if (IS_KEY_PRESSED(KEY::A)) // VK_LEFT가 이전에 누른 적이 없고 호출 시점에는 눌려있는 상태라면
+	if (IS_KEY_TAP(KEY::A)) // VK_LEFT가 이전에 누른 적이 없고 호출 시점에는 눌려있는 상태라면
 	{
 		m_eMovDir = EDIRECTION::LEFT;
 		TryMove();
 	}
-	else if (IS_KEY_PRESSED(KEY::D))
+	else if (IS_KEY_TAP(KEY::D))
 	{
 		m_eMovDir = EDIRECTION::RIGHT;
 		TryMove();
 	}
-	else if (IS_KEY_PRESSED(KEY::W))
+	else if (IS_KEY_TAP(KEY::W))
 	{
 		m_eMovDir = EDIRECTION::UP;
 		TryMove();
 	}
-	else if (IS_KEY_PRESSED(KEY::S))
+	else if (IS_KEY_TAP(KEY::S))
 	{
 		m_eMovDir = EDIRECTION::DOWN;
 		TryMove();
@@ -188,7 +188,7 @@ void CHero::TryMove()
 	/* 이동할 타일이 벽이 아니라면 이동 */
 
 	// 남은 이동 횟수가 0이라면 Dead
-	if (0 == m_pCurStage->GetCurMoveCount())
+	if (0 >= m_pCurStage->GetCurMoveCount())
 	{
 		if (ETILE_TYPE::GOAL == m_pCurTile->GetType())
 			return;
@@ -263,7 +263,7 @@ void CHero::TryMove()
 					if (m_bKey)
 					{
 						// 이펙트
-
+						m_pCurStage->GetEffect()->PlayEffect(L"item_effect", m_pNextTile->GetCenterPos());
 						// 상자 삭제
 						DeleteObject(pBox);
 						// 플레이어 상태 전환
@@ -285,7 +285,7 @@ void CHero::TryMove()
 				if (nullptr != pKey)
 				{
 					// 이펙트
-
+					m_pCurStage->GetEffect()->PlayEffect(L"item_effect", m_pNextTile->GetCenterPos());
 					// 키 삭제
 					DeleteObject(pKey);
 
@@ -337,6 +337,9 @@ void CHero::Move()
 		// 애니메이션 재생
 		GetAnimator()->PlayAnimation(L"move", false);
 
+		// 이펙트
+		m_pCurStage->GetEffect()->PlayEffect(L"move_effect", m_pCurTile->GetCenterPos());
+
 		// 만약 바닥에 가시가 있으면 데미지 없으면 카운트
 		if (m_pNextTile->IsContainObstacle(EOBSTACLE_TYPE::STATIC_SPIKE))
 		{
@@ -344,9 +347,15 @@ void CHero::Move()
 		}
 		else if (m_pNextTile->IsContainObstacle(EOBSTACLE_TYPE::DYNAMC_SPIKE))
 		{
-			CDynamic_Spike* dspike = (CDynamic_Spike*)m_pCurTile->FindObstacle(EOBSTACLE_TYPE::DYNAMC_SPIKE);
+			CDynamic_Spike* dspike = (CDynamic_Spike*)m_pNextTile->FindObstacle(EOBSTACLE_TYPE::DYNAMC_SPIKE);
 			if (!dspike->IsActive())
+			{
 				GetDamaged(2, m_pNextTile->GetCenterPos());
+			}
+			else
+			{
+				CountDown();
+			}
 		}
 		else
 			CountDown();
@@ -410,7 +419,9 @@ void CHero::Kick()
 		{
 			CDynamic_Spike* dspike = (CDynamic_Spike*)m_pCurTile->FindObstacle(EOBSTACLE_TYPE::DYNAMC_SPIKE);
 			if (!dspike->IsActive())
-				GetDamaged(2, m_pCurTile->GetCenterPos());
+				GetDamaged(2, m_pCurTile->GetCenterPos());		
+			else
+				CountDown();
 		}
 		else
 			CountDown();
@@ -434,8 +445,22 @@ void CHero::StageClear()
 {
 	CAnimation* pCurAnim = GetAnimator()->GetCurAnimation();
 
-	GetAnimator()->PlayAnimation(L"success", false);
-	if (pCurAnim->IsFinished())
+	if (L"success" != pCurAnim->GetName())
+	{
+		GetAnimator()->PlayAnimation(L"success", false);
+
+		// 이펙트 재생
+		CTileMap* pTileMap = m_pCurStage->GetTileMap();
+		map<Vec, CTile*>::iterator iter = pTileMap->GetTileMap()->begin();
+		for (; iter != pTileMap->GetTileMap()->end(); ++iter)
+		{
+			if (ETILE_TYPE::NPC == iter->second->GetType())
+			{
+				m_pCurStage->GetEffect()->PlayEffect(L"success_effect", iter->second->GetCenterPos());
+			}
+		}
+	}
+	else if (pCurAnim->IsFinished())
 	{
 		// 다음 씬으로 이동 이벤트 추가
 		tEventInfo eventInfo;

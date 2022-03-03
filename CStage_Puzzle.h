@@ -18,8 +18,8 @@ private:
     Vec         m_vTileStartPos;
     Vec         m_vTileCount;
 
-    UINT        m_iInitMoveCount;
-    UINT        m_iCurMoveCount;
+    int        m_iInitMoveCount;
+    int        m_iCurMoveCount;
 
     UINT        m_iOBRockCount;     // 오브젝트 Rock 개수
     UINT        m_iOBUndeadCount;   // 오브젝트 Undead 개수
@@ -31,14 +31,14 @@ private:
 public:
     void    SetvTileCount(Vec _vCount)      { m_vTileCount = _vCount; }
     void    SetvTileStartPos(Vec _vPos)     { m_vTileStartPos = _vPos; }
-    void    SetInitMoveCount(UINT _iMove)   { m_iInitMoveCount = _iMove; }
-    void    SetCurMoveCount(UINT _iMove)     { m_iCurMoveCount = _iMove; }
+    void    SetInitMoveCount(int _iMove)   { m_iInitMoveCount = _iMove; }
+    void    SetCurMoveCount(int _iMove)     { m_iCurMoveCount = _iMove; }
     void    SetNPCName(ECHAPTER _eChap);
 
     ECHAPTER        GetChapter()                { return m_eChapter; }
     Vec             GetTileCount()              { return m_vTileCount; }
-    UINT            GetInitMoveCount()          { return m_iInitMoveCount; }
-    UINT            GetCurMoveCount()           { return m_iCurMoveCount; }
+    int            GetInitMoveCount()          { return m_iInitMoveCount; }
+    int            GetCurMoveCount()           { return m_iCurMoveCount; }
     CTileMap*       GetTileMap()                { return m_pTileMap; }
     const wstring&  GetNPCName()                { return m_strNPCName; }
     CEffect*        GetEffect();
