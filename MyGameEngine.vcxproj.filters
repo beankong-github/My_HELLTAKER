@@ -131,6 +131,27 @@
     <Filter Include="GAME\04. Object\Effect">
       <UniqueIdentifier>{a9674ee2-f0a4-4aff-8c54-c9e4093dde30}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GAME\04. Object\UI\Counter">
+      <UniqueIdentifier>{221f4c35-a6a5-4dc6-9753-105cadc9de20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GAME\04. Object\UI\Dialog">
+      <UniqueIdentifier>{d1ea2b88-fc0b-4560-8801-24b581b19ea9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GAME\03. Manager\UIMgr">
+      <UniqueIdentifier>{7891bb5a-99fb-427e-9634-cc6a008552aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GAME\04. Object\UI\Button">
+      <UniqueIdentifier>{52257e74-3972-4a3c-846a-fa1ba59ad704}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GAME\04. Object\UI\Panel">
+      <UniqueIdentifier>{86b1a620-5a24-40da-a8d4-0d1c474b7c2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GAME\04. Object\UI\Button\Option">
+      <UniqueIdentifier>{f79e8948-3409-48bd-98b8-963e8b78333b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GAME\03. Manager\FontMgr">
+      <UniqueIdentifier>{4c9888e0-55a2-456b-a67d-5eb16603cadf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -238,9 +259,6 @@
     <ClInclude Include="CTransition.h">
       <Filter>GAME\04. Object\Transition</Filter>
     </ClInclude>
-    <ClInclude Include="CUI_Counter.h">
-      <Filter>GAME\04. Object\UI</Filter>
-    </ClInclude>
     <ClInclude Include="CObstacle.h">
       <Filter>GAME\04. Object\Obstacle</Filter>
     </ClInclude>
@@ -264,6 +282,27 @@
     </ClInclude>
     <ClInclude Include="CEffect.h">
       <Filter>GAME\04. Object\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="CUI_Counter.h">
+      <Filter>GAME\04. Object\UI\Counter</Filter>
+    </ClInclude>
+    <ClInclude Include="CUIMgr.h">
+      <Filter>GAME\03. Manager\UIMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="CBtnUI.h">
+      <Filter>GAME\04. Object\UI\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="CPanel.h">
+      <Filter>GAME\04. Object\UI\Panel</Filter>
+    </ClInclude>
+    <ClInclude Include="CUI.h">
+      <Filter>GAME\04. Object\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="CUI_Dialog.h">
+      <Filter>GAME\04. Object\UI\Dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="CBtn_Option.h">
+      <Filter>GAME\04. Object\UI\Button\Option</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -381,9 +420,6 @@
     <ClCompile Include="CTransition.cpp">
       <Filter>GAME\04. Object\Transition</Filter>
     </ClCompile>
-    <ClCompile Include="CUI_Counter.cpp">
-      <Filter>GAME\04. Object\UI</Filter>
-    </ClCompile>
     <ClCompile Include="CObstacle.cpp">
       <Filter>GAME\04. Object\Obstacle</Filter>
     </ClCompile>
@@ -407,6 +443,27 @@
     </ClCompile>
     <ClCompile Include="CEffect.cpp">
       <Filter>GAME\04. Object\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="CUI_Counter.cpp">
+      <Filter>GAME\04. Object\UI\Counter</Filter>
+    </ClCompile>
+    <ClCompile Include="CUIMgr.cpp">
+      <Filter>GAME\03. Manager\UIMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="CBtnUI.cpp">
+      <Filter>GAME\04. Object\UI\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="CPanel.cpp">
+      <Filter>GAME\04. Object\UI\Panel</Filter>
+    </ClCompile>
+    <ClCompile Include="CUI.cpp">
+      <Filter>GAME\04. Object\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="CUI_Dialog.cpp">
+      <Filter>GAME\04. Object\UI\Dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="CBtn_Option.cpp">
+      <Filter>GAME\04. Object\UI\Button\Option</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

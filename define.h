@@ -23,6 +23,8 @@
 
 #define TILE_SIZE 100
 
+#define CLONE(type) virtual type* Clone() override { return new type(*this);}
+
 enum class ESTAGE_TYPE
 {
 	TOOL,

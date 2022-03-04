@@ -11,6 +11,11 @@
 #include "CAnimation.h"
 #include "CFSM.h"
 
+CObj* CObj::Clone()
+{
+	return nullptr;
+}
+
 CObj::CObj()
 	: m_vPos{}
 	, m_vScale{}

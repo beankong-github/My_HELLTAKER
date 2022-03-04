@@ -63,3 +63,4 @@ void LoadWString(wstring& _str, FILE* _pFile)
 
 	_str = szData;
 }
+

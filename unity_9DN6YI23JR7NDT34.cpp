@@ -1,8 +1,5 @@
 #include "pch.h"
 
-#include "C:\Users\bueon\source\repos\My_HELLTAKER\CPathMgr.cpp"
-
-
 #include "C:\Users\bueon\source\repos\My_HELLTAKER\CResMgr.cpp"
 
 
@@ -45,7 +42,16 @@
 #include "C:\Users\bueon\source\repos\My_HELLTAKER\CTransition.cpp"
 
 
+#include "C:\Users\bueon\source\repos\My_HELLTAKER\CUI.cpp"
+
+
+#include "C:\Users\bueon\source\repos\My_HELLTAKER\CUIMgr.cpp"
+
+
 #include "C:\Users\bueon\source\repos\My_HELLTAKER\CUI_Counter.cpp"
+
+
+#include "C:\Users\bueon\source\repos\My_HELLTAKER\CUI_Dialog.cpp"
 
 
 #include "C:\Users\bueon\source\repos\My_HELLTAKER\CUndead.cpp"

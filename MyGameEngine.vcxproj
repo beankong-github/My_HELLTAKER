@@ -155,6 +155,8 @@
   <ItemGroup>
     <ClInclude Include="CAnimation.h" />
     <ClInclude Include="CBackGround.h" />
+    <ClInclude Include="CBtnUI.h" />
+    <ClInclude Include="CBtn_Option.h" />
     <ClInclude Include="CCamera.h" />
     <ClInclude Include="CCollisionMgr.h" />
     <ClInclude Include="CDynamic_Spike.h" />
@@ -172,6 +174,7 @@
     <ClInclude Include="CNPC.h" />
     <ClInclude Include="CObj.h" />
     <ClInclude Include="CObstacle.h" />
+    <ClInclude Include="CPanel.h" />
     <ClInclude Include="CPathMgr.h" />
     <ClInclude Include="CResMgr.h" />
     <ClInclude Include="CResource.h" />
@@ -187,7 +190,10 @@
     <ClInclude Include="CTileMap.h" />
     <ClInclude Include="CTimeMgr.h" />
     <ClInclude Include="CTransition.h" />
+    <ClInclude Include="CUI.h" />
+    <ClInclude Include="CUIMgr.h" />
     <ClInclude Include="CUI_Counter.h" />
+    <ClInclude Include="CUI_Dialog.h" />
     <ClInclude Include="CUndead.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="func.h" />
@@ -201,6 +207,8 @@
   <ItemGroup>
     <ClCompile Include="CAnimation.cpp" />
     <ClCompile Include="CBackGround.cpp" />
+    <ClCompile Include="CBtnUI.cpp" />
+    <ClCompile Include="CBtn_Option.cpp" />
     <ClCompile Include="CCamera.cpp" />
     <ClCompile Include="CCollisionMgr.cpp" />
     <ClCompile Include="CDynamic_Spike.cpp" />
@@ -218,6 +226,7 @@
     <ClCompile Include="CNPC.cpp" />
     <ClCompile Include="CObj.cpp" />
     <ClCompile Include="CObstacle.cpp" />
+    <ClCompile Include="CPanel.cpp" />
     <ClCompile Include="CPathMgr.cpp" />
     <ClCompile Include="CResMgr.cpp" />
     <ClCompile Include="CResource.cpp" />
@@ -233,7 +242,10 @@
     <ClCompile Include="CTileMap.cpp" />
     <ClCompile Include="CTimeMgr.cpp" />
     <ClCompile Include="CTransition.cpp" />
+    <ClCompile Include="CUI.cpp" />
+    <ClCompile Include="CUIMgr.cpp" />
     <ClCompile Include="CUI_Counter.cpp" />
+    <ClCompile Include="CUI_Dialog.cpp" />
     <ClCompile Include="CUndead.cpp" />
     <ClCompile Include="func.cpp" />
     <ClCompile Include="pch.cpp">

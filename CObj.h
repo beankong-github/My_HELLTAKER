@@ -53,6 +53,10 @@ private:
 	void SetDead(){	m_bDead = true;	}
 
 public:
+	virtual CObj* Clone();
+
+
+public:
 	CObj();
 	virtual  ~CObj();
 

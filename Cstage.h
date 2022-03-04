@@ -32,8 +32,13 @@ public:
 	void Clear(EOBJ_TYPE _type);
 	void Clear();
 
+private:
+	vector<CObj*>& GetObjectsRef(EOBJ_TYPE _eType) { return m_arrObj[(UINT)_eType]; }
+
 public:
 	CStage();
 	virtual ~CStage();
+
+	friend class CUIMgr;
 
 };

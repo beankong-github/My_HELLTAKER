@@ -9,6 +9,7 @@
 #include "CEventMgr.h"
 #include "CCollisionMgr.h"
 #include "CCamera.h"
+#include "CUIMgr.h"
 // Stage Header
 #include "Cstage.h"
 

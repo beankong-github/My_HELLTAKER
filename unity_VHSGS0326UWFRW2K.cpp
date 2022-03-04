@@ -6,6 +6,9 @@
 #include "C:\Users\bueon\source\repos\My_HELLTAKER\CBackGround.cpp"
 
 
+#include "C:\Users\bueon\source\repos\My_HELLTAKER\CBtnUI.cpp"
+
+
 #include "C:\Users\bueon\source\repos\My_HELLTAKER\CCamera.cpp"
 
 
@@ -55,4 +58,10 @@
 
 
 #include "C:\Users\bueon\source\repos\My_HELLTAKER\CObstacle.cpp"
+
+
+#include "C:\Users\bueon\source\repos\My_HELLTAKER\CPanel.cpp"
+
+
+#include "C:\Users\bueon\source\repos\My_HELLTAKER\CPathMgr.cpp"
 
