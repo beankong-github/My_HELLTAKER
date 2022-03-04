@@ -7,16 +7,14 @@
 #include "CTexture.h"
 #include "CStageMgr.h"
 #include "CStage_Puzzle.h"
-#include "CPathMgr.h"
+
+#include "CFontMgr.h"
 
 CUI_Counter::CUI_Counter()
 {
 	// 텍스처 로드
 	m_pFrontUITex = CResMgr::GetInst()->LoadTexture(L"ui_1", L"texture\\ui\\main_ui\\ui_1_test.bmp");
 	m_pBackUITex = CResMgr::GetInst()->LoadTexture(L"ui_2", L"texture\\ui\\main_ui\\ui_2.bmp");
-	// 폰트 추가
-	CreateFont();
-
 }
 
 void CUI_Counter::Update()
@@ -145,44 +143,11 @@ void CUI_Counter::Render(HDC _dc)
 
 		wstring curChap = m_StageName[(UINT)curStage->GetChapter()-1];
 
-		SetBkMode(_dc, 1);
-		SetTextColor(_dc, RGB(255, 255, 255)); 
-		SetTextAlign(_dc, TA_CENTER);
-		HFONT OldFont = (HFONT)SelectObject(_dc, m_hFont); 
-		TextOut(_dc, 200, 730, curCount.c_str(), (int)curCount.length());
-		TextOut(_dc, int(vResolution.x - 190), 730, curChap.c_str(), (int)curCount.length());
-		DeleteObject(OldFont);
+		CFontMgr::GetInst()->WriteCounterText(_dc, 200, 730, curCount);
+		CFontMgr::GetInst()->WriteCounterText(_dc, int(vResolution.x - 190), 730, curChap);
 	}
-
-
-}
-
-void CUI_Counter::CreateFont()
-{
-	wstring path = wstring(CPathMgr::GetInst()->GetContentPath());
-	AddFontResource((path + L"font\\HeirofLightRegular.ttf").c_str());
-
-	LOGFONT lf = LOGFONT{};
-	lf.lfHeight = 180;			// 폰트 크기
-	lf.lfWeight = 0;
-	lf.lfEscapement = 0;
-	lf.lfOrientation = 0;
-	lf.lfWeight = 0;
-	lf.lfItalic = 0;
-	lf.lfUnderline = 0;
-	lf.lfStrikeOut = 0;
-	lf.lfCharSet = HANGEUL_CHARSET;
-	lf.lfOutPrecision = 0;
-	lf.lfClipPrecision = 0;
-	lf.lfQuality = 0;
-	lf.lfPitchAndFamily = FIXED_PITCH;
-	lstrcpy(lf.lfFaceName, TEXT("빛의 계승자 Regular"));
-
-	m_hFont = CreateFontIndirect(&lf);
 }
 
 CUI_Counter::~CUI_Counter()
 {
-	RemoveFontResource(L"HeirofLightRegular.ttf");
-	DeleteObject(m_hFont);
 }

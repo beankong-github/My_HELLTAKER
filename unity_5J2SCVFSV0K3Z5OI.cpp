@@ -9,6 +9,9 @@
 #include "C:\Users\bueon\source\repos\My_HELLTAKER\CBtnUI.cpp"
 
 
+#include "C:\Users\bueon\source\repos\My_HELLTAKER\CBtn_Option.cpp"
+
+
 #include "C:\Users\bueon\source\repos\My_HELLTAKER\CCamera.cpp"
 
 
@@ -19,6 +22,9 @@
 
 
 #include "C:\Users\bueon\source\repos\My_HELLTAKER\CEffect.cpp"
+
+
+#include "C:\Users\bueon\source\repos\My_HELLTAKER\CFontMgr.cpp"
 
 
 #include "C:\Users\bueon\source\repos\My_HELLTAKER\CFSM.cpp"
@@ -61,7 +67,4 @@
 
 
 #include "C:\Users\bueon\source\repos\My_HELLTAKER\CPanel.cpp"
-
-
-#include "C:\Users\bueon\source\repos\My_HELLTAKER\CPathMgr.cpp"
 

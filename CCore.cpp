@@ -10,6 +10,7 @@
 #include "CCollisionMgr.h"
 #include "CCamera.h"
 #include "CUIMgr.h"
+#include "CFontMgr.h"
 // Stage Header
 #include "Cstage.h"
 
@@ -25,8 +26,12 @@ CCore::CCore()
 
 CCore::~CCore()
 {
+
 	// DC 해제
 	ReleaseDC(m_hwnd, m_hDC);
+
+	// 폰트 삭제
+	CFontMgr::GetInst()->Exit();
 
 	// 펜&브러쉬 삭제
 	DeleteObject(m_hGreenPen);

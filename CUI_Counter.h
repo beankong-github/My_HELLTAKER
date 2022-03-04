@@ -14,7 +14,7 @@ public:
     void Update();
     void Render(HDC _dc);
 
-    void CreateFont();
+    void LoadFont();
 
 public:
     CUI_Counter();

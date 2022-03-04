@@ -304,6 +304,9 @@
     <ClInclude Include="CBtn_Option.h">
       <Filter>GAME\04. Object\UI\Button\Option</Filter>
     </ClInclude>
+    <ClInclude Include="CFontMgr.h">
+      <Filter>GAME\03. Manager\FontMgr</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MyGameEngine.rc">
@@ -464,6 +467,9 @@
     </ClCompile>
     <ClCompile Include="CBtn_Option.cpp">
       <Filter>GAME\04. Object\UI\Button\Option</Filter>
+    </ClCompile>
+    <ClCompile Include="CFontMgr.cpp">
+      <Filter>GAME\03. Manager\FontMgr</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
