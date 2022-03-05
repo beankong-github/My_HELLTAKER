@@ -1,22 +1,22 @@
 #include "pch.h"
 #include "CBtn_Option.h"
 
+#include "CResMgr.h"
+#include "CFontMgr.h"
 #include "CCamera.h"
 
 #include "CTexture.h"
-#include "CResMgr.h"
+#include "CUI_Dialog.h"
 
 CBtn_Option::CBtn_Option()
+	: m_bSelected(false)
+	, m_bAnswer(false)
 {
-	m_pUnSelectImg = CResMgr::GetInst()->LoadTexture(L"button_1", L"texture\\ui\\dialog\\dialog_ui\\");
-	m_pSelectImg = CResMgr::GetInst()->LoadTexture(L"button_2", L"texture\\ui\\dialog\\dialog_ui\\");
+	m_pUnSelectImg = CResMgr::GetInst()->LoadTexture(L"button_1", L"texture\\ui\\dialog\\dialog_ui\\button_1.bmp");
+	m_pSelectImg = CResMgr::GetInst()->LoadTexture(L"button_2", L"texture\\ui\\dialog\\dialog_ui\\button_2.bmp");
 }
 
 CBtn_Option::~CBtn_Option()
-{
-}
-
-void CBtn_Option::MouseLbtnClicked(Vec _vMousePos)
 {
 }
 
@@ -26,12 +26,14 @@ void CBtn_Option::Update()
 
 void CBtn_Option::Render(HDC _dc)
 {
+	if (m_iMyPage != m_pOwnerDialog->GetCurPage())
+		return;
 	CUI::Render(_dc);
 
 	Vec vRenderPos = CCamera::GetInst()->GetRenderPos(GetPos());
 
 	// ÀÌ¹ÌÁö ·»´õ
-	if (IsMouseOn())
+	if (m_bSelected)
 	{
 		TransparentBlt(_dc
 			, int(vRenderPos.x)	// x
@@ -59,6 +61,6 @@ void CBtn_Option::Render(HDC _dc)
 	}
 
 	// ÅØ½ºÆ® ·»´õ
-
+	CFontMgr::GetInst()->WriteScriptText(_dc, GetPos().x + 1000/2, GetPos().y - 10, 1000, 100, m_wstring);
 }
 

@@ -63,6 +63,7 @@ enum class EOBJ_TYPE
 	PLAYER,
 	EFFECT,
 	UI,
+	DIALOG,
 	TRANSITION,
 	END = 32
 };

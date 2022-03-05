@@ -23,7 +23,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance,
  {
 	// CRT 메모리 릭 디버그
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-	//_CrtSetBreakAlloc(8206);
+	//_CrtSetBreakAlloc(687);
 	
 	// 생성시킬 윈도우 설정
 	MyRegisterClass(hInstance);
@@ -58,8 +58,9 @@ int APIENTRY wWinMain(HINSTANCE hInstance,
 		if (PeekMessage(&msg, nullptr, 0, 0, TRUE)) // true -> 메세지 큐에 메세지 있을 때, false -> 메세지 큐에 메세지 없을 때
 		{
 			if (WM_QUIT == msg.message)
+			{
 				break;
-
+			}
 			// 메세지 처리
 			if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))  // 액셀러레이터(조합키 첫번째 요소)가 입력되었을 경우 TranslateMessage, DispatchMessage 함수가 실행되지 못하도록 막아 버리며 다음번의 WM_COMMAND메시지가 처리되도록 해 준다. 물론 액셀러레이터 입력이 아니면 FALSE를 리턴하여 다른 메시지들은 정상적으로 처리되도록 해 준다.
 			{

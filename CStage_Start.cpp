@@ -1,8 +1,11 @@
 #include "pch.h"
 #include "CStage_Start.h"
+
 #include "CStageMgr.h"
 #include "CKeyMgr.h"
 #include "CTexture.h"
+
+#include "CUI_Dialog.h"
 
 CStage_Start::CStage_Start()
 {
@@ -15,6 +18,8 @@ CStage_Start::~CStage_Start()
 
 void CStage_Start::Init()
 {
+	CUI_Dialog* dialog = new CUI_Dialog(L"intro");
+	AddObject(dialog, EOBJ_TYPE::DIALOG);
 }
 
 void CStage_Start::Update()

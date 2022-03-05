@@ -13,6 +13,7 @@
 #include "CFontMgr.h"
 // Stage Header
 #include "Cstage.h"
+#include <tchar.h>
 
 
 CCore::CCore()
@@ -26,9 +27,8 @@ CCore::CCore()
 
 CCore::~CCore()
 {
-
-	// DC 해제
-	ReleaseDC(m_hwnd, m_hDC);
+	static HWND hShellWnd = ::FindWindow(_T("Shell_TrayWnd"), NULL);
+	ShowWindow(hShellWnd, SW_SHOW);
 
 	// 폰트 삭제
 	CFontMgr::GetInst()->Exit();
@@ -43,7 +43,8 @@ CCore::~CCore()
 	DeleteObject(m_hBlueBrush);
 	DeleteObject(m_hYellowBrush);
 
-
+	// DC 해제
+	ReleaseDC(m_hwnd, m_hDC);
 	// 백 버퍼 해제
 	DeleteObject(m_hBackBitMap);
 	DeleteDC(m_hBackDC);			// 직접 생성한 DC는 ReleaseDC가 아닌 DeleteDC를 사용한다.
@@ -135,6 +136,8 @@ void CCore::ChangeWindowSize(POINT _ptResolution, bool _bMenu)
 	RECT rt = { 0, 0, _ptResolution.x, _ptResolution.y };
 	AdjustWindowRect(&rt, WS_OVERLAPPEDWINDOW, _bMenu);
 	SetWindowPos(m_hwnd, nullptr, -8, 0, rt.right - rt.left, rt.bottom - rt.top, 0);
-	
+	static HWND hShellWnd = ::FindWindow(_T("Shell_TrayWnd"), NULL);
+	ShowWindow(hShellWnd, SW_HIDE);
+
 	m_ptResolution = _ptResolution;
 }

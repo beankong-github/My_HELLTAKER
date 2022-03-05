@@ -50,7 +50,7 @@ void CStageMgr::Init()
 	//m_arrStage[(UINT)ESTAGE_TYPE::EXIT] = new CStage_Exit;
 	
 	// 첫 스테이지 지정
-	m_pCurStage = m_arrStage[(UINT)ESTAGE_TYPE::PUZZLE][(UINT)ECHAPTER::CHAP_1];
+	m_pCurStage = m_arrStage[(UINT)ESTAGE_TYPE::START][0];
 	m_pCurStage->Enter();
 }
 
