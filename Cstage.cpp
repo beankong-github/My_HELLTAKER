@@ -106,3 +106,15 @@ void CStage::Clear()
 	// vector<CObj*> tempVec;
 	// m_vecObj.swap(tempVec);
 }
+
+void CStage::FirstOptionSelected()
+{
+}
+
+void CStage::SecondOptionSelected()
+{
+}
+
+void CStage::DialogTermination()
+{
+}

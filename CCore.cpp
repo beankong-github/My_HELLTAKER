@@ -136,8 +136,8 @@ void CCore::ChangeWindowSize(POINT _ptResolution, bool _bMenu)
 	RECT rt = { 0, 0, _ptResolution.x, _ptResolution.y };
 	AdjustWindowRect(&rt, WS_OVERLAPPEDWINDOW, _bMenu);
 	SetWindowPos(m_hwnd, nullptr, -8, 0, rt.right - rt.left, rt.bottom - rt.top, 0);
-	static HWND hShellWnd = ::FindWindow(_T("Shell_TrayWnd"), NULL);
-	ShowWindow(hShellWnd, SW_HIDE);
+	//static HWND hShellWnd = ::FindWindow(_T("Shell_TrayWnd"), NULL);
+	//ShowWindow(hShellWnd, SW_HIDE);
 
 	m_ptResolution = _ptResolution;
 }

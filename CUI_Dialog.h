@@ -5,17 +5,18 @@
 struct Dialog_Page
 {   
     /* Dialog Info */
-    CTexture* m_pPortrait;
-   
-    wstring m_wstrName;
-    wstring m_wstrText;
+    CTexture* pPortrait;
+    CTexture* pBGTex;
+
+    wstring wstrName;
+    wstring wstrText;
 
     /* Button Info */
-    wstring m_wstrOptionOneText;
-    bool    m_bOptionOneIsAnswer;
+    wstring wstrOptionOneText;
+    bool    bOptionOneIsAnswer;
     
-    wstring m_wstrOptionTwoText;
-    bool    m_bOptionTwoIsAnswer;
+    wstring wstrOptionTwoText;
+    bool    bOptionTwoIsAnswer;
 };
 
 class CBtn_Option;
@@ -24,18 +25,18 @@ class CUI_Dialog :
     public CUI
 {
 private:
+    CStage*     m_pCurStage;
     wstring     m_wstrID;
     UINT        m_iSize;
     UINT        m_iCurPage;
 
     CTexture* m_pDialogBox;
-    CTexture* m_pBGTex;
     bool      m_bBGFlow;
     
     CBtn_Option* m_pFirstOption;
     CBtn_Option* m_pSecondeOption;
 
-    CAnimation* m_pBooper;
+    //CAnimation* m_pBooper;
 
     vector<Dialog_Page*> m_pDialogs;
 
@@ -47,7 +48,11 @@ private:
     Vec m_vOptionTwoPos;
 
 public:
+    wstring GetID() { return m_wstrID; }
     UINT GetCurPage() { return m_iCurPage; }
+
+    void SetCurPage(UINT _inum) { m_iCurPage = _inum; }
+    void SetCurStage(CStage* _pstage) { m_pCurStage = _pstage; }
 
 public:
     void Load();

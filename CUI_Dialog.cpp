@@ -12,16 +12,14 @@
 
 #include "CTexture.h"
 #include "CBtn_Option.h"
-#include "Cstage.h"
+#include "CStage.h"
 
 
 CUI_Dialog::CUI_Dialog(wstring _ID)
 	: m_wstrID(_ID)
 	, m_iSize(0)
 	, m_iCurPage(0)
-	, m_pBGTex(nullptr)
 	, m_bBGFlow(false)
-	, m_pBooper(nullptr)
 	, m_pDialogs{}
 {
 	Load();
@@ -69,22 +67,26 @@ void CUI_Dialog::Load()
 	fwscanf_s(pFile, L"%s", szBuff, 256);	// size
 	m_iSize = _wtoi(szBuff);
 
-	// 배경
-	fwscanf_s(pFile, L"%s", szBuff, 256);	// [BGTex_name]
-	fwscanf_s(pFile, L"%s", szBuff, 256);	// [BGTex_name]
-	m_pBGTex = CResMgr::GetInst()->LoadTexture(szBuff, L"texture\\ui\\dialog\\dialog_bg\\" + wstring(szBuff) + L".bmp");
-	m_vBGPos = Vec{ 0, 80 };
-
-	fwscanf_s(pFile, L"%s", szBuff, 256);	// [Flow]
-	fwscanf_s(pFile, L"%s", szBuff, 256);	// Flow 여부
-	m_bBGFlow = (bool)_wtoi(szBuff);
-
 	// 각 컷 정보
 	for (UINT i = 0; i < m_iSize; ++i)
 	{
 		fwscanf_s(pFile, L"%s", szBuff, 256);	//[Dialog_Cut_Info]
 
 		Dialog_Page* dialog = new Dialog_Page{};
+		
+		// 배경
+		fwscanf_s(pFile, L"%s", szBuff, 256);	// [BGTex_name]
+		fwscanf_s(pFile, L"%s", szBuff, 256);	// [BGTex_name]
+		if (L"0" != (wstring)szBuff)
+		{
+			dialog->pBGTex = CResMgr::GetInst()->LoadTexture(szBuff, L"texture\\ui\\dialog\\dialog_bg\\" + wstring(szBuff) + L".bmp");
+			m_vBGPos = Vec{ 0, 80 };
+		}
+
+		fwscanf_s(pFile, L"%s", szBuff, 256);	// [Flow]
+		fwscanf_s(pFile, L"%s", szBuff, 256);	// Flow 여부
+		m_bBGFlow = (bool)_wtoi(szBuff);
+
 
 		// 초상화 이름
 		fwscanf_s(pFile, L"%s", szBuff, 256);	// [PortraitTex_name]
@@ -92,29 +94,29 @@ void CUI_Dialog::Load()
 		if (L"0" != (wstring)szBuff)
 		{
 			// 초상화 이미지 구하기
-			dialog->m_pPortrait = CResMgr::GetInst()->LoadTexture(szBuff, L"texture\\ui\\dialog\\dialog_chara\\" + wstring(szBuff) + L".bmp");
+			dialog->pPortrait = CResMgr::GetInst()->LoadTexture(szBuff, L"texture\\ui\\dialog\\dialog_chara\\" + wstring(szBuff) + L".bmp");
 
 			// 초상화 위치 설정
-			m_vPortaritPos = Vec{ resolution.x / 2 - dialog->m_pPortrait->Width() / 2, 0.f };
+			m_vPortaritPos = Vec{ resolution.x / 2 - dialog->pPortrait->Width() / 2, 0.f };
 		}
 		else
-			dialog->m_pPortrait = nullptr;
+			dialog->pPortrait = nullptr;
 
 		// 이름
 		fwscanf_s(pFile, L"%s", szBuff, 256);	// [name]
 		fwscanf_s(pFile, L"%[^s]s", szBuff, 256);	// name
 		if (L"\r\n" != (wstring)szBuff)
-			dialog->m_wstrName = szBuff;
+			dialog->wstrName = szBuff;
 		else
-			dialog->m_wstrName = L"";
+			dialog->wstrName = L"";
 
 		// 텍스트
 		fwscanf_s(pFile, L"%s", szBuff, 256);	// [text]
 		fwscanf_s(pFile, L"%[^s]s", szBuff, 256);	// 문자열
 		if (L"0" != (wstring)szBuff)
-			dialog->m_wstrText = szBuff;
+			dialog->wstrText = szBuff;
 		else
-			dialog->m_wstrText = L"";
+			dialog->wstrText = L"";
 
 		// 선택지 1
 		fwscanf_s(pFile, L"%s", szBuff, 256);	// [OptionOneText]
@@ -179,12 +181,12 @@ void CUI_Dialog::Load()
 
 void CUI_Dialog::FirstOptionSelected()
 {
-	int b = 1;
+	m_pCurStage->FirstOptionSelected();
 }
 
 void CUI_Dialog::SecondOptionSelected()
 {
-	int a = 1;
+	m_pCurStage->SecondOptionSelected();
 }
 
 
@@ -210,11 +212,16 @@ void CUI_Dialog::Update()
 			}
 		}
 
-		if(m_iCurPage < m_pDialogs.size())
+		if (m_iCurPage < m_pDialogs.size()-1)
 			++m_iCurPage;
+		else
+		{
+			m_pCurStage->DialogTermination();
+		}
 	}
 
-	if (IS_KEY_TAP(KEY::W) || IS_KEY_TAP(KEY::S))
+	if (IS_KEY_TAP(KEY::W) || IS_KEY_TAP(KEY::S)
+		|| IS_KEY_TAP(KEY::UP) || IS_KEY_TAP(KEY::DOWN))
 	{ 
 		if (m_pFirstOption != nullptr)
 		{
@@ -244,36 +251,39 @@ void CUI_Dialog::Update()
 
 void CUI_Dialog::Render(HDC _dc)
 {
+	if (m_iCurPage >= m_iSize)
+		return;
+
 	Dialog_Page* curPage = m_pDialogs[m_iCurPage];
 
 	Vec resolution = CCore::GetInst()->GetResolution();
 
 	// 배경 이미지 렌더링
-	if (m_pBGTex != nullptr)
+	if (curPage->pBGTex != nullptr)
 	{
 		BitBlt(_dc
 			, int(m_vBGPos.x)	// x
 			, int(m_vBGPos.y)	// y
 			, int(resolution.x)	// width
-			, int(m_pBGTex->Height())	// height
-			, m_pBGTex->GetDC()	// Src's HDC
+			, int(curPage->pBGTex->Height())	// height
+			, curPage->pBGTex->GetDC()	// Src's HDC
 			, 0, 0
 			, SRCCOPY
 		);
 	}
 
 	// 초상화 렌더링
-	if (curPage->m_pPortrait != nullptr)
+	if (curPage->pPortrait != nullptr)
 	{
 		TransparentBlt(_dc
 			, int(m_vPortaritPos.x)	// x
 			, int(m_vPortaritPos.y)	// y
-			, int(curPage->m_pPortrait->Width())	// width
-			, int(curPage->m_pPortrait->Height())	// height
-			, curPage->m_pPortrait->GetDC()	// Src's HDC
+			, int(curPage->pPortrait->Width())	// width
+			, int(curPage->pPortrait->Height())	// height
+			, curPage->pPortrait->GetDC()	// Src's HDC
 			, 0, 0
-			, int(curPage->m_pPortrait->Width())		// width in atlas
-			, int(curPage->m_pPortrait->Height())		// height int atlas
+			, int(curPage->pPortrait->Width())		// width in atlas
+			, int(curPage->pPortrait->Height())		// height int atlas
 			, RGB(0, 0, 0));
 	}
 
@@ -290,9 +300,9 @@ void CUI_Dialog::Render(HDC _dc)
 	);
 
 	// 글씨 렌더링
-	CFontMgr::GetInst()->WriteNameText(_dc, resolution.x/2, 570, resolution.x, 100,   curPage->m_wstrName);
+	CFontMgr::GetInst()->WriteNameText(_dc, (int)resolution.x/2, 570, (int)resolution.x, 100,   curPage->wstrName);
 	// Text 렌더링
-	CFontMgr::GetInst()->WriteScriptText(_dc, resolution.x/2, 650, resolution.x, 300, curPage->m_wstrText);
+	CFontMgr::GetInst()->WriteScriptText(_dc, (int)resolution.x/2, 650, (int)resolution.x, 300, curPage->wstrText);
 
 	CUI::Render(_dc);
 }
