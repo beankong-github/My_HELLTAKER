@@ -1,8 +1,5 @@
 #include "pch.h"
 
-#include "C:\Users\bueon\source\repos\My_HELLTAKER\CPathMgr.cpp"
-
-
 #include "C:\Users\bueon\source\repos\My_HELLTAKER\CResMgr.cpp"
 
 
@@ -10,6 +7,12 @@
 
 
 #include "C:\Users\bueon\source\repos\My_HELLTAKER\CRock.cpp"
+
+
+#include "C:\Users\bueon\source\repos\My_HELLTAKER\CSound.cpp"
+
+
+#include "C:\Users\bueon\source\repos\My_HELLTAKER\CSoundMgr.cpp"
 
 
 #include "C:\Users\bueon\source\repos\My_HELLTAKER\CStage.cpp"

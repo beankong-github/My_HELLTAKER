@@ -5,6 +5,7 @@
 #include "CStageMgr.h"
 #include "CKeyMgr.h"
 #include "CEventMgr.h"
+#include "CResMgr.h"
 
 #include "CTexture.h"
 #include "CUI_Dialog.h"
@@ -33,7 +34,37 @@ void CStage_Start::Update()
 
 void CStage_Start::Render(HDC _dc)
 {
+	Vec resolution = CCore::GetInst()->GetResolution();
+
+
 	CStage::Render(_dc);
+
+	if (m_pDailog->GetCurPage() == 5)
+	{
+		CTexture* pTex = CResMgr::GetInst()->LoadTexture(L"cutscene_1", L"texture\\ui\\dialog\\dialog_cutscene\\cutscene_1.bmp");
+
+		BitBlt(_dc, resolution.x/2 - pTex->Width()/2, 30, pTex->Width(), pTex->Height(),pTex->GetDC(), 0, 0, SRCCOPY);
+
+		return;
+	}
+
+	if (m_pDailog->GetCurPage() == 6)
+	{
+		CTexture* pTex = CResMgr::GetInst()->LoadTexture(L"cutscene_2", L"texture\\ui\\dialog\\dialog_cutscene\\cutscene_2.bmp");
+
+		BitBlt(_dc, resolution.x/2 - pTex->Width()/2, 30, pTex->Width(), pTex->Height(),pTex->GetDC(), 0, 0, SRCCOPY);
+
+		return;
+	}
+	
+	if (m_pDailog->GetCurPage() == 7)
+	{
+		CTexture* pTex = CResMgr::GetInst()->LoadTexture(L"cutscene_3", L"texture\\ui\\dialog\\dialog_cutscene\\cutscene_3.bmp");
+
+		BitBlt(_dc, resolution.x/2 - pTex->Width()/2, 30, pTex->Width(), pTex->Height(),pTex->GetDC(), 0, 0, SRCCOPY);
+		
+		return;
+	}
 }
 
 void CStage_Start::Enter()

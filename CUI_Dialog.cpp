@@ -97,7 +97,8 @@ void CUI_Dialog::Load()
 			dialog->pPortrait = CResMgr::GetInst()->LoadTexture(szBuff, L"texture\\ui\\dialog\\dialog_chara\\" + wstring(szBuff) + L".bmp");
 
 			// 초상화 위치 설정
-			m_vPortaritPos = Vec{ resolution.x / 2 - dialog->pPortrait->Width() / 2, 0.f };
+			m_vPortaritPos = Vec{ resolution.x/2 - dialog->pPortrait->Width()/2, 0.f };
+			
 		}
 		else
 			dialog->pPortrait = nullptr;

@@ -68,3 +68,6 @@
 
 #include "C:\Users\bueon\source\repos\My_HELLTAKER\CPanel.cpp"
 
+
+#include "C:\Users\bueon\source\repos\My_HELLTAKER\CPathMgr.cpp"
+

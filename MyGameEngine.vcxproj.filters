@@ -152,6 +152,9 @@
     <Filter Include="GAME\03. Manager\FontMgr">
       <UniqueIdentifier>{4c9888e0-55a2-456b-a67d-5eb16603cadf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GAME\03. Manager\SoundMgr">
+      <UniqueIdentifier>{32b3309a-047f-4a25-8d83-2fb4ccd1a64e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -307,6 +310,10 @@
     <ClInclude Include="CFontMgr.h">
       <Filter>GAME\03. Manager\FontMgr</Filter>
     </ClInclude>
+    <ClInclude Include="CSoundMgr.h">
+      <Filter>GAME\03. Manager\SoundMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="CSound.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MyGameEngine.rc">
@@ -471,5 +478,9 @@
     <ClCompile Include="CFontMgr.cpp">
       <Filter>GAME\03. Manager\FontMgr</Filter>
     </ClCompile>
+    <ClCompile Include="CSoundMgr.cpp">
+      <Filter>GAME\03. Manager\SoundMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="CSound.cpp" />
   </ItemGroup>
 </Project>
