@@ -155,6 +155,9 @@
     <Filter Include="GAME\03. Manager\SoundMgr">
       <UniqueIdentifier>{32b3309a-047f-4a25-8d83-2fb4ccd1a64e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GAME\04. Object\UI\Dialog\Success">
+      <UniqueIdentifier>{27235f26-164e-4885-a1a1-8311691d0304}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -313,7 +316,12 @@
     <ClInclude Include="CSoundMgr.h">
       <Filter>GAME\03. Manager\SoundMgr</Filter>
     </ClInclude>
-    <ClInclude Include="CSound.h" />
+    <ClInclude Include="CSound.h">
+      <Filter>GAME\06. Resource\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="CUI_Success.h">
+      <Filter>GAME\04. Object\UI\Dialog\Success</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MyGameEngine.rc">
@@ -481,6 +489,11 @@
     <ClCompile Include="CSoundMgr.cpp">
       <Filter>GAME\03. Manager\SoundMgr</Filter>
     </ClCompile>
-    <ClCompile Include="CSound.cpp" />
+    <ClCompile Include="CSound.cpp">
+      <Filter>GAME\06. Resource\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="CUI_Success.cpp">
+      <Filter>GAME\04. Object\UI\Dialog\Success</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

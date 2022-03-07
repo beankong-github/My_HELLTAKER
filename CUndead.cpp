@@ -9,6 +9,9 @@
 #include "CAnimator.h"
 #include "CEffect.h"
 
+#include "CResMgr.h"
+#include "CSound.h"
+
 #include "CTile.h"
 #include "CTileMap.h"
 
@@ -28,6 +31,10 @@ CUndead::CUndead(CTile* _pTile)
 
 	// 현재 위치 설정
 	SetPos(GetCurTile()->GetCenterPos());
+
+	// 사운드 로드
+	m_pMoveSound = CResMgr::GetInst()->LoadSound(L"enemy_kick_01", L"sound\\enemy_kick_01.wav");
+	m_pDeadSound = CResMgr::GetInst()->LoadSound(L"enemy_die_01", L"sound\\enemy_die_01.wav");
 
 	// 애니메이션 생성
 	CAnimator* pAnimator = new CAnimator;
@@ -161,8 +168,18 @@ void CUndead::TryMove(EDIRECTION _eDir)
 		}
 
 		if (EOBSTACLE_STATE::MOVE == GetState())
+		{
+			// 사운드
+			m_pMoveSound->Play();
 			// 이펙트
 			m_pCurStage->GetEffect()->PlayEffect(L"vfx", GetCurTile()->GetCenterPos() + Vec{ dis(gen), dis(gen) });
+		}
+		else if (EOBSTACLE_STATE::DEAD == GetState())
+		{			
+			
+			// 이펙트
+			m_pCurStage->GetEffect()->PlayEffect(L"vfx", GetCurTile()->GetCenterPos() + Vec{ dis(gen), dis(gen) });
+		}
 	}
 }
 
@@ -218,8 +235,8 @@ void CUndead::Move()
 
 void CUndead::Dead()
 {
-	// 삭제 이펙트 재생
-	
+	// 사운드
+	m_pDeadSound->Play();
 
 	// 오브젝트 삭제
 	DeleteObject(this);

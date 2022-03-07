@@ -2,12 +2,14 @@
 #include "Cstage.h"
 
 class CUI_Dialog;
+class CSound;
 
 class CStage_Start :
     public CStage
 {
 private:
     CUI_Dialog* m_pDailog;
+    CSound*     m_pStartBGM;
 
 public:
     void Init() override;

@@ -34,11 +34,16 @@ private:
     bool      m_bBGFlow;
     
     CBtn_Option* m_pFirstOption;
-    CBtn_Option* m_pSecondeOption;
+    CBtn_Option* m_pSecondOption;
 
     //CAnimation* m_pBooper;
 
     vector<Dialog_Page*> m_pDialogs;
+
+    CSound* m_pButtonConirm;
+    CSound* m_pButtonHighLight;
+    CSound* m_pNextPage;
+
 
     /* Position Info*/
     Vec m_vBGPos;
@@ -50,6 +55,8 @@ private:
 public:
     wstring GetID() { return m_wstrID; }
     UINT GetCurPage() { return m_iCurPage; }
+    CBtn_Option* GetFirstOption() { return m_pFirstOption; }
+    CBtn_Option* GetSecondOption() { return m_pSecondOption; }
 
     void SetCurPage(UINT _inum) { m_iCurPage = _inum; }
     void SetCurStage(CStage* _pstage) { m_pCurStage = _pstage; }

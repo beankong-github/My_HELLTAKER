@@ -30,6 +30,19 @@ private:
 
     bool            m_bKey;
 
+    CSound*         m_pMoveSound;
+    CSound*         m_pDeadSound;
+    CSound*         m_pDamageSound[2];
+    CSound*         m_pKeySound;
+    CSound*         m_pSuccessSound;
+    CSound*         m_pUnlockSound;
+    CSound*         m_pBoxKickSound;
+
+    float           m_fSuccessEffectTiming;
+    float           m_fAddTime;
+
+    bool m_iSoundPingPong;
+
 public:
     void SetState(EPLAYER_STATE _eState)    { m_eState = _eState; }
     void SetSpeed(float _fSpeed)            { m_fSpeed = _fSpeed; }
@@ -44,6 +57,7 @@ public:
     void TryMove();
     void Move();
     void Kick();
+    void Dead();
     void StageClear();
     void GetDamaged(int _damage, Vec _pos);
 

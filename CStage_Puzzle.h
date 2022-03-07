@@ -28,6 +28,9 @@ private:
 
     wstring     m_strNPCName;
 
+    CSound* m_pBGM;
+
+
 public:
     void    SetvTileCount(Vec _vCount)      { m_vTileCount = _vCount; }
     void    SetvTileStartPos(Vec _vPos)     { m_vTileStartPos = _vPos; }
@@ -35,14 +38,15 @@ public:
     void    SetCurMoveCount(int _iMove)     { m_iCurMoveCount = _iMove; }
     void    SetNPCName(ECHAPTER _eChap);
 
-    ECHAPTER        GetChapter()                { return m_eChapter; }
-    Vec             GetTileCount()              { return m_vTileCount; }
-    int            GetInitMoveCount()          { return m_iInitMoveCount; }
-    int            GetCurMoveCount()           { return m_iCurMoveCount; }
-    CTileMap*       GetTileMap()                { return m_pTileMap; }
-    const wstring&  GetNPCName()                { return m_strNPCName; }
+    ECHAPTER        GetChapter()          { return m_eChapter; }
+    Vec             GetTileCount()        { return m_vTileCount; }
+    CTileMap*       GetTileMap()          { return m_pTileMap; }
     CEffect*        GetEffect();
-
+    
+    const wstring&  GetNPCName()          { return m_strNPCName; }
+    int             GetCurMoveCount()     { return m_iCurMoveCount; }
+    int             GetInitMoveCount()    { return m_iInitMoveCount; }
+    
 public:
     void PlayerDead();
     void StageClear();

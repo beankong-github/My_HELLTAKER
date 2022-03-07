@@ -9,7 +9,7 @@
 #include "CUI_Dialog.h"
 
 CBtn_Option::CBtn_Option()
-	: m_bSelected(false)
+	: m_bHighLighted(false)
 	, m_bAnswer(false)
 {
 	m_pUnSelectImg = CResMgr::GetInst()->LoadTexture(L"button_1", L"texture\\ui\\dialog\\dialog_ui\\button_1.bmp");
@@ -33,7 +33,7 @@ void CBtn_Option::Render(HDC _dc)
 	Vec vRenderPos = CCamera::GetInst()->GetRenderPos(GetPos());
 
 	// 이미지 렌더
-	if (m_bSelected)
+	if (m_bHighLighted)
 	{
 		TransparentBlt(_dc
 			, int(vRenderPos.x)	// x

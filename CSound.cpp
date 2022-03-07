@@ -107,9 +107,10 @@ bool CSound::LoadWaveSound(const wstring& _strPath)
 	return true;
 }
 
-
 void CSound::Play(bool _bLoop)
 {
+	m_pSoundBuffer->SetCurrentPosition(0);
+
 	// Play 함수의 1번째 2번째 인자는 0 으로 이미 예약되어있다.
 	// 3번째 변수는 사운드를 반복재생 할 것인지 아닌지를 결정한다.
 	if (_bLoop)

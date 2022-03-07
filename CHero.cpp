@@ -9,6 +9,7 @@
 
 #include "CResMgr.h"
 #include "CTexture.h"
+#include "CSound.h"
 
 #include "CAnimator.h"
 #include "CAnimation.h"
@@ -31,6 +32,9 @@ CHero::CHero()
 	, m_eState(EPLAYER_STATE::IDLE)
 	, m_pCurTile(nullptr)
 	, m_eMovDir(EDIRECTION::NONE)
+	, m_iSoundPingPong(false)
+	, m_fSuccessEffectTiming(1.f)
+	, m_fAddTime(0)
 {
 	// 이름 설정
 	SetName(L"Hero");
@@ -52,8 +56,8 @@ CHero::CHero()
 	// 애니메이션 생성
 	CAnimator* pAnimator = new CAnimator;
 	//pAnimator->CreateAnimation(L"idle", L"texture\\animation\\hero\\idle\\", 0.05f, 12);
-	pAnimator->CreateAnimation(L"move", L"texture\\animation\\hero\\move\\", 0.01f, 6);
-	//pAnimator->CreateAnimation(L"success", L"texture\\animation\\hero\\success\\", 0.11f, 19);
+	//pAnimator->CreateAnimation(L"move", L"texture\\animation\\hero\\move\\", 0.01f, 6);
+	pAnimator->CreateAnimation(L"success", L"texture\\animation\\hero\\success\\", 0.15f, 19);
 	//pAnimator->CreateAnimation(L"kick", L"texture\\animation\\hero\\kick\\", 0.02f, 7);
 	//pAnimator->CreateAnimation(L"dead", L"texture\\animation\\hero\\dead\\", 0.05f, 18);
 
@@ -62,11 +66,11 @@ CHero::CHero()
 	//pSaveAnim = pAnimator->FindAnimation(L"idle");
 	//pSaveAnim->Save(L"animation\\hero\\");	
 	//
-	pSaveAnim = pAnimator->FindAnimation(L"move");
-	pSaveAnim->Save(L"animation\\hero\\");	
-	//
-	//pSaveAnim = pAnimator->FindAnimation(L"success");
+	//pSaveAnim = pAnimator->FindAnimation(L"move");
 	//pSaveAnim->Save(L"animation\\hero\\");	
+	//
+	pSaveAnim = pAnimator->FindAnimation(L"success");
+	pSaveAnim->Save(L"animation\\hero\\");	
 	//
 	//pSaveAnim = pAnimator->FindAnimation(L"kick");
 	//pSaveAnim->Save(L"animation\\hero\\");	
@@ -76,8 +80,8 @@ CHero::CHero()
 
 	// 애니메이션 로드
 	pAnimator->LoadAnimation(L"animation\\hero\\idle.anim");
-	//pAnimator->LoadAnimation(L"animation\\hero\\move.anim");
-	pAnimator->LoadAnimation(L"animation\\hero\\success.anim");
+	pAnimator->LoadAnimation(L"animation\\hero\\move.anim");
+	//pAnimator->LoadAnimation(L"animation\\hero\\success.anim");
 	pAnimator->LoadAnimation(L"animation\\hero\\kick.anim");
 	pAnimator->LoadAnimation(L"animation\\hero\\dead.anim");
 
@@ -85,6 +89,17 @@ CHero::CHero()
 
 	// 시작 애니메이션 설정
 	pAnimator->PlayAnimation(L"idle");
+
+	// 사운드 로드
+	m_pMoveSound = CResMgr::GetInst()->LoadSound(L"character_move_01", L"sound\\character_move_01.wav");
+	m_pDeadSound = CResMgr::GetInst()->LoadSound(L"player_death_01", L"sound\\player_death_01.wav");
+	m_pKeySound = CResMgr::GetInst()->LoadSound(L"key_pick_up", L"sound\\key_pick_up_01.wav");
+	m_pDamageSound[0] = CResMgr::GetInst()->LoadSound(L"spikes_damage_01", L"sound\\spikes_damage_01.wav");
+	m_pDamageSound[1] = CResMgr::GetInst()->LoadSound(L"spikes_damage_02", L"sound\\spikes_damage_02.wav");
+	m_pSuccessSound = CResMgr::GetInst()->LoadSound(L"succub_capture_01", L"sound\\succub_capture_01.wav");
+	m_pUnlockSound = CResMgr::GetInst()->LoadSound(L"door_opening_01", L"sound\\door_opening_01.wav");
+	m_pBoxKickSound = CResMgr::GetInst()->LoadSound(L"door_closed_kick_01", L"sound\\door_closed_kick_01.wav");
+
 }
 
 CHero::~CHero()
@@ -93,7 +108,7 @@ CHero::~CHero()
 
 void CHero::Update()
 {
-	KeyCheck();
+		KeyCheck();
 }
 
 void CHero::Render(HDC _dc)
@@ -119,26 +134,18 @@ void CHero::Render(HDC _dc)
 		break;
 
 	case EPLAYER_STATE::DEAD:
-		GetAnimator()->PlayAnimation(L"dead", false);
-		if (GetAnimator()->GetCurAnimation()->IsFinished())
-		{
-			tEventInfo eventInfo;
-			eventInfo.eType = EEVENT_TYPE::STAGE_CHANGE;
-			eventInfo.lParam = (DWORD)ESTAGE_TYPE::PUZZLE;
-			eventInfo.wParam = (DWORD)m_pCurStage->GetChapter();
-			CEventMgr::GetInst()->AddEvent(eventInfo);
-		}
+		Dead();
 		break;
 	}
 
-
 	// 현재 타일이 GOAL 타일이라면 성공
-	if (ETILE_TYPE::GOAL == m_pCurTile->GetType())
+	if (m_eState != EPLAYER_STATE::DEAD && ETILE_TYPE::GOAL == m_pCurTile->GetType())
 	{
 		m_eState = EPLAYER_STATE::SUCCESS;
 	}
 
 	Render_Component(_dc);
+
 }
 
 void CHero::KeyCheck()
@@ -263,7 +270,10 @@ void CHero::TryMove()
 					if (m_bKey)
 					{
 						// 이펙트
-						m_pCurStage->GetEffect()->PlayEffect(L"item_effect", m_pNextTile->GetCenterPos());
+						m_pCurStage->GetEffect()->PlayEffect	(L"item_effect", m_pNextTile->GetCenterPos());
+
+						// 사운드
+						m_pUnlockSound->Play();
 						// 상자 삭제
 						DeleteObject(pBox);
 						// 플레이어 상태 전환
@@ -271,6 +281,8 @@ void CHero::TryMove()
 					}
 					else
 					{
+						// 사운드
+						m_pBoxKickSound->Play();
 						// 플레이어 상태 전환
 						m_eState = EPLAYER_STATE::KICK;
 						// 오브젝트 움직임
@@ -286,6 +298,10 @@ void CHero::TryMove()
 				{
 					// 이펙트
 					m_pCurStage->GetEffect()->PlayEffect(L"item_effect", m_pNextTile->GetCenterPos());
+
+					// 사운드
+					m_pKeySound->Play();
+
 					// 키 삭제
 					DeleteObject(pKey);
 
@@ -334,11 +350,15 @@ void CHero::Move()
 	CAnimation* pCurAnim = GetAnimator( )->GetCurAnimation();
 	if (L"move" != pCurAnim->GetName())
 	{
+		// 사운드
+		m_pMoveSound->Play();
+
 		// 애니메이션 재생
 		GetAnimator()->PlayAnimation(L"move", false);
 
 		// 이펙트
 		m_pCurStage->GetEffect()->PlayEffect(L"move_effect", m_pCurTile->GetCenterPos());
+		
 
 		// 만약 바닥에 가시가 있으면 데미지 없으면 카운트
 		if (m_pNextTile->IsContainObstacle(EOBSTACLE_TYPE::STATIC_SPIKE))
@@ -441,6 +461,29 @@ void CHero::Kick()
 	}
 }
 
+void CHero::Dead()
+{
+	if (GetAnimator()->GetCurAnimation()->GetName() != L"dead")
+	{ // 애니메이션 플레이
+		GetAnimator()->PlayAnimation(L"dead", false);
+		// 사운드
+		m_pDeadSound->Play();
+	}
+
+	// 애니메이션 종료 후 씬 전환
+	else 
+	{	
+		if (GetAnimator()->GetCurAnimation()->IsFinished())
+		{
+			tEventInfo eventInfo;
+			eventInfo.eType = EEVENT_TYPE::STAGE_CHANGE;
+			eventInfo.lParam = (DWORD)ESTAGE_TYPE::PUZZLE;
+			eventInfo.wParam = (DWORD)m_pCurStage->GetChapter();
+			CEventMgr::GetInst()->AddEvent(eventInfo);
+		}
+	}
+}
+
 void CHero::StageClear()
 {
 	CAnimation* pCurAnim = GetAnimator()->GetCurAnimation();
@@ -449,17 +492,10 @@ void CHero::StageClear()
 	{
 		GetAnimator()->PlayAnimation(L"success", false);
 
-		// 이펙트 재생
-		CTileMap* pTileMap = m_pCurStage->GetTileMap();
-		map<Vec, CTile*>::iterator iter = pTileMap->GetTileMap()->begin();
-		for (; iter != pTileMap->GetTileMap()->end(); ++iter)
-		{
-			if (ETILE_TYPE::NPC == iter->second->GetType())
-			{
-				m_pCurStage->GetEffect()->PlayEffect(L"success_effect", iter->second->GetCenterPos());
-			}
-		}
+		// 사운드 재생
+		m_pSuccessSound->Play();
 	}
+
 	else if (pCurAnim->IsFinished())
 	{
 		// 다음 씬으로 이동 이벤트 추가
@@ -476,6 +512,30 @@ void CHero::StageClear()
 
 		CEventMgr::GetInst()->AddEvent(eventInfo);
 	}
+
+	else
+	{
+		m_fAddTime += DS;
+
+		if (m_fAddTime >= m_fSuccessEffectTiming)
+		{
+			// 이펙트 재생
+			CTileMap* pTileMap = m_pCurStage->GetTileMap();
+			map<Vec, CTile*>::iterator iter = pTileMap->GetTileMap()->begin();
+			for (; iter != pTileMap->GetTileMap()->end(); ++iter)
+			{
+				if (iter->second == nullptr)
+					return;
+				
+				if (ETILE_TYPE::NPC == iter->second->GetType())
+				{
+					m_pCurStage->GetEffect()->PlayEffect(L"success_effect", iter->second->GetCenterPos());
+				}
+			}
+			m_fAddTime = 0.f;
+			m_fSuccessEffectTiming = 1000.f;
+		}
+	}
 }
 
 void CHero::GetDamaged(int damage, Vec pos)
@@ -485,6 +545,9 @@ void CHero::GetDamaged(int damage, Vec pos)
 
 	// 데미지 이펙트
 	m_pCurStage->GetEffect()->PlayEffect(L"blood", pos);
+	
+	// 사운드
+	m_pDamageSound[(int)m_iSoundPingPong]->Play();
 
 	// 카메라 진동
 	CCamera::GetInst()->Vibration(1.5, 0.3f, 200, EDIRECTION::HORIZIONTAL);

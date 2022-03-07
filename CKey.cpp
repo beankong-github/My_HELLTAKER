@@ -9,6 +9,9 @@
 
 #include "CTile.h"
 
+#include "CResMgr.h"
+#include "CSound.h"
+
 CKey::CKey(CTile* _pTile)
 	:CObstacle(_pTile)
 {
@@ -21,19 +24,17 @@ CKey::CKey(CTile* _pTile)
 	// 현재 위치 설정
 	SetPos(_pTile->GetCenterPos());
 
+
 	// 애니메이션 생성
 	CAnimator* pAnimator = new CAnimator;
 	//pAnimator->CreateAnimation(L"key", L"texture\\object\\key\\", 0.07f, 11);
-
 	// 애니메이션 저장
 	//CAnimation* pSaveAnim = nullptr;
 	//pSaveAnim = pAnimator->FindAnimation(L"key");
 	//pSaveAnim->Save(L"animation\\key\\");	
 
 	pAnimator->LoadAnimation(L"animation\\key\\key.anim");
-
 	AddComponent(pAnimator);
-
 	pAnimator->PlayAnimation(L"key");
 }
 

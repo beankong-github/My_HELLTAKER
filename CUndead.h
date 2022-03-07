@@ -10,6 +10,8 @@ private:
     CStage_Puzzle*  m_pCurStage;
     Vec             m_vOriginalPos;
 
+    CSound*         m_pMoveSound;
+    CSound*         m_pDeadSound;
 public:
     void Update();
     void Render(HDC _dc);

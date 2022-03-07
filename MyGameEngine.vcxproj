@@ -201,6 +201,7 @@
     <ClInclude Include="CUIMgr.h" />
     <ClInclude Include="CUI_Counter.h" />
     <ClInclude Include="CUI_Dialog.h" />
+    <ClInclude Include="CUI_Success.h" />
     <ClInclude Include="CUndead.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="func.h" />
@@ -256,6 +257,7 @@
     <ClCompile Include="CUIMgr.cpp" />
     <ClCompile Include="CUI_Counter.cpp" />
     <ClCompile Include="CUI_Dialog.cpp" />
+    <ClCompile Include="CUI_Success.cpp" />
     <ClCompile Include="CUndead.cpp" />
     <ClCompile Include="func.cpp" />
     <ClCompile Include="pch.cpp">

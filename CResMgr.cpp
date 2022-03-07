@@ -1,7 +1,10 @@
 #include "pch.h"
 #include "CResMgr.h"
-#include "CTexture.h"
 #include "CPathMgr.h"
+#include "CSoundMgr.h"
+
+#include "CTexture.h"
+#include "CSound.h"
 
 CResMgr::CResMgr()
 {
@@ -15,6 +18,13 @@ CResMgr::~CResMgr()
 		delete iter->second;
 	}
 	m_mapTex.clear();
+
+	map<wstring, CSound*>::iterator iter_2 = m_mapSound.begin();
+	for (; iter_2 != m_mapSound.end(); ++iter_2)
+	{
+		delete iter_2->second;
+	}
+	m_mapSound.clear();
 }
 
 CTexture* CResMgr::LoadTexture(const wstring& _strKey, const wstring& _strRelativePath)
@@ -70,4 +80,41 @@ CTexture* CResMgr::FindTexture(const wstring& _strKey)
 		return nullptr;
 
 	return iter->second;
+}
+
+CSound* CResMgr::FindSound(const wstring& _strKey)
+{
+	map<wstring, CSound*>::iterator iter = m_mapSound.find(_strKey);
+
+	if (iter == m_mapSound.end())
+		return nullptr;
+
+	return (CSound*)iter->second;
+}
+
+CSound* CResMgr::LoadSound(const wstring& _strKey, const wstring& _strRelativePath)
+{
+	if (nullptr != FindSound(_strKey))
+		return FindSound(_strKey);
+
+	CSound* pSound = new CSound;
+
+	wstring strFilePath = CPathMgr::GetInst()->GetContentPath();
+	strFilePath += _strRelativePath;
+	HRESULT hr = pSound->Load(strFilePath.c_str());
+
+	if (FAILED(hr))
+	{
+		MessageBox(nullptr, L"Sound 로딩 실패!!!", L"리소스 로딩 실패", MB_OK);
+		delete pSound;
+		return nullptr;
+	}
+
+	pSound->SetKey(_strKey);
+	pSound->SetRelativePath(_strRelativePath);
+
+	// map 에 등록
+	m_mapSound.insert(make_pair(_strKey, pSound));
+
+	return pSound;
 }

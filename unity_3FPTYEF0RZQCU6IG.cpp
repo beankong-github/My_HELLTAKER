@@ -60,6 +60,9 @@
 #include "C:\Users\bueon\source\repos\My_HELLTAKER\CUI_Dialog.cpp"
 
 
+#include "C:\Users\bueon\source\repos\My_HELLTAKER\CUI_Success.cpp"
+
+
 #include "C:\Users\bueon\source\repos\My_HELLTAKER\CUndead.cpp"
 
 

@@ -6,6 +6,7 @@
 
 #include "CResMgr.h"
 #include "CTexture.h"
+#include "CSound.h"
 
 #include "CTimeMgr.h"
 #include "CCamera.h"
@@ -21,7 +22,6 @@ CRock::CRock(CTile* _pTile)
 	, m_fEffectTime(0.1f)
 	, m_fAddTime(0.f)
 	, m_pCurTex(nullptr)
-	, m_vecTextures()
 	, m_vOriginalPos{}
 {	
 	// 현재 스테이지 설정
@@ -30,25 +30,23 @@ CRock::CRock(CTile* _pTile)
 	// 타입 저장
 	SetType(EOBSTACLE_TYPE::ROCK);
 
-	// 랜덤으로 텍스처 로드
-	for (size_t i = 1; i <= 8; i++)
-	{
-		CTexture* pRockTex = CResMgr::GetInst()->LoadTexture(L"rock_" + std::to_wstring(i), L"texture\\object\\rock\\rock_" + std::to_wstring(i) + L".bmp");
-
-		m_vecTextures.push_back(pRockTex);
-	}
-	
 	// 시드값을 얻기 위한 random_device 생성.
 	std::random_device rd;
-
 	// random_device 를 통해 난수 생성 엔진을 초기화 한다.
 	std::mt19937 gen(rd());
 
-	// 0 부터 99 까지 균등하게 나타나는 난수열을 생성하기 위해 균등 분포 정의.
-	std::uniform_int_distribution<int> dis(0, 7);
+	// 텍스처 랜덤 로드
+	// 1 부터 8까지 균등하게 나타나는 난수열을 생성하기 위해 균등 분포 정의.
+	std::uniform_int_distribution<int> dis_1(1,8);
+	
+	m_pCurTex = CResMgr::GetInst()->LoadTexture(L"rock_" + std::to_wstring(dis_1(gen)), L"texture\\object\\rock\\rock_" + std::to_wstring(dis_1(gen)) + L".bmp");
 
-	// 난수 생성
-	m_pCurTex = m_vecTextures[dis(gen)];
+	// 사운드 랜덤 로드
+	std::uniform_int_distribution<int> dis_2(1, 3);
+
+	m_pMoveSound = CResMgr::GetInst()->LoadSound(L"stone_move_0" + std::to_wstring(dis_2(gen)), L"sound\\stone_move_0" + std::to_wstring(dis_2(gen)) + L".wav");
+		
+ 	m_pKickSound = CResMgr::GetInst()->LoadSound(L"stone_kick_0" + std::to_wstring(dis_2(gen)), L"sound\\stone_kick_0" + std::to_wstring(dis_2(gen)) + L".wav");
 
 	// 현재 위치 설정
 	m_vOriginalPos.x = GetCurTile()->GetPos().x;
@@ -178,16 +176,25 @@ void CRock::TryMove(EDIRECTION _eDir)
 		SetState(EOBSTACLE_STATE::KICKED);
 	}
 	
-	if(EOBSTACLE_STATE::KICKED == GetState())
+	if (EOBSTACLE_STATE::KICKED == GetState())
+	{
 		// 이펙트
 		m_pCurStage->GetEffect()->PlayEffect(L"small_vfx", GetCurTile()->GetCenterPos() + Vec{ dis(gen), dis(gen) });
-	else if(EOBSTACLE_STATE::MOVE == GetState())
+		// 사운드
+		m_pKickSound->Play();
+	}
+	else if (EOBSTACLE_STATE::MOVE == GetState())
+	{
 		// 이펙트
 		m_pCurStage->GetEffect()->PlayEffect(L"vfx", GetCurTile()->GetCenterPos() + Vec{ dis(gen), dis(gen) });
+		// 사운드
+		m_pMoveSound->Play();
+	}
 }
 
 void CRock::Move()
 {
+
 	// 오브젝트와 다음 타일 사이의 거리
 	Vec nextPos = Vec{ GetNextTile()->GetPos().x ,GetNextTile()->GetPos().y - 10.f};
 

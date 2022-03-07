@@ -11,6 +11,7 @@
 
 #include "CResMgr.h"
 #include "CTexture.h"
+#include "CSound.h"
 
 #include "CBackGround.h"
 #include "CUI_Counter.h"
@@ -45,6 +46,8 @@ CStage_Puzzle::CStage_Puzzle(ECHAPTER _chap)
 
 	SetStageName(L"CHAP_" + std::to_wstring((UINT)_chap));
 	SetNPCName(m_eChapter);
+
+	m_pBGM = CResMgr::GetInst()->LoadSound(L"Vitality", L"sound\\Vitality.wav");
 }
 
 void CStage_Puzzle::Enter()
@@ -127,6 +130,8 @@ void CStage_Puzzle::Update()
 		CAnimation* pAnimation = m_pTransition->GetAnimator()->GetCurAnimation();
 		if (pAnimation->IsFinished())
 		{
+			if(m_pBGM != CSoundMgr::GetInst()->GetCurBGM())
+				m_pBGM->PlayToBGM();
 			DeleteObject(m_pTransition);
 			m_pTransition = nullptr;
 		}

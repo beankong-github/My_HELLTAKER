@@ -15,7 +15,7 @@ private:
 
     wstring     m_wstring;
     bool        m_bAnswer;
-    bool        m_bSelected;
+    bool        m_bHighLighted;
 public:
     void SetOwnerDialog(CUI_Dialog* _pDialog) 
     {
@@ -23,12 +23,13 @@ public:
     }
     void SetPage(UINT _idx) { m_iMyPage = _idx; }
     void SetAnswer() { m_bAnswer = true; }
-    void Select() { m_bSelected = true; }
-    void Unselect() { m_bSelected = false; }
+    void Highlight() {m_bHighLighted = true; }
+    void Unhighlight() { m_bHighLighted = false; }
     void SetText(wstring _text) { m_wstring = _text; }
     
     UINT GetPage() { return m_iMyPage; }
-    bool IsSelected() { return m_bSelected; }
+    bool IsHighlighted() { return m_bHighLighted; }
+    bool IsAnswer() { return m_bAnswer; }
 
 public:
     void Update() override;

@@ -2,6 +2,7 @@
 #include "CObstacle.h"
 
 class CTexture;
+class CSound;
 class CStage_Puzzle;
 
 class CRock :
@@ -9,8 +10,9 @@ class CRock :
 {
 private:
     CStage_Puzzle*      m_pCurStage;
-    vector<CTexture*>   m_vecTextures;
     CTexture*           m_pCurTex;
+    CSound*             m_pMoveSound;
+    CSound*             m_pKickSound;
 
     Vec                 m_vOriginalPos;
     float               m_fEffectTime;

@@ -11,8 +11,12 @@
 #include "CAnimator.h"
 
 #include "CTexture.h"
+#include "CSound.h"
+
 #include "CBtn_Option.h"
 #include "CStage.h"
+
+#include "CUI_Success.h"
 
 
 CUI_Dialog::CUI_Dialog(wstring _ID)
@@ -25,6 +29,14 @@ CUI_Dialog::CUI_Dialog(wstring _ID)
 	Load();
 
 	m_pDialogBox = CResMgr::GetInst()->LoadTexture(L"dialog_box", L"texture\\ui\\dialog\\dialog_ui\\dialog_box.bmp");
+
+	// 사운드 등록
+	m_pButtonConirm = CResMgr::GetInst()->LoadSound(L"button_dialogue_confirm_01", L"sound\\button_dialogue_confirm_01.wav");
+	m_pButtonHighLight =CResMgr::GetInst()->LoadSound(L"button_chapter_highlight_01", L"sound\\button_chapter_highlight_01.wav");
+	m_pNextPage =CResMgr::GetInst()->LoadSound(L"dialogue_text_end_01", L"sound\\dialogue_text_end_01.wav");
+
+
+	// booper 애니메이션 추가
 }
 
 void CUI_Dialog::Load()
@@ -131,7 +143,7 @@ void CUI_Dialog::Load()
 			m_pFirstOption->SetPos(m_vOptionOnePos);
 			m_pFirstOption->SetOwnerDialog(this);
 			m_pFirstOption->SetPage(i);
-			m_pFirstOption->Select();
+			m_pFirstOption->Highlight();
 
 			fwscanf_s(pFile, L"%s", szBuff, 256);	// [IsAnswer]
 			fwscanf_s(pFile, L"%s", szBuff, 256);
@@ -151,19 +163,19 @@ void CUI_Dialog::Load()
 		fwscanf_s(pFile, L"%[^s]s", szBuff, 256);	// 문자열
 		if (L"\r\n" != (wstring)szBuff)
 		{
-			m_pSecondeOption = new CBtn_Option();
+			m_pSecondOption = new CBtn_Option();
 
-			m_pSecondeOption->SetText(szBuff);
+			m_pSecondOption->SetText(szBuff);
 			m_vOptionTwoPos = Vec{ resolution.x / 2 - 500, 900.f };
-			m_pSecondeOption->SetPos(m_vOptionTwoPos);
-			m_pSecondeOption->SetOwnerDialog(this);
-			m_pSecondeOption->SetPage(i);
-			AddChildUI(m_pSecondeOption);
+			m_pSecondOption->SetPos(m_vOptionTwoPos);
+			m_pSecondOption->SetOwnerDialog(this);
+			m_pSecondOption->SetPage(i);
+			AddChildUI(m_pSecondOption);
 
 			fwscanf_s(pFile, L"%s", szBuff, 256);	// [IsAnswer]
 			fwscanf_s(pFile, L"%s", szBuff, 256);
 			if (L"1" == szBuff)
-				m_pSecondeOption->SetAnswer();
+				m_pSecondOption->SetAnswer();
 
 		}
 		else
@@ -182,11 +194,19 @@ void CUI_Dialog::Load()
 
 void CUI_Dialog::FirstOptionSelected()
 {
+	// 사운드 재생
+	m_pButtonConirm->Play();
+
+	// 동작
 	m_pCurStage->FirstOptionSelected();
 }
 
 void CUI_Dialog::SecondOptionSelected()
 {
+	// 사운드 재생
+	m_pButtonConirm->Play();
+
+	// 동작
 	m_pCurStage->SecondOptionSelected();
 }
 
@@ -197,24 +217,31 @@ void CUI_Dialog::Update()
 	{
 		if (m_pFirstOption != nullptr)
 		{
-			if (m_iCurPage == m_pFirstOption->GetPage() && m_pFirstOption->IsSelected())
+			if (m_iCurPage == m_pFirstOption->GetPage() && m_pFirstOption->IsHighlighted())
 			{
 				FirstOptionSelected();
 				return;
 			}
 		}
 		
-		if (m_pSecondeOption != nullptr)
+		if (m_pSecondOption != nullptr)
 		{
-			if (m_iCurPage == m_pSecondeOption->GetPage() && m_pSecondeOption->IsSelected())
+			if (m_iCurPage == m_pSecondOption->GetPage() && m_pSecondOption->IsHighlighted())
 			{
 				SecondOptionSelected();
 				return;
 			}
 		}
 
-		if (m_iCurPage < m_pDialogs.size()-1)
+		// 페이지 이동
+		if (m_iCurPage < m_pDialogs.size() - 1)
+		{
+			// 사운드
+			m_pNextPage->Play();
 			++m_iCurPage;
+		}
+		
+		// 다이어로그 종료
 		else
 		{
 			m_pCurStage->DialogTermination();
@@ -224,30 +251,29 @@ void CUI_Dialog::Update()
 	if (IS_KEY_TAP(KEY::W) || IS_KEY_TAP(KEY::S)
 		|| IS_KEY_TAP(KEY::UP) || IS_KEY_TAP(KEY::DOWN))
 	{ 
-		if (m_pFirstOption != nullptr)
+		if (m_pFirstOption != nullptr && m_pSecondOption != nullptr)
 		{
-			if (m_iCurPage == m_pFirstOption->GetPage())
+			if (m_iCurPage == m_pFirstOption->GetPage() && m_iCurPage == m_pSecondOption->GetPage())
 			{
-				if(m_pFirstOption->IsSelected())
-					m_pFirstOption->Unselect();
-				else
-					m_pFirstOption->Select();
-			}
-		}
+				// 사운드
+				m_pButtonHighLight->Play();
 
-		if (m_pSecondeOption != nullptr)
-		{
-			if (m_iCurPage == m_pSecondeOption->GetPage())
-			{
-				if (m_pSecondeOption->IsSelected())
-					m_pSecondeOption->Unselect();
+				//  첫번째 버튼 하이라이트 전환
+				if(m_pFirstOption->IsHighlighted())
+					m_pFirstOption->Unhighlight();
 				else
-					m_pSecondeOption->Select();
+					m_pFirstOption->Highlight();
+
+				// 두번째 버튼 하이라이트 전환
+				if (m_pSecondOption->IsHighlighted())
+					m_pSecondOption->Unhighlight();
+				else
+					m_pSecondOption->Highlight();
 			}
 		}
 	}
-	CUI::Update();
 
+	CUI::Update();
 }
 
 void CUI_Dialog::Render(HDC _dc)

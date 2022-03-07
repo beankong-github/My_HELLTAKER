@@ -7,8 +7,10 @@
 #include "CEventMgr.h"
 #include "CResMgr.h"
 
+#include "CSound.h"
 #include "CTexture.h"
 #include "CUI_Dialog.h"
+
 
 CStage_Start::CStage_Start()
 {
@@ -39,40 +41,49 @@ void CStage_Start::Render(HDC _dc)
 
 	CStage::Render(_dc);
 
+	CTexture* pTex;
+
 	if (m_pDailog->GetCurPage() == 5)
 	{
-		CTexture* pTex = CResMgr::GetInst()->LoadTexture(L"cutscene_1", L"texture\\ui\\dialog\\dialog_cutscene\\cutscene_1.bmp");
+		pTex = CResMgr::GetInst()->LoadTexture(L"cutscene_1", L"texture\\ui\\dialog\\dialog_cutscene\\cutscene_1.bmp");
 
 		BitBlt(_dc, resolution.x/2 - pTex->Width()/2, 30, pTex->Width(), pTex->Height(),pTex->GetDC(), 0, 0, SRCCOPY);
 
+		pTex = nullptr;
 		return;
 	}
 
 	if (m_pDailog->GetCurPage() == 6)
 	{
-		CTexture* pTex = CResMgr::GetInst()->LoadTexture(L"cutscene_2", L"texture\\ui\\dialog\\dialog_cutscene\\cutscene_2.bmp");
+		pTex = CResMgr::GetInst()->LoadTexture(L"cutscene_2", L"texture\\ui\\dialog\\dialog_cutscene\\cutscene_2.bmp");
 
 		BitBlt(_dc, resolution.x/2 - pTex->Width()/2, 30, pTex->Width(), pTex->Height(),pTex->GetDC(), 0, 0, SRCCOPY);
 
+		pTex = nullptr;
 		return;
 	}
 	
 	if (m_pDailog->GetCurPage() == 7)
 	{
-		CTexture* pTex = CResMgr::GetInst()->LoadTexture(L"cutscene_3", L"texture\\ui\\dialog\\dialog_cutscene\\cutscene_3.bmp");
+		pTex = CResMgr::GetInst()->LoadTexture(L"cutscene_3", L"texture\\ui\\dialog\\dialog_cutscene\\cutscene_3.bmp");
 
 		BitBlt(_dc, resolution.x/2 - pTex->Width()/2, 30, pTex->Width(), pTex->Height(),pTex->GetDC(), 0, 0, SRCCOPY);
-		
+
+		pTex = nullptr;
 		return;
 	}
 }
 
 void CStage_Start::Enter()
 {
+	m_pStartBGM = CResMgr::GetInst()->LoadSound(L"Apropos", L"sound\\Apropos.wav");
+	m_pStartBGM->SetVolume(100);
+	m_pStartBGM->PlayToBGM(true);
 }
 
 void CStage_Start::Exit()
 {
+	m_pStartBGM->Stop();
 	CStage::Clear();
 }
 

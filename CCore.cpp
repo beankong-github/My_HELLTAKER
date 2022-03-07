@@ -11,6 +11,7 @@
 #include "CCamera.h"
 #include "CUIMgr.h"
 #include "CFontMgr.h"
+#include "CSoundMgr.h"
 // Stage Header
 #include "Cstage.h"
 #include <tchar.h>
@@ -85,6 +86,7 @@ int CCore::Init(HWND _hwnd, POINT _ptResolution)
 	CPathMgr::GetInst()->Init();
 	CTimeMgr::GetInst()->Init();
 	CKeyMgr::GetInst()->Init();
+	CSoundMgr::GetInst()->Init();
 	CStageMgr::GetInst()->Init();
 	CCamera::GetInst()->Init();
 

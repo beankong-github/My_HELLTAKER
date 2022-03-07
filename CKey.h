@@ -8,7 +8,7 @@ class CKey :
     public CObstacle
 {
 private:
-    CStage_Puzzle* m_pCurStage;
+    CStage_Puzzle*  m_pCurStage;
 
 public:
     void Update();

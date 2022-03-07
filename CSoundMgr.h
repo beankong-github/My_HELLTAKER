@@ -19,6 +19,9 @@ private:
 	CSound* m_pBGM;		// 현재 지정된 BGM Sound
 
 public:
+	CSound* GetCurBGM() { return m_pBGM; }
+
+public:
 	int Init(void);
 	LPDIRECTSOUND8 GetSoundDevice() { return m_pSound; }
 	void RegisterToBGM(CSound* _pSound);
