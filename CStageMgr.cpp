@@ -9,6 +9,7 @@
 #include "CStage_Tool.h"
 #include "CStage_Puzzle.h"
 #include "CStage_Transition.h"
+#include "CStage_End.h"
 
 //#include "CStage_Exit.h"
 
@@ -47,7 +48,7 @@ void CStageMgr::Init()
 	}
 
 	//m_arrStage[(UINT)ESTAGE_TYPE::PLAY_02] = new CStage_Play02;
-	//m_arrStage[(UINT)ESTAGE_TYPE::EXIT] = new CStage_Exit;
+	m_arrStage[(UINT)ESTAGE_TYPE::END][0] = new CStage_End;
 	
 	// 첫 스테이지 지정
 	m_pCurStage = m_arrStage[(UINT)ESTAGE_TYPE::START][0];

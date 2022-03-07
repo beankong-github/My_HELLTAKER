@@ -24,6 +24,9 @@
 #include "C:\Users\bueon\source\repos\My_HELLTAKER\CEffect.cpp"
 
 
+#include "C:\Users\bueon\source\repos\My_HELLTAKER\CStage_End.cpp"
+
+
 #include "C:\Users\bueon\source\repos\My_HELLTAKER\CFontMgr.cpp"
 
 

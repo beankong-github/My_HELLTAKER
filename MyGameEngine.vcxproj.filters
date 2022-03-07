@@ -158,6 +158,9 @@
     <Filter Include="GAME\04. Object\UI\Dialog\Success">
       <UniqueIdentifier>{27235f26-164e-4885-a1a1-8311691d0304}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GAME\07. Stage\End">
+      <UniqueIdentifier>{0913ee2d-12e5-4445-84b0-fc004e983033}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -322,6 +325,7 @@
     <ClInclude Include="CUI_Success.h">
       <Filter>GAME\04. Object\UI\Dialog\Success</Filter>
     </ClInclude>
+    <ClInclude Include="CStage_End.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MyGameEngine.rc">
@@ -495,5 +499,6 @@
     <ClCompile Include="CUI_Success.cpp">
       <Filter>GAME\04. Object\UI\Dialog\Success</Filter>
     </ClCompile>
+    <ClCompile Include="CStage_End.cpp" />
   </ItemGroup>
 </Project>

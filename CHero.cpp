@@ -503,10 +503,16 @@ void CHero::StageClear()
 		eventInfo.eType = EEVENT_TYPE::STAGE_CHANGE;
 		eventInfo.lParam = (DWORD)ESTAGE_TYPE::PUZZLE;
 
+
 		ECHAPTER eNextStage = (ECHAPTER)((UINT)m_pCurStage->GetChapter() + 1);
-		if (ECHAPTER::END == eNextStage)
+		if (ECHAPTER::CHAP_8 == eNextStage)
 		{
-			eNextStage = ECHAPTER::CHAP_1;
+			eNextStage = ECHAPTER::CHAP_9;
+		}
+		else if (ECHAPTER::END == eNextStage)
+		{
+			eventInfo.lParam = (DWORD)ESTAGE_TYPE::END;
+			eNextStage = (ECHAPTER)0;
 		}
 		eventInfo.wParam = (DWORD)eNextStage;
 

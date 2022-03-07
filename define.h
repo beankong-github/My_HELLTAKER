@@ -30,7 +30,7 @@ enum class ESTAGE_TYPE
 	TOOL,
 	START,
 	PUZZLE,
-	EXIT,
+	END,
 
 	STAGE_END
 };

@@ -165,6 +165,7 @@
     <ClInclude Include="CCollisionMgr.h" />
     <ClInclude Include="CDynamic_Spike.h" />
     <ClInclude Include="CEffect.h" />
+    <ClInclude Include="CStage_End.h" />
     <ClInclude Include="CFontMgr.h" />
     <ClInclude Include="CFSM.h" />
     <ClInclude Include="CAnimator.h" />
@@ -221,6 +222,7 @@
     <ClCompile Include="CCollisionMgr.cpp" />
     <ClCompile Include="CDynamic_Spike.cpp" />
     <ClCompile Include="CEffect.cpp" />
+    <ClCompile Include="CStage_End.cpp" />
     <ClCompile Include="CFontMgr.cpp" />
     <ClCompile Include="CFSM.cpp" />
     <ClCompile Include="CAnimator.cpp" />
